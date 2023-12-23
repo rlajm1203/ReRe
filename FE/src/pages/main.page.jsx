@@ -1,6 +1,14 @@
 import styled from "styled-components";
 import { Icon } from "../components/common/Icon.component";
 
+const Header = styled.header`
+  position: relative;
+  width: 100%;
+  height: 80px;
+  border-bottom: 1.5px solid #ccc;
+  background-color: orange;
+`;
+
 const Logo = styled.img`
   position: absolute;
   top: 0;
@@ -12,39 +20,89 @@ const Logo = styled.img`
 
 const Inner = styled.div`
   position: relative;
-  width: 1300px;
+  width: 1330px;
   height: 70px;
   margin: 0 auto;
-  background-color: orange;
+`;
+
+const A = styled.a`
+  display: block;
+  padding: 11px 16px;
+  font-size: 17px;
+  text-decoration: none;
+
+  &:hover {
+    color: #007af3;
+  }
+`;
+
+const Menu = styled.ul`
+  display: flex;
+  list-style: none;
+  margin-left: 60px;
+`;
+
+const Search = styled.div`
+  position: relative;
+  height: 35px;
+  margin: auto 0 auto 490px;
+`;
+
+const Input = styled.input`
+  width: 198px;
+  height: 35px;
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  background-color: #ececec;
+  box-sizing: border-box;
+  border-radius: 5px;
+  outline: none;
+  position: relative;
+`;
+const Button = styled.button`
+  height: 35px;
+  position: relative;
+  margin: auto 0 auto 10px;
+  padding: 0 13px;
+  font-size: 17px;
+  background-color: #fff;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+`;
+
+const Submenu = styled.div`
+  display: flex;
 `;
 
 const MainPage = () => {
   return (
-    <header>
-      <Inner class="inner">
-        <a href="/" class="logo">
-          <Logo src="public/logo.png" alt="logo" />
+    <Header>
+      <Inner>
+        <a href="/">
+          <Logo src="logo.png" alt="logo" />
         </a>
 
-        <div class="sub-menu">
-          <ul class="menu">
+        <Submenu>
+          <Menu>
             <li>
-              <a href="#">망각곡선이란?</a>
+              <A href="#">망각 곡선이란?</A>
             </li>
             <li>
-              <a href="#">뤼뤼 사용법</a>
+              <A href="#">뤼뤼 사용법</A>
             </li>
             <li>
-              <a href="#">내 정보</a>
+              <A href="#">내 정보</A>
             </li>
-          </ul>
-          <div class="search">
-            <input type="text" placeholder="검색어를 입력하세요" />
+          </Menu>
+          <Search>
+            <Input type="text" />
             <Icon type="search" />
-          </div>
-        </div>
+          </Search>
+          <Button>로그인</Button>
+          <Button>회원가입</Button>
+        </Submenu>
       </Inner>
-    </header>
+    </Header>
   );
 };
 

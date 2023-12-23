@@ -6,7 +6,13 @@ import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlinePlus } from "react-icons/hi2";
 
 const StyledIcon = styled.span`
-  font-size: 24px;
+  height: 20px;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  right: 7px;
 `;
 
 export const Icon = ({ type }) => {
