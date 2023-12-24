@@ -101,7 +101,7 @@ const Button = styled.button`
   height: 2.1875rem;
   position: relative;
   margin: auto 0 auto 0.625rem; /* 10px를 rem으로 변환한 값 */
-  padding: 0 0.8125rem;
+  padding: 0 0.5725rem;
   font-size: 1.0625rem;
   background-color: #fff;
   border: 0.0625rem solid #bbb;

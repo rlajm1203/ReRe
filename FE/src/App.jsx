@@ -1,4 +1,4 @@
-import "./App.css";
+import "../src/styles/App.css";
 import SignupPage from "./pages/Signup.page.jsx";
 import MainPage from "./pages/Main.page.jsx";
 import LoginPage from "./pages/Login.page.jsx";
