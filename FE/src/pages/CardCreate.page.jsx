@@ -1,7 +1,7 @@
 import React from "react";
 
-const CardCreate = () => {
+const CardCreatePage = () => {
   return <div></div>;
 };
 
-export default CardCreate;
+export default CardCreatePage;
