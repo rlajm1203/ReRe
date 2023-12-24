@@ -1,7 +1,7 @@
 import React from "react";
 
-const CardCreate = () => {
+const Login = () => {
   return <div></div>;
 };
 
-export default CardCreate;
+export default Login;
