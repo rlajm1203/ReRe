@@ -8,11 +8,7 @@ import { HiOutlinePlus } from "react-icons/hi2";
 const StyledIcon = styled.span`
   height: 20px;
   font-size: 20px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  right: 7px;
+  position: relative;
 `;
 
 export const Icon = ({ type }) => {

@@ -25,7 +25,7 @@ const Header = () => {
             </Menu>
             <Search>
               <Input type="text" />
-              <Icon type="search" />
+              <IconSpace type="search" />
             </Search>
             <Button>로그인</Button>
             <Button>회원가입</Button>
@@ -56,8 +56,8 @@ const Logo = styled.img`
 
 const Inner = styled.div`
   position: relative;
-  width: 83.125rem; /* 1330px를 rem으로 변환한 값 */
-  height: 5rem; /* 70px를 rem으로 변환한 값 */
+  width: 83.125rem;
+  height: 5rem;
   margin: 0 auto;
 `;
 
@@ -115,4 +115,8 @@ const Submenu = styled.div`
   margin: auto 0;
   position: absolute;
   height: 5rem;
+`;
+
+const IconSpace = styled(Icon)`
+  margin-left: 500px; /* 아이콘을 오른쪽으로 이동시키는 값 */
 `;
