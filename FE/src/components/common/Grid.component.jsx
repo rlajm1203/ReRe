@@ -8,7 +8,7 @@ const GridContainer = styled.div`
 const ImageField = styled.img`
   width: 132px;
   height: 192.5px;
-  margin-top: 100px;
+  margin-top: 80px;
 `;
 
 const ButtonField = styled.button`
@@ -16,7 +16,7 @@ const ButtonField = styled.button`
   width: 280px;
   border-radius: 0px 4px 4px 0px;
   border: #007af3 1px solid;
-  margin-top: 100px;
+  margin-top: 80px;
 `;
 
 const Grid = () => {

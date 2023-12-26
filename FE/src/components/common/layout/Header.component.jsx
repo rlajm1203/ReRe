@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Icon } from "../Icon.component";
+import { StyledIcon } from "../Icon.component";
 
 const Header = () => {
   return (
@@ -117,6 +117,7 @@ const Submenu = styled.div`
   height: 5rem;
 `;
 
-const IconSpace = styled(Icon)`
-  margin-left: 500px; /* 아이콘을 오른쪽으로 이동시키는 값 */
+const IconSpace = styled(StyledIcon)`
+  position: absolute;
+  top: 0px;
 `;

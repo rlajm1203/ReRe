@@ -17,7 +17,7 @@ function App() {
       <Route path="/index" element={<IndexPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/card" element={<CardPage />} />
-      <Route path="/card/create" element={<CardCreatePage />} />
+      <Route path="/cardcreate" element={<CardCreatePage />} />
     </Routes>
   );
 }

@@ -5,13 +5,13 @@ import { IoIosCheckboxOutline, IoIosSearch } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlinePlus } from "react-icons/hi2";
 
-const StyledIcon = styled.span`
+export const StyledIcon = styled.span`
   height: 20px;
   font-size: 20px;
   position: relative;
 `;
 
-export const Icon = ({ type }) => {
+const Icon = ({ type }) => {
   const IconType = {
     search: <IoIosSearch />,
     back: <MdArrowBackIosNew />,
