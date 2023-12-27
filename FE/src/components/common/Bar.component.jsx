@@ -19,7 +19,6 @@ const Bar = ({ text }) => {
 export default Bar;
 
 const BarArea = styled.div`
-  display: flex;
   align-items: center;
   position: relative;
   top: 50px;
@@ -30,6 +29,6 @@ const Title = styled.h2`
   text-align: center;
   font-weight: 400;
   font-size: 24px;
-  margin-top: 3px;
+  margin-top: -20px;
   margin-left: 13px;
 `;

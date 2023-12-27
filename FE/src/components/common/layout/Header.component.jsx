@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { StyledIcon } from "../Icon.component";
+import { StyledIcon, Icon } from "../Icon.component";
 
 const Header = () => {
   return (
@@ -25,7 +25,9 @@ const Header = () => {
             </Menu>
             <Search>
               <Input type="text" />
-              <IconSpace type="search" />
+              <IconSpace>
+                <Icon type="search" />
+              </IconSpace>
             </Search>
             <Button>로그인</Button>
             <Button>회원가입</Button>
@@ -89,7 +91,7 @@ const Search = styled.div`
 const Input = styled.input`
   width: 12.375rem; /* 198px를 rem으로 변환한 값 */
   height: 2.1875rem;
-  padding: 0.25rem 0.625rem;
+  padding: 0.25rem 2rem 0.25rem 0.625rem;
   border: 0.0625rem solid #ccc;
   background-color: #ececec;
   box-sizing: border-box;
@@ -119,5 +121,6 @@ const Submenu = styled.div`
 
 const IconSpace = styled(StyledIcon)`
   position: absolute;
-  top: 0px;
+  right: 9px;
+  top: 7px;
 `;

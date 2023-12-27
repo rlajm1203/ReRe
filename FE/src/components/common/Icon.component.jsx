@@ -11,7 +11,7 @@ export const StyledIcon = styled.span`
   position: relative;
 `;
 
-const Icon = ({ type }) => {
+export const Icon = ({ type }) => {
   const IconType = {
     search: <IoIosSearch />,
     back: <MdArrowBackIosNew />,

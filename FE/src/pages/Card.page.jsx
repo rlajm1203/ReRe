@@ -17,7 +17,8 @@ export default CardPage;
 
 const Card = styled.button`
   box-sizing: border-box;
-
+  display: flex;
+  padding: 20px;
   position: relative;
   width: 300px;
   height: 420px;
