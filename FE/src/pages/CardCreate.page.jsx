@@ -5,6 +5,9 @@ import { MainContainer } from "../styles/Container.jsx";
 import Button from "../components/common/Button.component.jsx";
 import CardInputWithGreyBar from "../components/cardcreate/CardInput.component.jsx";
 import styled from "styled-components";
+import { SelectedNum } from "../components/cardcreate/AddedCard.component.jsx";
+import AddedCard from "../components/cardcreate/AddedCard.component.jsx";
+import { Icon, StyledIcon } from "../components/common/Icon.component.jsx";
 
 const CardCreatePage = () => {
   return (
@@ -23,6 +26,14 @@ const CardCreatePage = () => {
         <ButtonContainer>
           <Button>문제 추가</Button>
         </ButtonContainer>
+        <SelectedNum>
+          <IconSpace>
+            <Icon type="trash" />
+          </IconSpace>
+        </SelectedNum>
+        <div style={{ display: "flex" }}>
+          <AddedCard />
+        </div>
       </MainContainer>
     </div>
   );
@@ -37,4 +48,10 @@ const ButtonContainer = styled.div`
   position: relative;
   margin-top: 80px;
   margin-left: 1068px;
+`;
+
+const IconSpace = styled(StyledIcon)`
+  position: absolute;
+  right: 9px;
+  top: 70px;
 `;
