@@ -52,6 +52,7 @@ const GreyBox = styled.label`
   border: 1px solid #bbb;
   font-size: 16px;
   color: #666;
+
   outline: none;
   background-color: #f9f9f9;
 `;
