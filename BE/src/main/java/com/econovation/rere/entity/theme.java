@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-public class theme {
+public class Theme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class theme {
 //  여기서 부모는 cardbook, 자식은 theme이다.
 //  theme : cardbook은 N:1 관계
     @ManyToOne
-    private cardbook cardbook;
+    private CardBook cardbook;
 
 //  theme : card는 1:N 관계
     @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
-    private List<card> cardList;
+    private List<Card> cardList;
 
 
 
