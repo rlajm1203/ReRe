@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class cardbook {
+public class CardBook {
 
     @Id // primary key 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class cardbook {
 //  cardbook에서도 theme 목록에 접근할 수 있다.
 //  cardbook : theme 은 1:N 관계
     @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
-    private List<theme> themeList;
+    private List<Theme> themeList;
 
     // 카드북의 이미지를 어떻게 하지?
 }
