@@ -10,10 +10,12 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 public class Session {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer sessionId;
 
+    // 실제 세션 value는 Spring Session을 이용해야 할 듯
     @Column(length = 256)
     private String sessionValue;
 
