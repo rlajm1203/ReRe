@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -27,8 +28,14 @@ public class theme {
 //  관계형 데이터의 외래키 라고 생각하면 편하다.
 //  또는 ManyToOne은 부모 자식 관계를 갖는 구조에서 사용한다.
 //  여기서 부모는 cardbook, 자식은 theme이다.
-//  cardbook : theme 는 1:N 관계
-   @ManyToOne
-   private cardbook cardbook;
+//  theme : cardbook은 N:1 관계
+    @ManyToOne
+    private cardbook cardbook;
+
+//  theme : card는 1:N 관계
+    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
+    private List<card> cardList;
+
+
 
 }
