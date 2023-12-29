@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
-public class card {
+public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class card {
 
     @ManyToOne
 //  card : theme는 N:1 관계
-    private theme theme;
+    private Theme theme;
 
 
 }
