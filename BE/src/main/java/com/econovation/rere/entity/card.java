@@ -28,7 +28,7 @@ public class card {
     private LocalDateTime updateDate;
 
     @ManyToOne
-//  theme : card 는 1:N 관계
+//  card : theme는 N:1 관계
     private theme theme;
 
 
