@@ -37,7 +37,8 @@ public class CardBook {
 
 //  cardbook에서도 theme 목록에 접근할 수 있다.
 //  cardbook : theme 은 1:N 관계
-    @OneToMany(mappedBy = "Theme", cascade = CascadeType.REMOVE)
+//  mappedBy에 들어갈 값은 Theme 클래스에 있는 CardBook 타입의 변수 명이다.
+    @OneToMany(mappedBy = "cardbook", cascade = CascadeType.REMOVE)
     private List<Theme> themeList;
 
     // 카드북의 이미지를 어떻게 하지?

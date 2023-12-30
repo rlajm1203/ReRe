@@ -33,7 +33,8 @@ public class Theme {
     private CardBook cardbook;
 
 //  theme : card는 1:N 관계
-    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
+//  mappedBy에 들어갈 값은 Card 클래스에 있는 Theme 타입 변수 명이다.
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
     private List<Card> cardList;
 
 
