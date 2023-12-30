@@ -19,7 +19,6 @@ public class CardBook {
     private Integer cardbookId; // camel 케이스로 설정 시 DB에는 스네이크 케이스로 저장됨
 
     // 엔티티 속성 지정
-
     @Column(length=30) // 테이블의 컬럼명을 지정, length는 컬럼의 길이를 지정할 때 사용
     private String name;
 
@@ -42,4 +41,16 @@ public class CardBook {
     private List<Theme> themeList;
 
     // 카드북의 이미지를 어떻게 하지?
+
+    public CardBook(){}
+
+    public CardBook(String name, String writer, LocalDateTime time){
+
+        this.name = name;
+        this.writer = writer;
+        this.createDate = time;
+        this.updateDate = time;
+        this.scrapCnt = 0;
+
+    }
 }
