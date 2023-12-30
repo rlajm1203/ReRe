@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,6 @@ public class CardBookRepositoryTest {
 
     @Autowired
     private CardBookRepository repository;
-
 
 //  카드북 생성 테스트
     @Test
@@ -77,11 +78,31 @@ public class CardBookRepositoryTest {
 //    삭제 테스트
     @Test
     void testCardBookDelete(){
+
         Optional<CardBook> oc = this.repository.findByName("정보처리기사");
 
         if(oc.isPresent()){
             CardBook cardBook = oc.get();
             this.repository.delete(cardBook);
         }
+    }
+
+    @Test
+    @Transactional
+        // @Transactional은 DB에 두 번 이상 접근할 때 사용하는 애너테이션으로 이 애너테이션이 붙은 메소드가 실행되는 동안 DB 세션이 유지된다.
+    void testCardBookSelectAndTheme(){
+        Optional<CardBook> oc = this.repository.findByNameAndWriter("정보보안기사","KimJongMin");
+
+        if(oc.isPresent()) {
+            CardBook cardBook = oc.get();
+            Assertions.assertEquals(1, cardBook.getCardbookId());
+        }
+    }
+
+    @Test
+    @Transactional
+    void testCardBookSelectThemeList(){
+//        해당 CardBook에 속한 theme 들을 찾기
+
     }
 }
