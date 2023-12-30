@@ -1,5 +1,6 @@
 package com.econovation.rere.repository;
 
+import com.econovation.rere.entity.Card;
 import com.econovation.rere.entity.CardBook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,16 @@ public class CardBookRepositoryTest {
             Assertions.assertEquals("정보처리기사", cardbook.getName());
             System.out.println(cardbook.getName());
         }
+    }
 
+    @Test
+    void testCardBookModify(){
+        Optional<CardBook> oc = this.repository.findById(1);
+
+        if(oc.isPresent()){
+            CardBook cardBook = oc.get();
+            cardBook.setName("정보보안기사");
+            this.repository.save(cardBook);
+        }
     }
 }
