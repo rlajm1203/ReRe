@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class CardBookRepositoryTest {
@@ -40,6 +41,21 @@ public class CardBookRepositoryTest {
         CardBook cardbook = all.get(0);
         Assertions.assertEquals("정보처리기사",cardbook.getName());
         Assertions.assertEquals(1, cardbook.getCardbookId());
-        
+
+    }
+
+    @Test
+    void testCardBookSelect2(){
+
+//        Optional은 null 처리를 유연하게 처리하기 위해 사용하는 클래스이다.
+//        isPresent() 메소드로 null인지 아닌지 확인한 후에 get으로 객체를 얻을 수 있다.
+        Optional<CardBook> oq = this.repository.findById(1);
+
+        if(oq.isPresent()){
+            CardBook cardbook = oq.get();
+            Assertions.assertEquals("정보처리기사", cardbook.getName());
+            System.out.println(cardbook.getName());
+        }
+
     }
 }
