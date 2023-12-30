@@ -6,16 +6,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 public class CardBookRepositoryTest {
+
     @Autowired
     private CardBookRepository repository;
 
+
+//  카드북 생성 테스트
     @Test
     void testCardBookInsert(){
         CardBook cardBook = new CardBook();
@@ -30,6 +32,7 @@ public class CardBookRepositoryTest {
         this.repository.save(cardBook);
     }
 
+//    조회 테스트
     @Test
     void testCardBookSelect(){
         List<CardBook> all = this.repository.findAll();
@@ -44,7 +47,7 @@ public class CardBookRepositoryTest {
         Assertions.assertEquals(1, cardbook.getCardbookId());
 
     }
-
+//    조회 테스트
     @Test
     void testCardBookSelect2(){
 
@@ -59,6 +62,7 @@ public class CardBookRepositoryTest {
         }
     }
 
+//    수정 테스트
     @Test
     void testCardBookModify(){
         Optional<CardBook> oc = this.repository.findById(1);
@@ -67,6 +71,17 @@ public class CardBookRepositoryTest {
             CardBook cardBook = oc.get();
             cardBook.setName("정보보안기사");
             this.repository.save(cardBook);
+        }
+    }
+
+//    삭제 테스트
+    @Test
+    void testCardBookDelete(){
+        Optional<CardBook> oc = this.repository.findByName("정보처리기사");
+
+        if(oc.isPresent()){
+            CardBook cardBook = oc.get();
+            this.repository.delete(cardBook);
         }
     }
 }
