@@ -1,5 +1,6 @@
 package com.econovation.rere.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,4 +27,11 @@ public class User {
     @Column(length = 30)
     private String nickname;
 
+    public User(){};
+
+    public User(String loginId, String pw, String nickname){
+        this.loginId = loginId;
+        this.pw = pw;
+        this.nickname = nickname;
+    }
 }
