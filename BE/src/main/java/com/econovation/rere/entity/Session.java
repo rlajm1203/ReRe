@@ -31,4 +31,14 @@ public class Session {
     @Column(columnDefinition = "TEXT")
     private LocalDateTime updateDate;
 
+    public Session(){}
+
+    public Session(String sessionValue, String loginId, String nickname, LocalDateTime time){
+        this.sessionValue = sessionValue;
+        this.loginId = loginId;
+        this.nickname = nickname;
+        this.createDate = time;
+        this.updateDate = time;
+    }
+
 }
