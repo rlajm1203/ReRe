@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private String loginId;
 
     // 로그인 PW는 SHA-256 방식으로 인코딩 할 예정
@@ -24,7 +24,7 @@ public class User {
     @Column(length = 256)
     private String pw;
 
-    @Column(length = 30)
+    @Column(length = 30, unique = true)
     private String nickname;
 
     public User(){};
