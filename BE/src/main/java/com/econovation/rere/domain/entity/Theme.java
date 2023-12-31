@@ -16,7 +16,7 @@ public class Theme {
     private Integer themeId;
 
     @Column(length = 60)
-    private String themeName;
+    private String name;
 
     @Column(columnDefinition = "TEXT")
     private LocalDateTime createDate;
@@ -41,8 +41,8 @@ public class Theme {
 
 //    createDate 와 updateDate의 경우에는 프론트에서 시간을 넘겨주면 그 값을 저장
 //    이 후 updateDate를 변경할 때는 setter를 이용
-    public Theme(String themeName, LocalDateTime time){
-        this.themeName = themeName;
+    public Theme(String name, LocalDateTime time){
+        this.name = name;
         this.createDate = time;
         this.updateDate = time;
     }
