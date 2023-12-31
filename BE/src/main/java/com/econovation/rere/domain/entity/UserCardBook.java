@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 public class UserCardBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userCardBookId;
+    private Integer userCardbookId;
 
     @ManyToOne
     private User user;
 
     @ManyToOne
-    private CardBook cardBook;
+    private CardBook cardbook;
 
     @Column(columnDefinition = "TEXT")
     private LocalDateTime chooseDate;
@@ -27,7 +27,7 @@ public class UserCardBook {
 
     public UserCardBook(User user, CardBook cardbook, LocalDateTime time){
         this.user = user;
-        this.cardBook = cardbook;
+        this.cardbook = cardbook;
         this.chooseDate = time;
     }
 
