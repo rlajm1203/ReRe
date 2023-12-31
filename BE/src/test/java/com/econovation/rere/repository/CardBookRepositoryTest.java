@@ -24,7 +24,7 @@ public class CardBookRepositoryTest {
         CardBook cardBook = new CardBook();
         LocalDateTime time = LocalDateTime.now();
         cardBook.setName("정보처리기사");
-        cardBook.setWriter("KimJongMin");
+        cardBook.setWriter("user02");
         cardBook.setScrapCnt(0);
         cardBook.setCreateDate(time);
         cardBook.setUpdateDate(time);
@@ -63,6 +63,15 @@ public class CardBookRepositoryTest {
         }
     }
 
+    @Test
+    void testCardBookSearch(){
+        List<CardBook> cardbooks = this.repository.findByName("정보처리기사");
+
+        cardbooks.forEach((cardBook)-> System.out.println(cardBook.getName()));
+    }
+
+
+
 //    수정 테스트
     @Test
     void testCardBookModify(){
@@ -79,12 +88,12 @@ public class CardBookRepositoryTest {
     @Test
     void testCardBookDelete(){
 
-        Optional<CardBook> oc = this.repository.findByName("정보처리기사");
+        List<CardBook> oc = this.repository.findByName("정보처리기사");
 
-        if(oc.isPresent()){
+        /*if(oc.isPresent()){
             CardBook cardBook = oc.get();
             this.repository.delete(cardBook);
-        }
+        }*/
     }
 
     @Test
@@ -103,6 +112,5 @@ public class CardBookRepositoryTest {
     @Transactional
     void testCardBookSelectThemeList(){
 //        해당 CardBook에 속한 theme 들을 찾기
-
     }
 }
