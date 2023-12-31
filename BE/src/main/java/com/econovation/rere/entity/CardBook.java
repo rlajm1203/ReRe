@@ -23,7 +23,7 @@ public class CardBook {
     private String name;
 
     @Column(length = 30)
-    private String writer;
+    private String writer; // writer는 User.nickname과 동일
 
     @Column(columnDefinition = "TEXT") // columnDefinition은 컬럼의 속성을 정의할 때 사용
     private LocalDateTime createDate;
