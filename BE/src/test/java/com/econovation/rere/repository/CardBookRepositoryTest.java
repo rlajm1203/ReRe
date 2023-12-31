@@ -24,7 +24,7 @@ public class CardBookRepositoryTest {
         CardBook cardBook = new CardBook();
         LocalDateTime time = LocalDateTime.now();
         cardBook.setName("정보처리기사");
-        cardBook.setWriter("user02");
+        cardBook.setWriter("user04");
         cardBook.setScrapCnt(0);
         cardBook.setCreateDate(time);
         cardBook.setUpdateDate(time);
