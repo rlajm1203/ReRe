@@ -4,6 +4,7 @@ import com.econovation.rere.entity.Card;
 import com.econovation.rere.entity.CardBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CardBookRepository extends JpaRepository<CardBook, Integer> {
@@ -21,10 +22,9 @@ public interface CardBookRepository extends JpaRepository<CardBook, Integer> {
     */
 
 //    CardBook 엔티티의 Name 값으로 데이터를 조회하기 위한 메소드
-    Optional<CardBook> findByName(String Name);
+    List<CardBook> findByName(String Name);
 
-//    CardBook의 제목과 작성자, 두 개의 조건으로 조회하기 위한 메소
+//    CardBook의 제목과 작성자, 두 개의 조건으로 조회하기 위한 메소드
     Optional<CardBook> findByNameAndWriter(String Name, String Writer);
 
-    
 }
