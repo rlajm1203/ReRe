@@ -51,7 +51,7 @@ public class UserCardBookRepositoryTest {
         if(ou.isPresent()){
             user = ou.get();
             ucbs = this.ucbrepository.findAllByUser(user);
-            ucbs.forEach((ucb)-> System.out.println(ucb.getCardBook().getName()));
+            ucbs.forEach((ucb)-> System.out.println(ucb.getCardbook().getName()));
         }
     }
 }
