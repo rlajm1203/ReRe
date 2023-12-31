@@ -1,4 +1,4 @@
-package com.econovation.rere.domain.dto;
+package com.econovation.rere.domain.dto.request;
 
 // 이 클래스는 실제로 전송되지 않는 데이터이지만, 만약을 위해 만들어 놓습니다.
 

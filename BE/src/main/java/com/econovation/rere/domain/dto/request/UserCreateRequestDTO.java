@@ -1,4 +1,4 @@
-package com.econovation.rere.domain.dto;
+package com.econovation.rere.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class UserCreateRequestDTO {
 
     private Integer userId;
 

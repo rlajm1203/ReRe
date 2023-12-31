@@ -1,4 +1,4 @@
-package com.econovation.rere.domain.dto;
+package com.econovation.rere.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,20 +9,18 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class CardBookDTO {
+@AllArgsConstructor
+public class CardCreateRequestDTO {
 
-    private Integer cardbookId;
+    private Long cardId;
 
-    private String name;
+    private String content;
 
-    private String writer;
+    private String answer;
 
     private LocalDateTime createDate;
 
     private LocalDateTime updateDate;
-
-    private Integer scrapCnt;
 
 }
