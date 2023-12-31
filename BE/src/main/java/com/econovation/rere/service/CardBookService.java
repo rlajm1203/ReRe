@@ -1,8 +1,8 @@
 package com.econovation.rere.service;
 
 
-import com.econovation.rere.entity.CardBook;
-import com.econovation.rere.repository.CardBookRepository;
+import com.econovation.rere.domain.entity.CardBook;
+import com.econovation.rere.domain.repository.CardBookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

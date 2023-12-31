@@ -1,11 +1,11 @@
 package com.econovation.rere.repository;
 
-import com.econovation.rere.entity.User;
+import com.econovation.rere.domain.entity.User;
+import com.econovation.rere.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @SpringBootTest

@@ -1,4 +1,4 @@
-package com.econovation.rere.entity;
+package com.econovation.rere.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

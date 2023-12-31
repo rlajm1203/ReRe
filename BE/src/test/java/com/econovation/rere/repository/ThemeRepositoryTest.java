@@ -1,14 +1,12 @@
 package com.econovation.rere.repository;
 
-import com.econovation.rere.entity.CardBook;
-import com.econovation.rere.entity.Theme;
+import com.econovation.rere.domain.entity.Theme;
+import com.econovation.rere.domain.repository.ThemeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @SpringBootTest
 public class ThemeRepositoryTest {

@@ -1,7 +1,7 @@
-package com.econovation.rere.repository;
+package com.econovation.rere.domain.repository;
 
-import com.econovation.rere.entity.User;
-import com.econovation.rere.entity.UserCardBook;
+import com.econovation.rere.domain.entity.User;
+import com.econovation.rere.domain.entity.UserCardBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

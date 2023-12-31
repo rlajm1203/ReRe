@@ -1,6 +1,6 @@
-package com.econovation.rere.repository;
+package com.econovation.rere.domain.repository;
 
-import com.econovation.rere.entity.User;
+import com.econovation.rere.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
