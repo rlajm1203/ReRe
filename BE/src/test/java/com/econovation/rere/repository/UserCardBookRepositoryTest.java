@@ -23,7 +23,6 @@ public class UserCardBookRepositoryTest {
     @Autowired
     private CardBookRepository cbrepository;
 
-
 //    어떤 사용자가 어떤 책을 담았을 때 상황을 구현한 테스트
     @Test
     void testUserCardBookInsert(){
