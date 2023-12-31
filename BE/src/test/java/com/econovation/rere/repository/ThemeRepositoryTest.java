@@ -18,7 +18,7 @@ public class ThemeRepositoryTest {
     void testThemeInsert(){
         Theme theme = new Theme();
         LocalDateTime time = LocalDateTime.now();
-        theme.setThemeName("SW 응용 기초");
+        theme.setName("SW 응용 기초");
 
 //        theme과 cardbook은 의존 관계가 존재하는데,
 //        어떻게 설정하지?
