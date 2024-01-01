@@ -15,6 +15,6 @@ public class CardBookResponseDTO {
     private Integer cardbookId;
     private String name;
     private String writer;
-    private LocalDateTime timenow;
+    private LocalDateTime updateDate;
 
 }
