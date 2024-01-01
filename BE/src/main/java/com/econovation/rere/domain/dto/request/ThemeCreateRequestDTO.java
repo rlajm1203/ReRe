@@ -1,24 +1,26 @@
 package com.econovation.rere.domain.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
-@Builder
 @Data
-@NoArgsConstructor
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class ThemeCreateRequestDTO {
 
-    private Integer themeId;
-
+    @NotEmpty(message = "please write themeName")
     private String name;
 
-    private LocalDateTime createDate;
+    @NotEmpty(message = "please write cardbookId")
+    private Integer cardbookId;
 
-    private LocalDateTime updateDate;
+//    Request 요청에는 하나의 시간 정보가 담겨있다.
+//    따라서 이 정보가 theme을 create 하는 시간이면 createDate
+//    theme을 update 하는 시간이면 updateDate가 된다.
+    @NotEmpty(message = "please write time now")
+    private LocalDateTime timenow;
 
 }
