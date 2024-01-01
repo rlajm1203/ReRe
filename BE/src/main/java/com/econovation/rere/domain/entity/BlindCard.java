@@ -1,5 +1,6 @@
 package com.econovation.rere.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Setter
 @Getter
+@Builder
 public class BlindCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

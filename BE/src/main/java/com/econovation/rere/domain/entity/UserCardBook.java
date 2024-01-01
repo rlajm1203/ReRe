@@ -1,5 +1,6 @@
 package com.econovation.rere.domain.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
+@Builder
 public class UserCardBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
