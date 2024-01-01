@@ -25,7 +25,7 @@ public interface CardBookRepository extends JpaRepository<CardBook, Integer> {
     List<CardBook> findByName(String Name);
 
 //    메인 페이지용 메소드
-    List<CardBook> findAllOrderByScrapCnt();
+//    List<CardBook> findAllOrderByScrapCnt();
 
 //    검색 결과용 메소드
     List<CardBook> findByNameOrderByScrapCnt(String name);
