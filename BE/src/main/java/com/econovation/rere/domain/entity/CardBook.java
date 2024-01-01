@@ -1,6 +1,8 @@
 package com.econovation.rere.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 public class CardBook {
 
     @Id // primary key 지정
@@ -32,7 +35,7 @@ public class CardBook {
     @Column(columnDefinition = "TEXT") // 그 중 TEXT는 "내용"처럼 글자 수를 제한할 수 없을 경우에 사용한다.
     private LocalDateTime updateDate;
 
-    @Column
+    @ColumnDefault("0")
     private Integer scrapCnt;
 
 //  cardbook에서도 theme 목록에 접근할 수 있다.
