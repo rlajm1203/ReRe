@@ -1,5 +1,7 @@
 package com.econovation.rere.domain.dto.request;
 
+import com.econovation.rere.domain.entity.Card;
+import com.econovation.rere.domain.entity.CardBook;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -23,4 +25,12 @@ public class CardCreateRequestDTO {
     //    @NotEmpty(message = "please write time now")
     //    private LocalDateTime nowtime;
 
+    public Card toEntity(LocalDateTime timenow){
+        return Card.builder()
+                .content(content)
+                .answer(answer)
+                .createDate(timenow)
+                .updateDate(timenow)
+                .build();
+    }
 }
