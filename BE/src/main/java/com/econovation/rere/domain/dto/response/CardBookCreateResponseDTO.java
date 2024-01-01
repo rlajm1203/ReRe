@@ -14,6 +14,6 @@ public class CardBookCreateResponseDTO {
     private Integer cardbookId;
     private String name;
     private String writer;
-    private LocalDateTime updateDate;
+    private LocalDateTime timenow;
 
 }
