@@ -26,4 +26,7 @@ public interface CardBookRepository extends JpaRepository<CardBook, Integer> {
 //    CardBook의 제목과 작성자, 두 개의 조건으로 조회하기 위한 메소드
     Optional<CardBook> findByNameAndWriter(String Name, String Writer);
 
+//    정상적으로 삭제되면 true, 정상적이지 않으면 false
+    boolean deleteByCardbookId(Integer cardbookId);
+
 }
