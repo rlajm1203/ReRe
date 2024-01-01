@@ -1,6 +1,7 @@
 package com.econovation.rere.controller;
 
 import com.econovation.rere.domain.dto.request.UserCreateRequestDTO;
+import com.econovation.rere.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
