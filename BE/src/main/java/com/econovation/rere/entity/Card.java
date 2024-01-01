@@ -31,5 +31,13 @@ public class Card {
 //  card : theme는 N:1 관계
     private Theme theme;
 
+    public Card(){}
+
+    public Card(String content, String answer, LocalDateTime time){
+        this.content = content;
+        this.answer = answer;
+        this.createDate = time;
+        this.updateDate = time;
+    }
 
 }

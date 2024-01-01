@@ -33,9 +33,18 @@ public class Theme {
     private CardBook cardbook;
 
 //  theme : card는 1:N 관계
-    @OneToMany(mappedBy = "card", cascade = CascadeType.REMOVE)
+//  mappedBy에 들어갈 값은 Card 클래스에 있는 Theme 타입 변수 명이다.
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
     private List<Card> cardList;
 
+    public Theme(){}
 
+//    createDate 와 updateDate의 경우에는 프론트에서 시간을 넘겨주면 그 값을 저장
+//    이 후 updateDate를 변경할 때는 setter를 이용
+    public Theme(String themeName, LocalDateTime time){
+        this.themeName = themeName;
+        this.createDate = time;
+        this.updateDate = time;
+    }
 
 }

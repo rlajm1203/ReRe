@@ -19,12 +19,11 @@ public class CardBook {
     private Integer cardbookId; // camel 케이스로 설정 시 DB에는 스네이크 케이스로 저장됨
 
     // 엔티티 속성 지정
-
     @Column(length=30) // 테이블의 컬럼명을 지정, length는 컬럼의 길이를 지정할 때 사용
     private String name;
 
     @Column(length = 30)
-    private String writer;
+    private String writer; // writer는 User.nickname과 동일
 
     @Column(columnDefinition = "TEXT") // columnDefinition은 컬럼의 속성을 정의할 때 사용
     private LocalDateTime createDate;
@@ -37,8 +36,21 @@ public class CardBook {
 
 //  cardbook에서도 theme 목록에 접근할 수 있다.
 //  cardbook : theme 은 1:N 관계
-    @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
+//  mappedBy에 들어갈 값은 Theme 클래스에 있는 CardBook 타입의 변수 명이다.
+    @OneToMany(mappedBy = "cardbook", cascade = CascadeType.REMOVE)
     private List<Theme> themeList;
 
     // 카드북의 이미지를 어떻게 하지?
+
+    public CardBook(){}
+
+    public CardBook(String name, String writer, LocalDateTime time){
+
+        this.name = name;
+        this.writer = writer;
+        this.createDate = time;
+        this.updateDate = time;
+        this.scrapCnt = 0;
+
+    }
 }

@@ -18,4 +18,12 @@ public class BlindCard {
 
     @ManyToOne
     private Card card;
+
+    public BlindCard(){}
+
+    public BlindCard(User user, Card card){
+        this.user = user;
+        this.card = card;
+    }
+
 }

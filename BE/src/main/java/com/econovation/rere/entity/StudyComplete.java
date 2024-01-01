@@ -31,4 +31,12 @@ public class StudyComplete {
     @Column
     private Integer step;
 
+    public StudyComplete(){}
+
+    public StudyComplete(User user, Theme theme, LocalDateTime time){
+        this.user = user;
+        this.theme = theme;
+        this.completeDate = time;
+    }
+
 }
