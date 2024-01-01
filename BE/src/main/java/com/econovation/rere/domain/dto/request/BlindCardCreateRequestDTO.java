@@ -18,10 +18,6 @@ import javax.validation.constraints.NotEmpty;
 public class BlindCardCreateRequestDTO {
 
 //    이게 맞나..?
-    @NotEmpty(message = "please write user id")
-    private Integer userId;
-
-//    이게 맞나..?
     @NotEmpty(message = "please write card id")
     private Integer cardId;
 
