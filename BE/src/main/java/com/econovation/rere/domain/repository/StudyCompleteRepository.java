@@ -1,6 +1,6 @@
-package com.econovation.rere.repository;
+package com.econovation.rere.domain.repository;
 
-import com.econovation.rere.entity.StudyComplete;
+import com.econovation.rere.domain.entity.StudyComplete;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudyCompleteRepository extends JpaRepository<StudyComplete, Integer> {

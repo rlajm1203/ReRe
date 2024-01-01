@@ -1,14 +1,12 @@
 package com.econovation.rere.repository;
 
-import com.econovation.rere.entity.CardBook;
-import com.econovation.rere.entity.Theme;
+import com.econovation.rere.domain.entity.Theme;
+import com.econovation.rere.domain.repository.ThemeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @SpringBootTest
 public class ThemeRepositoryTest {
@@ -20,7 +18,7 @@ public class ThemeRepositoryTest {
     void testThemeInsert(){
         Theme theme = new Theme();
         LocalDateTime time = LocalDateTime.now();
-        theme.setThemeName("SW 응용 기초");
+        theme.setName("SW 응용 기초");
 
 //        theme과 cardbook은 의존 관계가 존재하는데,
 //        어떻게 설정하지?

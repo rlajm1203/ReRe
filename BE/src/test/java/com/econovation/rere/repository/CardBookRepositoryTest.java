@@ -1,7 +1,7 @@
 package com.econovation.rere.repository;
 
-import com.econovation.rere.entity.Card;
-import com.econovation.rere.entity.CardBook;
+import com.econovation.rere.domain.entity.CardBook;
+import com.econovation.rere.domain.repository.CardBookRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

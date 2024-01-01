@@ -1,8 +1,11 @@
 package com.econovation.rere.repository;
 
-import com.econovation.rere.entity.CardBook;
-import com.econovation.rere.entity.User;
-import com.econovation.rere.entity.UserCardBook;
+import com.econovation.rere.domain.entity.CardBook;
+import com.econovation.rere.domain.entity.User;
+import com.econovation.rere.domain.entity.UserCardBook;
+import com.econovation.rere.domain.repository.CardBookRepository;
+import com.econovation.rere.domain.repository.UserCardBookRepository;
+import com.econovation.rere.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,7 +51,7 @@ public class UserCardBookRepositoryTest {
         if(ou.isPresent()){
             user = ou.get();
             ucbs = this.ucbrepository.findAllByUser(user);
-            ucbs.forEach((ucb)-> System.out.println(ucb.getCardBook().getName()));
+            ucbs.forEach((ucb)-> System.out.println(ucb.getCardbook().getName()));
         }
     }
 }

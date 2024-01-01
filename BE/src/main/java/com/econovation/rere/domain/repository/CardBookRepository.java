@@ -1,7 +1,6 @@
-package com.econovation.rere.repository;
+package com.econovation.rere.domain.repository;
 
-import com.econovation.rere.entity.Card;
-import com.econovation.rere.entity.CardBook;
+import com.econovation.rere.domain.entity.CardBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
