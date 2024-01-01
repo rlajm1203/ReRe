@@ -1,5 +1,7 @@
 package com.econovation.rere.domain.dto.request;
 
+import com.econovation.rere.domain.entity.CardBook;
+import com.econovation.rere.domain.entity.Theme;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -29,5 +31,14 @@ public class ThemeCreateRequestDTO {
 //    theme 하나에 여러 카드가 존재하므로
     @NotEmpty(message = "please write cards")
     private List<CardCreateRequestDTO> cards;
+
+    public Theme toEntity(CardBook cardBook, LocalDateTime timenow){
+        return Theme.builder()
+                .cardbook(cardBook)
+                .name(name)
+                .createDate(timenow)
+                .updateDate(timenow)
+                .build();
+    }
 
 }
