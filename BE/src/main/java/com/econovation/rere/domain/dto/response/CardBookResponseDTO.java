@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class CardBookCreateResponseDTO {
+public class CardBookResponseDTO {
 
     private Integer cardbookId;
     private String name;
