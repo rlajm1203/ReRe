@@ -1,5 +1,6 @@
 package com.econovation.rere.domain.repository;
 
+import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.CardBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -23,10 +24,17 @@ public interface CardBookRepository extends JpaRepository<CardBook, Integer> {
 //    CardBook 엔티티의 Name 값으로 데이터를 조회하기 위한 메소드
     List<CardBook> findByName(String Name);
 
+//    메인 페이지용 메소드
+    List<CardBook> findAllOrderByScrapCnt();
+
+//    검색 결과용 메소드
+    List<CardBook> findByNameOrderByScrapCnt(String name);
+
 //    CardBook의 제목과 작성자, 두 개의 조건으로 조회하기 위한 메소드
     Optional<CardBook> findByNameAndWriter(String Name, String Writer);
 
 //    정상적으로 삭제되면 true, 정상적이지 않으면 false
     Integer deleteByCardbookId(Integer cardbookId);
+
 
 }
