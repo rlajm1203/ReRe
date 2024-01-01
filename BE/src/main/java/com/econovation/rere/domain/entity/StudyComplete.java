@@ -1,8 +1,6 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class StudyComplete {
 
     @Id
@@ -34,11 +33,4 @@ public class StudyComplete {
     private Integer step;
 
     public StudyComplete(){}
-
-    public StudyComplete(User user, Theme theme, LocalDateTime time){
-        this.user = user;
-        this.theme = theme;
-        this.completeDate = time;
-    }
-
 }

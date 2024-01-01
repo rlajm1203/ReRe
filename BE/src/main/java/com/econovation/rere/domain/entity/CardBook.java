@@ -1,8 +1,6 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
 @Builder
 public class CardBook {
 
@@ -44,15 +43,5 @@ public class CardBook {
 
     // 카드북의 이미지를 어떻게 하지?
 
-    public CardBook(){}
-
-    public CardBook(String name, String writer, LocalDateTime time){
-
-        this.name = name;
-        this.writer = writer;
-        this.createDate = time;
-        this.updateDate = time;
-        this.scrapCnt = 0;
-
-    }
+    protected CardBook(){}
 }

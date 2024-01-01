@@ -1,8 +1,6 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Session {
     
     @Id
@@ -34,13 +33,5 @@ public class Session {
     private LocalDateTime updateDate;
 
     public Session(){}
-
-    public Session(String sessionValue, String loginId, String nickname, LocalDateTime time){
-        this.sessionValue = sessionValue;
-        this.loginId = loginId;
-        this.nickname = nickname;
-        this.createDate = time;
-        this.updateDate = time;
-    }
 
 }

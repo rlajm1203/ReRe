@@ -1,8 +1,7 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Theme {
 
     @Id
@@ -43,10 +43,6 @@ public class Theme {
 
 //    createDate 와 updateDate의 경우에는 프론트에서 시간을 넘겨주면 그 값을 저장
 //    이 후 updateDate를 변경할 때는 setter를 이용
-    public Theme(String name, LocalDateTime time){
-        this.name = name;
-        this.createDate = time;
-        this.updateDate = time;
-    }
+
 
 }
