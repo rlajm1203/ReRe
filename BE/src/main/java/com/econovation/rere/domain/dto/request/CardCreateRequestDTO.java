@@ -1,26 +1,23 @@
 package com.econovation.rere.domain.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class CardCreateRequestDTO {
 
-    private Long cardId;
-
+    @NotEmpty(message = "please write content")
     private String content;
 
+    @NotEmpty(message = "please write answer")
     private String answer;
 
-    private LocalDateTime createDate;
-
-    private LocalDateTime updateDate;
+    @NotEmpty(message = "please write time now")
+    private LocalDateTime nowtime;
 
 }
