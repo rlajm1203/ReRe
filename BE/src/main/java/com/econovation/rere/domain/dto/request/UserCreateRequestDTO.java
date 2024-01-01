@@ -1,5 +1,6 @@
 package com.econovation.rere.domain.dto.request;
 
+import com.econovation.rere.domain.entity.User;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -32,5 +33,14 @@ public class UserCreateRequestDTO {
     @Size(min = 2, max = 12, message = "닉네임은 2자 이상 12자 이하입니다.")
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]*$", message = "닉네임은 한글,알파벳 대소문자,숫자를 모두 사용할 수 있습니다.")
     private String nickname;
+
+    public User toEntity(){
+
+        return User.builder()
+                .loginId(loginId)
+                .pw(pw)
+                .nickname(nickname)
+                .build();
+    }
 
 }
