@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
-public class CardBookServiceImpl {
+public class CardBookService {
 
     private final CardBookRepository cardBookRepository;
 
