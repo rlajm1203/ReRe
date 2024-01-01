@@ -15,9 +15,12 @@ public class CardBookCreateRequestDTO {
     private String name;
 
     @NotEmpty(message = "please write cardbook writer")
-    private String writer;
+    private Integer userId;
 
-    @NotEmpty(message = "please write time now")
-    private LocalDateTime timenow;
+//    시간 정보는 프론트에서 전송 시점을 기준으로 하는 게 아니라
+//    백엔드가 요청을 받은 시점을 기준으로 해야하는 듯
+
+//    @NotEmpty(message = "please write time now")
+//    private LocalDateTime timenow;
 
 }
