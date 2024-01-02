@@ -12,4 +12,6 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
     public List<Card> findAllByTheme(Theme theme);
 
     public Integer deleteByCardId(Integer CardId);
+
+    public Integer deleteAllByTheme(Theme theme);
 }
