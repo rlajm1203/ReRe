@@ -34,12 +34,4 @@ public class ThemeUpdateRequestDTO {
     @NotEmpty(message = "please write cards")
     private List<CardUpdateRequestDTO> cards;
 
-    public Theme toEntity(CardBook cardBook, List<Card> cards, LocalDateTime timenow){
-        return Theme.builder()
-                .cardbook(cardBook)
-                .name(name)
-                .updateDate(timenow)
-                .cardList(cards)
-                .build();
-    }
 }
