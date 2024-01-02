@@ -31,7 +31,7 @@ public class CardBookService {
     private final UserRepository userRepository;
 
 //    생성
-    public CardBookResponseDTO create(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId){
+    public CardBookResponseDTO register(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId){
 
         User user = this.userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("userId에 해당하는 user가 존재하지 않습니다."));
         LocalDateTime timenow = LocalDateTime.now();
@@ -47,16 +47,11 @@ public class CardBookService {
         cardBook = this.cardBookRepository.save(cardBook);
         userCardBook = this.userCardBookRepository.save(userCardBook);
 
-        return CardBookResponseDTO.builder()
-                .name(cardBook.getName())
-                .writer(user.getNickname())
-                .updateDate(timenow)
-                .cardbookId(cardBook.getCardbookId())
-                .build();
+        return toCardBookResponseDTO(cardBook);
     }
 
 //    수정
-    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
+    public CardBookResponseDTO modify(CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
         CardBook cardBook = this.cardBookRepository.findById(cardBookUpdateRequestDTO.getCardbookId())
                 .orElseThrow(()->new IllegalArgumentException("해당 카드북이 존재하지 않습니다."));
 
@@ -64,12 +59,7 @@ public class CardBookService {
         cardBook.setUpdateDate(LocalDateTime.now());
         cardBook = this.cardBookRepository.save(cardBook);
 
-        return CardBookResponseDTO.builder()
-                .name(cardBook.getName())
-                .writer(cardBook.getWriter())
-                .updateDate(cardBook.getUpdateDate())
-                .cardbookId(cardBook.getCardbookId())
-                .build();
+        return toCardBookResponseDTO(cardBook);
     }
 
 //    삭제
@@ -79,47 +69,37 @@ public class CardBookService {
     }
 
 //    검색
-    public List<CardBookResponseDTO> search(String name){
-        List<CardBook> cardBooks = this.cardBookRepository.findByNameOrderByScrapCnt(name);
-
-        int length = cardBooks.size();
-
-        List<CardBookResponseDTO> cardBookResponseDTOS = new ArrayList<>(length);
-
-        int i = 0;
-        for(CardBookResponseDTO dto : cardBookResponseDTOS){
-            CardBook cardBook = cardBooks.get(i);
-            dto = CardBookResponseDTO.builder()
-                    .name(cardBook.getName())
-                    .writer(cardBook.getWriter())
-                    .updateDate(cardBook.getUpdateDate())
-                    .cardbookId(cardBook.getCardbookId())
-                    .build();
-        }
-
-        return cardBookResponseDTOS;
+    public List<CardBookResponseDTO> search(String name) {
+        return toCardBookResponseDTOS(this.cardBookRepository.findByNameOrderByScrapCnt(name));
     }
 
 //    메인 페이지 (스크랩 수 내림차순을 기준으로 정렬)
     public List<CardBookResponseDTO> getAll(){
         List<CardBook> cardBooks = this.cardBookRepository.findAll();
-        cardBooks.sort((cb1, cb2)->(cb1.getScrapCnt() - cb2.getScrapCnt()));
+        cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt() ));
 
+        return toCardBookResponseDTOS(cardBooks);
+    }
+
+//    Entity를 DTO로 바꿔주는 메소드
+    private CardBookResponseDTO toCardBookResponseDTO(CardBook cardBook){
+        return CardBookResponseDTO.builder()
+                .cardbookId(cardBook.getCardbookId())
+                .name(cardBook.getName())
+                .updateDate(cardBook.getUpdateDate())
+                .writer(cardBook.getWriter())
+                .build();
+    }
+
+    private List<CardBookResponseDTO> toCardBookResponseDTOS(List<CardBook> cardBooks){
+        List<CardBookResponseDTO> cardBookResponseDTOS = new ArrayList<>();
         int length = cardBooks.size();
-        List<CardBookResponseDTO> cardBookResponseDTOS = new ArrayList<>(length);
-
-        int i = 0;
-
-        for(CardBookResponseDTO dto : cardBookResponseDTOS){
+        for(int i=0; i<length; i++){
             CardBook cardBook = cardBooks.get(i);
-            dto = CardBookResponseDTO.builder()
-                    .name(cardBook.getName())
-                    .writer(cardBook.getWriter())
-                    .updateDate(cardBook.getUpdateDate())
-                    .cardbookId(cardBook.getCardbookId())
-                    .build();
+            cardBookResponseDTOS.add(
+                    toCardBookResponseDTO(cardBook)
+            );
         }
-
         return cardBookResponseDTOS;
     }
 
