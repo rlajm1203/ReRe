@@ -64,13 +64,15 @@ public class ThemeService {
         theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
         theme = themeRepository.save(theme);
 
-//        카드 수정이 목차 수정과 동시에 이루어진다.
-        for(CardUpdateRequestDTO dto : themeUpdateRequestDTO.getCards()){
-            cardService.modify(dto,themeId,timenow);
+
+        if(cardService.removeAllByTheme(theme)>0) {
+////        기존에 존재하던 카드 전부 삭제
+////        카드 수정이 목차 수정과 동시에 이루어진다.
+            for (CardUpdateRequestDTO dto : themeUpdateRequestDTO.getCards()){
+                cardService.modify(dto, theme, timenow);
+            }
         }
-
         return toThemeResponseDTO(theme);
-
     }
 
 //    삭제
@@ -85,7 +87,6 @@ public class ThemeService {
         CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다."));
         return themeRepository.findAllByCardbook(cardBook);
     }
-
 
 //    내부 메소드
     private ThemeResponseDTO toThemeResponseDTO(Theme theme){
@@ -104,4 +105,5 @@ public class ThemeService {
 
         return themeResponseDTOS;
     }
+
 }
