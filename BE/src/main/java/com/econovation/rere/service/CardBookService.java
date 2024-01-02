@@ -73,11 +73,17 @@ public class CardBookService {
         return toCardBookResponseDTOS(this.cardBookRepository.findByNameOrderByScrapCnt(name));
     }
 
-//    메인 페이지에 띄울 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)
-    public List<CardBookResponseDTO> getAll(){
-        List<CardBook> cardBooks = this.cardBookRepository.findAll();
-        cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt() ));
+//    메인 페이지에 띄울 기본 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)
+    public List<CardBookResponseDTO> getDefaultCardbook(){
+        List<CardBook> cardBooks = this.cardBookRepository.findByWriter("admin");
+        cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
+        return toCardBookResponseDTOS(cardBooks);
+    }
+
+    public List<CardBookResponseDTO> getMyCardbook(Integer userId){
+        User user = this.userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        List<CardBook> cardBooks = this.cardBookRepository.findByWriter(user.getNickname());
         return toCardBookResponseDTOS(cardBooks);
     }
 
