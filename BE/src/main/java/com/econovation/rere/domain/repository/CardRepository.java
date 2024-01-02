@@ -13,5 +13,7 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
 
     public Integer deleteByCardId(Integer CardId);
 
+//    리턴 타입이 Integer인 이유는 삭제된 개수를 반환하기 때문이다.
+//    따라서 0보다 큰지만 확인하면 될 듯
     public Integer deleteAllByTheme(Theme theme);
 }
