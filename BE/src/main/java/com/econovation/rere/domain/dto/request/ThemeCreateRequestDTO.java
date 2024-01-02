@@ -1,5 +1,6 @@
 package com.econovation.rere.domain.dto.request;
 
+import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.Theme;
 import lombok.*;
@@ -19,8 +20,9 @@ public class ThemeCreateRequestDTO {
     @NotEmpty(message = "please write themeName")
     private String name;
 
-    @NotEmpty(message = "please write cardbookId")
-    private Integer cardbookId;
+//    이 정보가 굳이 필요가 없을듯?
+//    @NotEmpty(message = "please write cardbookId")
+//    private Integer cardbookId;
 
 //    Request 요청에는 하나의 시간 정보가 담겨있다.
 //    따라서 이 정보가 theme을 create 하는 시간이면 createDate
@@ -32,12 +34,13 @@ public class ThemeCreateRequestDTO {
     @NotEmpty(message = "please write cards")
     private List<CardCreateRequestDTO> cards;
 
-    public Theme toEntity(CardBook cardBook, LocalDateTime timenow){
+    public Theme toEntity(CardBook cardBook, List<Card> cards, LocalDateTime timenow){
         return Theme.builder()
                 .cardbook(cardBook)
                 .name(name)
                 .createDate(timenow)
                 .updateDate(timenow)
+                .cardList(cards)
                 .build();
     }
 
