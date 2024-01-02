@@ -11,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class CardResponseDTO {
 
+    private Integer cardId;
     private String content;
     private String answer;
 
