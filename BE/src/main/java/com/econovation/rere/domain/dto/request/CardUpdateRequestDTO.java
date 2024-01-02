@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class CardUpdateRequestDTO {
+
+    @NotEmpty(message = "please write cardId")
+    private Integer cardId;
+
     @NotEmpty(message = "please write content")
     private String content;
 
@@ -23,4 +27,5 @@ public class CardUpdateRequestDTO {
 //    백엔드가 요청을 받은 시점을 기준으로 해야하는 듯
 //    @NotEmpty(message = "please write time now")
 //    private LocalDateTime nowtime;
+
 }
