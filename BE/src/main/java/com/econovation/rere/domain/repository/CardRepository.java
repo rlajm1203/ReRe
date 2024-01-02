@@ -11,4 +11,5 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
 //    Theme에 딸린 카드들 가져오기
     public List<Card> findAllByTheme(Theme theme);
 
+    public Integer deleteByCardId(Integer CardId);
 }
