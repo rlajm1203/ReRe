@@ -16,7 +16,7 @@ public interface UserCardBookRepository extends JpaRepository<UserCardBook, Inte
     List<UserCardBook> findAllByUser(User user);
 
 //    삭제된 개수 리턴
-    Integer e(CardBook cardBook, User user);
+    Integer deleteUserCardBookByCardbookAndUser(CardBook cardBook, User user);
 
 //    사용자가 카드북을 이미 담았는지 체크
     boolean existsByCardbookAndUser(CardBook cardBook, User user);
