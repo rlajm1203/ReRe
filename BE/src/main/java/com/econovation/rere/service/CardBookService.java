@@ -71,7 +71,7 @@ public class CardBookService {
 
 //    검색
     public List<CardBookResponseDTO> search(String name) {
-        return toCardBookResponseDTOS(this.cardBookRepository.findByNameOrderByScrapCnt(name));
+        return toCardBookResponseDTOS(this.cardBookRepository.findByNameContainingOrderByScrapCnt(name));
     }
 
 //    메인 페이지에 띄울 기본 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)
