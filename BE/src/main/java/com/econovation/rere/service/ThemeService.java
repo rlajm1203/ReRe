@@ -79,9 +79,9 @@ public class ThemeService {
     }
 
 //    목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
-    public List<Theme> getAll(Integer cardbookId){
+    public List<ThemeResponseDTO> getAll(Integer cardbookId){
         CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다."));
-        return themeRepository.findAllByCardbook(cardBook);
+        return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook));
     }
 
 //    내부 메소드
