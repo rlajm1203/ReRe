@@ -1,9 +1,6 @@
 package com.econovation.rere.service;
 
-import com.econovation.rere.domain.dto.request.CardCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.CardUpdateRequestDTO;
-import com.econovation.rere.domain.dto.request.ThemeCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.ThemeUpdateRequestDTO;
+import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.ThemeResponseDTO;
 import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.CardBook;
@@ -54,7 +51,7 @@ public class ThemeService {
         return toThemeResponseDTO(theme);
     }
 
-//    수정
+//    수정m
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
     public ThemeResponseDTO modify(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId){
         LocalDateTime timenow = LocalDateTime.now();
@@ -76,9 +73,8 @@ public class ThemeService {
     }
 
 //    삭제
-    public boolean remove(Integer themeId){
-        Optional<Theme> ot = themeRepository.findById(themeId);
-        if(themeRepository.deleteByThemeId(themeId)==1) return true;
+    public boolean remove(ThemeRemoveRequestDTO themeRemoveRequestDTO){
+        if(themeRepository.deleteByThemeId(themeRemoveRequestDTO.getThemeId())==1) return true;
         else return false;
     }
 
