@@ -2,6 +2,7 @@ package com.econovation.rere.service;
 
 import com.econovation.rere.domain.dto.request.UserCreateRequestDTO;
 import com.econovation.rere.domain.dto.request.UserLoginIdRequestDTO;
+import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,11 @@ public class UserService {
 
     public boolean checkLoginId(UserLoginIdRequestDTO userLoginIdRequestDTO) {
         Optional<User> user = userRepository.findByLoginId(userLoginIdRequestDTO.getLoginId());
+        return user.isPresent();
+    }
+
+    public boolean checkNickname(UserNicknameRequestDTO userNicknameRequestDTO) {
+        Optional<User> user = userRepository.findByNickname(userNicknameRequestDTO.getNickname());
         return user.isPresent();
     }
 
