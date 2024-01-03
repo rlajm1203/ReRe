@@ -64,23 +64,4 @@ public class CardBookController {
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.getDefaultCardbook();
         return ApiUtils.success(cardBookResponseDTOS, "메인 페이지 카드북 목록입니다.");
     }
-
-//    새로운 목차 생성
-    @PostMapping("/cardbook/{cardbookId}/theme/new")
-    public void createTheme(@RequestBody ThemeCreateRequestDTO themeCreateRequestDTO, @PathVariable("cardbookId") Integer cardbookId){
-        //log.info("cardbookId" + cardbookId);
-        log.info(""+themeService.register(themeCreateRequestDTO, cardbookId));
-    }
-
-//    해당 카드북의 모든 목차 가져오기
-    @GetMapping("/cardbook/{cardbookId}/themes")
-    public void themepageThemes(@PathVariable Integer cardbookId){
-        themeService.getAll(cardbookId).forEach(theme -> log.info(""+theme));
-    }
-
-//    목차,카드 수정하기
-    @PutMapping("/cardbook/{cardbookId}/theme/{themeId}")
-    public void modifyThemeAndCards(@RequestBody ThemeUpdateRequestDTO themeUpdateRequestDTO, @PathVariable Integer themeId){
-        log.info(themeService.modify(themeUpdateRequestDTO, themeId)+"");
-    }
 }
