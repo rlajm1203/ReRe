@@ -1,14 +1,15 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Setter
 @Getter
-@Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
 
     @Id
@@ -28,4 +29,11 @@ public class User {
     private String nickname;
 
     public User(){};
+
+    @Builder
+    public User(String loginId, String pw, String nickname){
+        this.loginId = loginId;
+        this.pw = pw;
+        this.nickname = nickname;
+    }
 }
