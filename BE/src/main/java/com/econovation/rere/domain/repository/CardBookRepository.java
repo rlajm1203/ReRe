@@ -32,7 +32,7 @@ public interface CardBookRepository extends JpaRepository<CardBook, Integer> {
 
 //    검색 결과용 메소드 (카드북 이름에 키워드 일부분이 포함되어도 가능)
     List<CardBook> findByNameContainingOrderByScrapCnt(String name);
- 
+
 //    CardBook의 제목과 작성자, 두 개의 조건으로 조회하기 위한 메소드
     Optional<CardBook> findByNameAndWriter(String Name, String Writer);
 
