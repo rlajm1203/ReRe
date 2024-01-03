@@ -1,13 +1,14 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BlindCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +21,5 @@ public class BlindCard {
     private Card card;
 
     public BlindCard(){}
-
-    public BlindCard(User user, Card card){
-        this.user = user;
-        this.card = card;
-    }
 
 }

@@ -1,7 +1,6 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,6 +8,8 @@ import java.time.LocalDateTime;
 @Entity
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Card {
 
     @Id
@@ -32,12 +33,4 @@ public class Card {
     private Theme theme;
 
     public Card(){}
-
-    public Card(String content, String answer, LocalDateTime time){
-        this.content = content;
-        this.answer = answer;
-        this.createDate = time;
-        this.updateDate = time;
-    }
-
 }
