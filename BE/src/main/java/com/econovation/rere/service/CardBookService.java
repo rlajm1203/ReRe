@@ -79,7 +79,8 @@ public class CardBookService {
         List<CardBook> cardBooks = this.cardBookRepository.findByWriter("admin");
         cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
-        return toCardBookResponseDTOS(cardBooks);
+        return toCardBookResponseDTOS(cardBooks.subList(0,3));
+
     }
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId){
