@@ -29,10 +29,12 @@ public class CardBook {
     @Column(length = 30)
     private String writer; // writer는 User.nickname과 동일
 
-    @Column(columnDefinition = "TEXT") // columnDefinition은 컬럼의 속성을 정의할 때 사용
+//    @Column(columnDefinition = "TEXT") // columnDefinition은 컬럼의 속성을 정의할 때 사용
+    @Column
     private LocalDateTime createDate;
 
-    @Column(columnDefinition = "TEXT") // 그 중 TEXT는 "내용"처럼 글자 수를 제한할 수 없을 경우에 사용한다.
+//    @Column(columnDefinition = "TEXT") // 그 중 TEXT는 "내용"처럼 글자 수를 제한할 수 없을 경우에 사용한다.
+    @Column
     private LocalDateTime updateDate;
 
     @ColumnDefault("0")

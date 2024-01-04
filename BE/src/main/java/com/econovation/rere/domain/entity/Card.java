@@ -22,10 +22,12 @@ public class Card {
     @Column(length = 300)
     private String answer;
 
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column
     private LocalDateTime createDate;
 
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column
     private LocalDateTime updateDate;
 
     @ManyToOne

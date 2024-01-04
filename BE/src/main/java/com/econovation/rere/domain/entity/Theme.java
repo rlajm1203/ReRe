@@ -20,10 +20,12 @@ public class Theme {
     @Column(length = 60)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column
     private LocalDateTime createDate;
 
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column
     private LocalDateTime updateDate;
 
 //  테이블의 참조 관계를 명시적으로 표시해주는 역할

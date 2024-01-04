@@ -25,7 +25,8 @@ public class StudyComplete {
     private Theme theme;
 
     // 학습 완료 시간
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column
     private LocalDateTime completeDate;
 
     // 학습 할 단계가 몇 단계인지
