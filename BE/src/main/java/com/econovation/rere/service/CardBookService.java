@@ -65,18 +65,18 @@ public class CardBookService {
 
 //    삭제
     public boolean remove(CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
-        if(this.cardBookRepository.deleteByCardbookId(cardBookRemoveRequestDTO.getCardbookId())==1) return true;
+        if(cardBookRepository.deleteByCardbookId(cardBookRemoveRequestDTO.getCardbookId())==1) return true;
         else return false;
     }
 
 //    검색
     public List<CardBookResponseDTO> search(String name) {
-        return toCardBookResponseDTOS(this.cardBookRepository.findByNameContainingOrderByScrapCnt(name));
+        return toCardBookResponseDTOS(cardBookRepository.findByNameContainingOrderByScrapCnt(name));
     }
 
 //    메인 페이지에 띄울 기본 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)
     public List<CardBookResponseDTO> getDefaultCardbook(){
-        List<CardBook> cardBooks = this.cardBookRepository.findByWriter("admin");
+        List<CardBook> cardBooks = cardBookRepository.findByWriter("admin");
         cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
         return toCardBookResponseDTOS(cardBooks.subList(0,3));
@@ -84,8 +84,8 @@ public class CardBookService {
     }
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId){
-        User user = this.userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."));
-        List<CardBook> cardBooks = this.cardBookRepository.findByWriter(user.getNickname());
+        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        List<CardBook> cardBooks = cardBookRepository.findByWriter(user.getNickname());
         return toCardBookResponseDTOS(cardBooks);
     }
 
