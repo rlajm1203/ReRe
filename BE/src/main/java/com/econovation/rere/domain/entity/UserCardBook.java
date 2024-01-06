@@ -16,11 +16,9 @@ public class UserCardBook {
     private Integer userCardbookId;
 
     @ManyToOne
-    @Column(nullable = false)
     private User user;
 
     @ManyToOne
-    @Column(nullable = false)
     private CardBook cardbook;
 
 //    @Column(columnDefinition = "TEXT")

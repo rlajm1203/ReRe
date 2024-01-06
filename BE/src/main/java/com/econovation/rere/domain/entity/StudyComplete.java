@@ -21,12 +21,10 @@ public class StudyComplete {
 
     // 어떤 회원이
     @ManyToOne
-    @Column(nullable = false)
     private User user;
 
     // 어떤 목차를 완료했는지를 나타내는
     @ManyToOne
-    @Column(nullable = false)
     private Theme theme;
 
     // 학습 완료 시간

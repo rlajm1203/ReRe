@@ -16,11 +16,9 @@ public class BlindCard {
     private Integer blindId;
 
     @ManyToOne
-    @Column(nullable = false)
     private User user;
 
     @ManyToOne
-    @Column(nullable = false)
     private Card card;
 
     public BlindCard(){}

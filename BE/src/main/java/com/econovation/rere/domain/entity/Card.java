@@ -30,9 +30,9 @@ public class Card {
     @Column(nullable = false)
     private LocalDateTime updateDate;
 
-//    @ManyToOne
+    @ManyToOne
 ////  card : theme는 N:1 관계
-//    private Theme theme;
+    private Theme theme;
 
     public Card(){}
 }
