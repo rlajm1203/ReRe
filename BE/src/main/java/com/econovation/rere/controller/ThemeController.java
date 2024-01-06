@@ -39,6 +39,6 @@ public class ThemeController {
     //    목차,카드 수정하기
     @PutMapping("/cardbook/{cardbookId}/theme/{themeId}")
     public void modifyThemeAndCards(@RequestBody ThemeUpdateRequestDTO themeUpdateRequestDTO, @PathVariable Integer themeId){
-        log.info(themeService.modify(themeUpdateRequestDTO, themeId)+"");
+        log.info(themeService.update(themeUpdateRequestDTO, themeId)+"");
     }
 }
