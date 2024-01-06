@@ -40,7 +40,7 @@ public class ThemeCreateRequestDTO {
                 .name(name)
                 .createDate(timenow)
                 .updateDate(timenow)
-                .cardList(cards)
+//                .cardList(cards)
                 .build();
     }
 
