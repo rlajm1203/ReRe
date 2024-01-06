@@ -60,7 +60,7 @@ public class ThemeService {
         Theme theme = themeRepository.findById(themeId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 목차입니다."));
 
         theme.setName(themeUpdateRequestDTO.getName());
-        theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
+//        theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
 
 
         if(cardService.removeAllByTheme(theme)>0) {
