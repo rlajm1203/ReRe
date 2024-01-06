@@ -37,7 +37,7 @@ public class CardBookController {
 //    수정
     @PutMapping("/cardbook")
     public ApiResult<CardBookResponseDTO> modifyCardBook(@RequestBody CardBookUpdateRequestDTO cardBookUpdateRequestDTO, Integer userId){
-        CardBookResponseDTO cardBookResponseDTO = cardBookService.modify(cardBookUpdateRequestDTO);
+        CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(
                 cardBookResponseDTO
                 ,"카드북이 수정되었습니다."
