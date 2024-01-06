@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 @Slf4j
 public class ThemeService {
 
@@ -30,6 +30,7 @@ public class ThemeService {
 
 //    생성
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
+    @Transactional(readOnly = false)
     public ThemeResponseDTO register(ThemeCreateRequestDTO themeCreateRequestDTO, Integer cardbookId){
         LocalDateTime timenow = LocalDateTime.now();
 
@@ -53,26 +54,27 @@ public class ThemeService {
 
 //    수정m
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
-    public ThemeResponseDTO modify(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId){
+    @Transactional(readOnly = false)
+    public ThemeResponseDTO update(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId){
         LocalDateTime timenow = LocalDateTime.now();
         Theme theme = themeRepository.findById(themeId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 목차입니다."));
 
         theme.setName(themeUpdateRequestDTO.getName());
         theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
-        theme = themeRepository.save(theme);
 
 
         if(cardService.removeAllByTheme(theme)>0) {
 ////        기존에 존재하던 카드 전부 삭제
 ////        카드 수정이 목차 수정과 동시에 이루어진다.
             for (CardUpdateRequestDTO dto : themeUpdateRequestDTO.getCards()){
-                cardService.modify(dto, theme, timenow);
+                cardService.update(dto, theme, timenow);
             }
         }
         return toThemeResponseDTO(theme);
     }
 
 //    삭제
+    @Transactional(readOnly = false)
     public boolean remove(ThemeRemoveRequestDTO themeRemoveRequestDTO){
         if(themeRepository.deleteByThemeId(themeRemoveRequestDTO.getThemeId())==1) return true;
         else return false;

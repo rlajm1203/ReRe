@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 public class CardBookService {
 
 
@@ -32,6 +32,7 @@ public class CardBookService {
     private final UserRepository userRepository;
 
 //    생성
+    @Transactional(readOnly = false)
     public CardBookResponseDTO register(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId){
 
         User user = this.userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("userId에 해당하는 user가 존재하지 않습니다."));
@@ -52,18 +53,19 @@ public class CardBookService {
     }
 
 //    수정
-    public CardBookResponseDTO modify(CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
+    @Transactional(readOnly = false)
+    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
         CardBook cardBook = this.cardBookRepository.findById(cardBookUpdateRequestDTO.getCardbookId())
                 .orElseThrow(()->new IllegalArgumentException("해당 카드북이 존재하지 않습니다."));
 
         cardBook.setName(cardBookUpdateRequestDTO.getName());
         cardBook.setUpdateDate(LocalDateTime.now());
-        cardBook = this.cardBookRepository.save(cardBook);
 
         return toCardBookResponseDTO(cardBook);
     }
 
 //    삭제
+    @Transactional(readOnly = false)
     public boolean remove(CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
         if(cardBookRepository.deleteByCardbookId(cardBookRemoveRequestDTO.getCardbookId())==1) return true;
         else return false;
