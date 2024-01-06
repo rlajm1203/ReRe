@@ -17,15 +17,15 @@ public class Theme {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer themeId;
 
-    @Column(length = 60)
+    @Column(length = 60, nullable = false)
     private String name;
 
 //    @Column(columnDefinition = "TEXT")
-    @Column
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
 //    @Column(columnDefinition = "TEXT")
-    @Column
+    @Column(nullable = false)
     private LocalDateTime updateDate;
 
 //  테이블의 참조 관계를 명시적으로 표시해주는 역할
@@ -38,8 +38,8 @@ public class Theme {
 
 //  theme : card는 1:N 관계
 //  mappedBy에 들어갈 값은 Card 클래스에 있는 Theme 타입 변수 명이다.
-    @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
-    private List<Card> cardList;
+//    @OneToMany(mappedBy = "theme", cascade = CascadeType.REMOVE)
+//    private List<Card> cardList;
 
     public Theme(){}
 

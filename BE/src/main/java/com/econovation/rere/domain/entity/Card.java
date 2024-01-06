@@ -16,23 +16,23 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardId;
 
-    @Column(length = 600)
+    @Column(length = 600, nullable = false)
     private String content;
 
-    @Column(length = 300)
+    @Column(length = 300, nullable = false)
     private String answer;
 
 //    @Column(columnDefinition = "TEXT")
-    @Column
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
 //    @Column(columnDefinition = "TEXT")
-    @Column
+    @Column(nullable = false)
     private LocalDateTime updateDate;
 
-    @ManyToOne
-//  card : theme는 N:1 관계
-    private Theme theme;
+//    @ManyToOne
+////  card : theme는 N:1 관계
+//    private Theme theme;
 
     public Card(){}
 }
