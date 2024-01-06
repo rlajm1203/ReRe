@@ -33,7 +33,7 @@ public class CardService {
                 .answer(cardCreateRequestDTO.getAnswer())
                 .updateDate(timenow)
                 .createDate(timenow)
-                .theme(theme)
+//                .theme(theme)
                 .build();
         card = cardRepository.save(card);
     }
@@ -52,7 +52,7 @@ public class CardService {
                 .answer(cardUpdateRequestDTO.getAnswer())
                 .updateDate(timenow)
                 .createDate(old_card.getCreateDate())
-                .theme(theme)
+//                .theme(theme)
                 .build();
     }
 
