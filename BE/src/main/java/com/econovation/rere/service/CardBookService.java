@@ -13,6 +13,8 @@ import com.econovation.rere.domain.entity.UserCardBook;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
+import com.econovation.rere.exception.CardBookNotFoundException;
+import com.econovation.rere.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +36,9 @@ public class CardBookService {
 
 //    생성
     @Transactional(readOnly = false)
-    public CardBookResponseDTO register(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId){
+    public CardBookResponseDTO register(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId) throws UserNotFoundException {
 
-        User user = this.userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("userId에 해당하는 user가 존재하지 않습니다."));
+        User user = this.userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException());
         LocalDateTime timenow = LocalDateTime.now();
         // 필요한 정보만 따로 추출하는 메소드를 작성해야 할 듯
 
@@ -55,9 +57,9 @@ public class CardBookService {
 
 //    수정
     @Transactional(readOnly = false)
-    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
+    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO) throws CardBookNotFoundException{
         CardBook cardBook = this.cardBookRepository.findById(cardBookUpdateRequestDTO.getCardbookId())
-                .orElseThrow(()->new IllegalArgumentException("해당 카드북이 존재하지 않습니다."));
+                .orElseThrow(()->new CardBookNotFoundException());
 
         cardBook.setName(cardBookUpdateRequestDTO.getName());
         cardBook.setUpdateDate(LocalDateTime.now());
@@ -86,8 +88,8 @@ public class CardBookService {
 
     }
 
-    public List<CardBookResponseDTO> getMyCardbook(Integer userId){
-        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."));
+    public List<CardBookResponseDTO> getMyCardbook(Integer userId) throws UserNotFoundException{
+        User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundException());
         List<UserCardBook> usercardBooks = userCardBookRepository.findAllByUser(user);
 
         return UserCardBookResponseDTO.toCardBookResponseDTOS(usercardBooks);

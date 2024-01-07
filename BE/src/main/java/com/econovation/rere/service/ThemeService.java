@@ -8,6 +8,8 @@ import com.econovation.rere.domain.entity.Theme;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.CardRepository;
 import com.econovation.rere.domain.repository.ThemeRepository;
+import com.econovation.rere.exception.CardBookNotFoundException;
+import com.econovation.rere.exception.ThemeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,7 @@ public class ThemeService {
         List<Card> cardEntities = cardService.CreateDTOStoCardEntities(cardCreateRequestDTOS,timenow);
 
         Theme theme = themeCreateRequestDTO.toEntity(
-                cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다.")),
+                cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException()),
                         cardEntities,
                         timenow);
 
@@ -57,7 +59,7 @@ public class ThemeService {
     @Transactional(readOnly = false)
     public ThemeResponseDTO update(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId){
         LocalDateTime timenow = LocalDateTime.now();
-        Theme theme = themeRepository.findById(themeId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 목차입니다."));
+        Theme theme = themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException());
 
         theme.setName(themeUpdateRequestDTO.getName());
 //        theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
@@ -82,7 +84,7 @@ public class ThemeService {
 
 //    목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
     public List<ThemeResponseDTO> getAll(Integer cardbookId){
-        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다."));
+        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
         return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook));
     }
 

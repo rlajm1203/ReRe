@@ -23,12 +23,16 @@ public class UserCardBookService {
 //    사용자가 특정 카드북을 담았을 때
     @Transactional(readOnly = false)
     public UserCardBookResponseDTO choose(Integer userId, Integer cardbookId){
+
+//      카드를 이미 담았는지 체크해야 하는데, 이미 카드북을 담았을 경우에 예외를 던져야 함
         if(userCardBookRepository.existsByCardbookAndUser(
                 cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다.")),
                 userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."))
         )){
             return null;
         }
+
+//
         // userId -> Session에서 꺼내서 사용
         // cardbookId -> 요청에서 찾아서 사용
         UserCardBook userCardBook = UserCardBook.builder()

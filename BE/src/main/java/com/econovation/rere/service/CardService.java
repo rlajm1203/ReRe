@@ -7,6 +7,8 @@ import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.Theme;
 import com.econovation.rere.domain.repository.CardRepository;
 import com.econovation.rere.domain.repository.ThemeRepository;
+import com.econovation.rere.exception.CardNotFoundException;
+import com.econovation.rere.exception.ThemeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -45,7 +47,7 @@ public class CardService {
     @Transactional(readOnly = false)
     public void update(CardUpdateRequestDTO cardUpdateRequestDTO, Theme theme, LocalDateTime timenow){
         Card old_card = cardRepository.findById(cardUpdateRequestDTO.getCardId())
-                .orElseThrow(()->new IllegalArgumentException("해당 카드는 존재하지 않습니다."));
+                .orElseThrow(()->new CardNotFoundException());
 
         Card card = Card.builder()
                 .content(cardUpdateRequestDTO.getContent())
@@ -66,7 +68,7 @@ public class CardService {
 //    해당 theme에 속하는 모든 카드를 조회
     public List<Card> getAll(Integer themeId){
         return cardRepository.findAllByTheme(
-                themeRepository.findById(themeId).orElseThrow(()->new IllegalArgumentException("해당 목차가 존재하지 않습니다."))
+                themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException())
         );
     }
 
