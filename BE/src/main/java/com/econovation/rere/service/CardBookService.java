@@ -14,6 +14,7 @@ import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
 import com.econovation.rere.exception.CardBookNotFoundException;
+import com.econovation.rere.exception.SearchNotFoundException;
 import com.econovation.rere.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,7 @@ public class CardBookService {
         UserCardBook userCardBook = UserCardBook.builder()
                 .user(user)
                 .cardbook(cardBook)
+                .chooseDate(timenow)
                 .build();
         
         cardBook = this.cardBookRepository.save(cardBook);
@@ -75,8 +77,13 @@ public class CardBookService {
     }
 
 //    검색
-    public List<CardBookResponseDTO> search(String name) {
-        return CardBookResponseDTO.toCardBookResponseDTOS(cardBookRepository.findByNameContainingOrderByScrapCnt(name));
+    public List<CardBookResponseDTO> search(String name) throws SearchNotFoundException{
+        List<CardBook> cardBooks = cardBookRepository.findByNameContainingOrderByScrapCnt(name);
+
+//        검색 결과가 비었는지 확인
+        if(cardBooks.isEmpty()) throw new SearchNotFoundException();
+
+        return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks);
     }
 
 //    메인 페이지에 띄울 기본 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)

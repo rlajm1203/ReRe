@@ -5,6 +5,7 @@ import com.econovation.rere.domain.entity.UserCardBook;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
+import com.econovation.rere.exception.AlreadyExistsInUserCardBookException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +23,14 @@ public class UserCardBookService {
 
 //    사용자가 특정 카드북을 담았을 때
     @Transactional(readOnly = false)
-    public UserCardBookResponseDTO choose(Integer userId, Integer cardbookId){
+    public UserCardBookResponseDTO choose(Integer userId, Integer cardbookId) throws AlreadyExistsInUserCardBookException {
 
 //      카드를 이미 담았는지 체크해야 하는데, 이미 카드북을 담았을 경우에 예외를 던져야 함
         if(userCardBookRepository.existsByCardbookAndUser(
                 cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다.")),
                 userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."))
         )){
-            return null;
+            throw new AlreadyExistsInUserCardBookException();
         }
 
 //

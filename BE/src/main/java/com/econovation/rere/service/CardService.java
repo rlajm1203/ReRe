@@ -4,8 +4,10 @@ import com.econovation.rere.domain.dto.request.CardCreateRequestDTO;
 import com.econovation.rere.domain.dto.request.CardUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.CardResponseDTO;
 import com.econovation.rere.domain.entity.Card;
+import com.econovation.rere.domain.entity.StudyComplete;
 import com.econovation.rere.domain.entity.Theme;
 import com.econovation.rere.domain.repository.CardRepository;
+import com.econovation.rere.domain.repository.StudyCompleteRepository;
 import com.econovation.rere.domain.repository.ThemeRepository;
 import com.econovation.rere.exception.CardNotFoundException;
 import com.econovation.rere.exception.ThemeNotFoundException;
@@ -35,7 +37,7 @@ public class CardService {
                 .answer(cardCreateRequestDTO.getAnswer())
                 .updateDate(timenow)
                 .createDate(timenow)
-//                .theme(theme)
+                .theme(theme)
                 .build();
         card = cardRepository.save(card);
     }
@@ -78,13 +80,6 @@ public class CardService {
     }
 
 
-    private CardResponseDTO toCardResponseDTO(Card card){
-        return CardResponseDTO.builder()
-                .cardId(card.getCardId())
-                .content(card.getContent())
-                .answer(card.getAnswer())
-                .build();
-    }
     List<Card> CreateDTOStoCardEntities(List<CardCreateRequestDTO> cardCreateRequestDTOS, LocalDateTime timenow){
         List<Card> cards = new ArrayList<>();
         for(CardCreateRequestDTO dto : cardCreateRequestDTOS){
