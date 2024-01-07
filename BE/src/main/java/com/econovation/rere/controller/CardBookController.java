@@ -36,7 +36,7 @@ public class CardBookController {
 
 //    수정
     @PutMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> modifyCardBook(@RequestBody CardBookUpdateRequestDTO cardBookUpdateRequestDTO, Integer userId){
+    public ApiResult<CardBookResponseDTO> updateCardBook(@RequestBody CardBookUpdateRequestDTO cardBookUpdateRequestDTO, Integer userId){
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(
                 cardBookResponseDTO
@@ -64,4 +64,7 @@ public class CardBookController {
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.getDefaultCardbook();
         return ApiUtils.success(cardBookResponseDTOS, "메인 페이지 카드북 목록입니다.");
     }
+
+    @PostMapping("/cardbook/{cardbookId}")
+    public ApiResult<List<CardBookResponseDTO>>
 }
