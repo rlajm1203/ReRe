@@ -35,9 +35,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<BlindCard> blindCards;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<StudyComplete> studyCompletes;
-
     public User(){};
 
     @Builder
