@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -23,19 +24,24 @@ public class UserCardBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userCardbookId;
 
-    @ManyToOne
-    private User user;
-
-    @ManyToOne
-    private CardBook cardbook;
-
-//    @Column(columnDefinition = "TEXT")
+    //    @Column(columnDefinition = "TEXT")
     @Column(nullable = false)
     private LocalDateTime chooseDate;
 
     @Column(nullable = false)
     @ColumnDefault("false")
     private boolean deleted; // 삭제 여부 기본 값 false
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private CardBook cardbook;
+
+    @OneToMany(mappedBy = "userCardBook", cascade = CascadeType.REMOVE)
+    private List<StudyComplete> studyCompletes;
+
+
 
     public UserCardBook(){}
 
