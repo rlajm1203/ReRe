@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -33,6 +34,9 @@ public class Card {
     @ManyToOne
 ////  card : theme는 N:1 관계
     private Theme theme;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<BlindCard> blindCards;
 
     public Card(){}
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -27,6 +28,15 @@ public class User {
 
     @Column(length = 30, unique = true, nullable = false)
     private String nickname;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<UserCardBook> userCardBooks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<BlindCard> blindCards;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<StudyComplete> studyCompletes;
 
     public User(){};
 

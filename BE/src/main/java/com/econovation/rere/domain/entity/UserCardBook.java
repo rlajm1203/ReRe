@@ -1,6 +1,7 @@
 package com.econovation.rere.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserCardBook {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userCardbookId;
@@ -24,6 +26,10 @@ public class UserCardBook {
 //    @Column(columnDefinition = "TEXT")
     @Column(nullable = false)
     private LocalDateTime chooseDate;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean deleted; // 삭제 여부 기본 값 false
 
     public UserCardBook(){}
 

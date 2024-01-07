@@ -20,11 +20,11 @@ public class StudyComplete {
     private Integer completeId;
 
     // 어떤 회원이
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private User user;
 
     // 어떤 목차를 완료했는지를 나타내는
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Theme theme;
 
     // 학습 완료 시간
