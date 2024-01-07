@@ -5,6 +5,7 @@ import com.econovation.rere.domain.dto.request.CardBookCreateRequestDTO;
 import com.econovation.rere.domain.dto.request.CardBookRemoveRequestDTO;
 import com.econovation.rere.domain.dto.request.CardBookUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
+import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
 import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.User;
@@ -87,7 +88,8 @@ public class CardBookService {
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId){
         User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."));
-        List<CardBook> cardBooks = cardBookRepository.findByWriter(user.getNickname());
-        return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks);
+        List<UserCardBook> usercardBooks = userCardBookRepository.findAllByUser(user);
+
+        return UserCardBookResponseDTO.toCardBookResponseDTOS(usercardBooks);
     }
 }
