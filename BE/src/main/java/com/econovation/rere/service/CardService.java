@@ -45,7 +45,7 @@ public class CardService {
     //    기존에 목차에 속한 카드를 가져와서 set메소드로 변경 후 다시 저장할 것이냐.
     //    카드는 수정하게 되면, 원래 카드를 삭제하고 수정된 내용의 카드를 생성하는 방식이므로 수정할 때마다 Id가 바뀐다.
     @Transactional(readOnly = false)
-    public void update(CardUpdateRequestDTO cardUpdateRequestDTO, Theme theme, LocalDateTime timenow){
+    public void update(CardUpdateRequestDTO cardUpdateRequestDTO, Theme theme, LocalDateTime timenow) throws CardNotFoundException{
         Card old_card = cardRepository.findById(cardUpdateRequestDTO.getCardId())
                 .orElseThrow(()->new CardNotFoundException());
 
@@ -66,7 +66,7 @@ public class CardService {
     }
 
 //    해당 theme에 속하는 모든 카드를 조회
-    public List<Card> getAll(Integer themeId){
+    public List<Card> getAll(Integer themeId) throws ThemeNotFoundException{
         return cardRepository.findAllByTheme(
                 themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException())
         );

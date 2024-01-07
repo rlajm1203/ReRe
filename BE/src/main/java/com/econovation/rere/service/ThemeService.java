@@ -33,7 +33,7 @@ public class ThemeService {
 //    생성
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
     @Transactional(readOnly = false)
-    public ThemeResponseDTO register(ThemeCreateRequestDTO themeCreateRequestDTO, Integer cardbookId){
+    public ThemeResponseDTO register(ThemeCreateRequestDTO themeCreateRequestDTO, Integer cardbookId) throws CardBookNotFoundException{
         LocalDateTime timenow = LocalDateTime.now();
 
         List<CardCreateRequestDTO> cardCreateRequestDTOS = themeCreateRequestDTO.getCards();
@@ -57,7 +57,7 @@ public class ThemeService {
 //    수정m
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
     @Transactional(readOnly = false)
-    public ThemeResponseDTO update(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId){
+    public ThemeResponseDTO update(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId) throws ThemeNotFoundException{
         LocalDateTime timenow = LocalDateTime.now();
         Theme theme = themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException());
 
@@ -83,7 +83,7 @@ public class ThemeService {
     }
 
 //    목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
-    public List<ThemeResponseDTO> getAll(Integer cardbookId){
+    public List<ThemeResponseDTO> getAll(Integer cardbookId) throws CardBookNotFoundException{
         CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
         return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook));
     }
