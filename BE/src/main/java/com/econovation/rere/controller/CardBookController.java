@@ -30,8 +30,8 @@ public class CardBookController {
 
 //    생성
     @PostMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> createCardBook(@RequestBody CardBookCreateRequestDTO  cardBookCreateRequestDTO, Integer userId){
-        CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, 2);
+    public ApiResult<CardBookResponseDTO> createCardBook(@RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO, Integer userId){
+        CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, 1);
         log.info(cardBookResponseDTO+"");
         return ApiUtils.success(
                 cardBookResponseDTO
@@ -41,7 +41,7 @@ public class CardBookController {
 
 //    수정
     @PutMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> updateCardBook(@RequestBody CardBookUpdateRequestDTO cardBookUpdateRequestDTO, Integer userId){
+    public ApiResult<CardBookResponseDTO> updateCardBook(@RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO, Integer userId){
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(
                 cardBookResponseDTO
@@ -51,7 +51,7 @@ public class CardBookController {
 
 //    삭제
     @DeleteMapping("/cardbook")
-    public ApiResult<Boolean> removeCardBook(@RequestBody CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
+    public ApiResult<Boolean> removeCardBook(@RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
         Boolean result = cardBookService.remove(cardBookRemoveRequestDTO);
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
     }
