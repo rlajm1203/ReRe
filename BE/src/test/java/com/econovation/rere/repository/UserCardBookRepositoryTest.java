@@ -9,6 +9,7 @@ import com.econovation.rere.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,25 +20,26 @@ public class UserCardBookRepositoryTest {
 
     @Autowired
     private UserCardBookRepository ucbrepository;
-
     @Autowired
     private UserRepository urepository;
-
     @Autowired
     private CardBookRepository cbrepository;
 
 //    어떤 사용자가 어떤 책을 담았을 때 상황을 구현한 테스트
     @Test
     void testUserCardBookInsert(){
-        Optional<User> ou = this.urepository.findByNickname("KimJongMin");
-        Optional<CardBook> oc = this.cbrepository.findById(4);
+        Optional<User> ou = this.urepository.findByNickname("econovation");
+        Optional<CardBook> oc = this.cbrepository.findById(2);
 
         if(ou.isPresent() && oc.isPresent()) {
-
             User user = ou.get();
             CardBook cardbook = oc.get();
             LocalDateTime time = LocalDateTime.now();
-            UserCardBook ucb = new UserCardBook(user, cardbook, time);
+            UserCardBook ucb = UserCardBook.builder()
+                    .user(user)
+                    .cardbook(cardbook)
+                    .chooseDate(time)
+                    .build();
             this.ucbrepository.save(ucb);
         }
     }
@@ -45,7 +47,7 @@ public class UserCardBookRepositoryTest {
 //    특정 사용자가 가진 카드북을 가져오는 테스트
     @Test
     void testUserCardBookSelect(){
-        Optional<User> ou = this.urepository.findByNickname("KimJongMin");
+        Optional<User> ou = this.urepository.findByNickname("econovation");
         User user;
         List<UserCardBook> ucbs;
         if(ou.isPresent()){
@@ -54,4 +56,11 @@ public class UserCardBookRepositoryTest {
             ucbs.forEach((ucb)-> System.out.println(ucb.getCardbook().getName()));
         }
     }
+
+    @Test
+    @Transactional(readOnly = false)
+    void testUserCardBookDelete(){
+        ucbrepository.findById(1).orElseThrow().setDeleted(Boolean.TRUE);
+    }
+
 }

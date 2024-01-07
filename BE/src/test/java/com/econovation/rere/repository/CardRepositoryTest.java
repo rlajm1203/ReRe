@@ -1,7 +1,9 @@
 package com.econovation.rere.repository;
 
 import com.econovation.rere.domain.entity.Card;
+import com.econovation.rere.domain.entity.Theme;
 import com.econovation.rere.domain.repository.CardRepository;
+import com.econovation.rere.domain.repository.ThemeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,8 @@ public class CardRepositoryTest {
 
     @Autowired
     private CardRepository repository;
+    @Autowired
+    private ThemeRepository themeRepository;
 
     @Test
     void testCardInsert(){
@@ -24,7 +28,8 @@ public class CardRepositoryTest {
 
 //        CardRepository의 findAll()을 사용해
 //        해당하는 Theme을 찾아서 삽입
-//        card.setTheme();
+        Theme theme = themeRepository.findById(2).orElseThrow();
+        card.setTheme(theme);
         card.setCreateDate(time);
         card.setUpdateDate(time);
 
