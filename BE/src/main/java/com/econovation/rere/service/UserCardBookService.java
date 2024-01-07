@@ -23,6 +23,12 @@ public class UserCardBookService {
 //    사용자가 특정 카드북을 담았을 때
     @Transactional(readOnly = false)
     public UserCardBookResponseDTO choose(Integer userId, Integer cardbookId){
+        if(userCardBookRepository.existsByCardbookAndUser(
+                cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다.")),
+                userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 사용자입니다."))
+        )){
+            return null;
+        }
         // userId -> Session에서 꺼내서 사용
         // cardbookId -> 요청에서 찾아서 사용
         UserCardBook userCardBook = UserCardBook.builder()
@@ -32,15 +38,19 @@ public class UserCardBookService {
                 .build();
         userCardBookRepository.save(userCardBook);
 
-        return UserCardBookResponseDTO.toUserCardBookResponse(userCardBook);
+        return UserCardBookResponseDTO.toUserCardBookResponseDTO(userCardBook);
     }
 
 //    담은 카드북을 담기 취소하는 것,
     @Transactional(readOnly = false)
-    public void unchoose(Integer userId, Integer cardbookId){
-        userCardBookRepository.findByCardbookAndUser(
+    public UserCardBookResponseDTO unchoose(Integer userId, Integer cardbookId){
+        UserCardBook userCardBook = userCardBookRepository.findByCardbookAndUser(
                 cardBookRepository.findById(cardbookId).orElseThrow(),
                 userRepository.findById(userId).orElseThrow()
-        ).orElseThrow().setDeleted(true);
+        ).orElseThrow();
+
+        userCardBook.setDeleted(true);
+
+        return UserCardBookResponseDTO.toUserCardBookResponseDTO(userCardBook);
     }
 }
