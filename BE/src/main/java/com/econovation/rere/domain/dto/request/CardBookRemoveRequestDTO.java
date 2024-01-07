@@ -2,6 +2,7 @@ package com.econovation.rere.domain.dto.request;
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Data
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class CardBookRemoveRequestDTO {
 
-    @NotEmpty(message = "please write cardbookId")
+    @NotBlank(message = "please write cardbookId")
     private Integer cardbookId;
 
 }
