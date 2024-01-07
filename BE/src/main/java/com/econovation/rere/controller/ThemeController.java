@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,20 +26,22 @@ public class ThemeController {
 
     //    새로운 목차 생성
     @PostMapping("/cardbook/{cardbookId}/theme/new")
-    public ApiResult<ThemeResponseDTO> createTheme(@RequestBody ThemeCreateRequestDTO themeCreateRequestDTO, @PathVariable("cardbookId") Integer cardbookId){
+    public ApiResult<ThemeResponseDTO> createTheme(@RequestBody @Valid ThemeCreateRequestDTO themeCreateRequestDTO, @PathVariable("cardbookId") Integer cardbookId){
         //log.info("cardbookId" + cardbookId);
-       return ApiUtils.success(themeService.register(themeCreateRequestDTO, cardbookId),"목차 생성에 성공하였습니다.");
+        return ApiUtils.success(themeService.register(themeCreateRequestDTO, cardbookId),"목차 생성에 성공하였습니다.");
     }
 
     //    해당 카드북의 모든 목차 가져오기
     @GetMapping("/cardbook/{cardbookId}/themes")
     public ApiResult<List<ThemeResponseDTO>> themepageThemes(@PathVariable Integer cardbookId){
-        return ApiUtils.success(themeService.getAll(cardbookId),"목차를 조회에 성공하였습니다.");
+        return ApiUtils.success(themeService.getAll(cardbookId),"목차 조회에 성공하였습니다.");
     }
 
     //    목차,카드 수정하기
     @PutMapping("/cardbook/{cardbookId}/theme/{themeId}")
-    public void modifyThemeAndCards(@RequestBody ThemeUpdateRequestDTO themeUpdateRequestDTO, @PathVariable Integer themeId){
+    public void modifyThemeAndCards(@RequestBody @Valid ThemeUpdateRequestDTO themeUpdateRequestDTO, @PathVariable Integer themeId){
         log.info(themeService.update(themeUpdateRequestDTO, themeId)+"");
     }
+
+
 }
