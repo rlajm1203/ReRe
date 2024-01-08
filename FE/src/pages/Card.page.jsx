@@ -22,7 +22,7 @@ const Card = styled.button`
   position: relative;
   width: 300px;
   height: 420px;
-  top: 115px;
+  top: 25px;
   left: calc(50% - 150px);
   background: #ffffff;
   border: 0.01px solid #dddddd;
