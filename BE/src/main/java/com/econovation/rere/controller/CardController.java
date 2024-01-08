@@ -22,16 +22,20 @@ public class CardController {
     private final CardService cardService;
     private final StudyService studyService;
 
-//
+//  목차에 속한 카드들을 조회하기
     @GetMapping("/cardbook/{cardbookId}/theme/{themeId}/cards")
     public ApiResult<List<CardResponseDTO>> cardpageCards(@PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
         List<Card> cards = cardService.getAll(themeId);
         return ApiUtils.success(CardResponseDTO.toCardResponseDTOS(cards),themeId+"목차의 카드 목록입니다.");
     }
 
+//    학습을 완료하기
     @PostMapping("/cardbook/{cardbookId}/theme/{themeId}/cards")
     public ApiResult<StudyCompleteResponseDTO> studyComplete(@PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
-        return ApiUtils.success(studyService.firstStudyComplete(cardbookId,themeId,1), "첫 번째 학습이 완료되었습니다.");
+        StudyCompleteResponseDTO studyCompleteResponseDTO = studyService.studyComplete(cardbookId,themeId,1);
+        String message = "학습이 완료되었습니다." + " 다음은 Step "+studyCompleteResponseDTO.getStep() % 5 + " 을 학습할 단계입니다.";
+        return ApiUtils.success(studyCompleteResponseDTO, message);
     }
+
 
 }
