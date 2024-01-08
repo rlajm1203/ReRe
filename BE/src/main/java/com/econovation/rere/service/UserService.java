@@ -2,12 +2,15 @@ package com.econovation.rere.service;
 
 import com.econovation.rere.domain.dto.request.UserCreateRequestDTO;
 import com.econovation.rere.domain.dto.request.UserLoginIdRequestDTO;
+import com.econovation.rere.domain.dto.request.UserLoginRequestDTO;
 import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Service
@@ -33,5 +36,9 @@ public class UserService {
         return userCreateRequestDTO.getLoginId();
     }
 
+    public Optional<User> login(UserLoginRequestDTO loginRequest) {
+        return userRepository.findByLoginId(loginRequest.getLoginId())
+                .filter(user -> user.getPw().equals(loginRequest.getPw()));
+    }
 
 }
