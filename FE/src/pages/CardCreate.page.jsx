@@ -31,7 +31,15 @@ const CardCreatePage = () => {
             <Icon type="trash" />
           </IconSpace>
         </SelectedNum>
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+          }}
+        >
+          <AddedCard />
+          <AddedCard />
           <AddedCard />
         </div>
       </MainContainer>
@@ -51,7 +59,5 @@ const ButtonContainer = styled.div`
 `;
 
 const IconSpace = styled(StyledIcon)`
-  position: absolute;
-  right: 9px;
-  top: 70px;
+  color: #007af3;
 `;

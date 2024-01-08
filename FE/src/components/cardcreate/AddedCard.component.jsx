@@ -1,7 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+import { useState } from "react";
 
 const AddedCard = () => {
+  const [value, setValue] = useState();
+  const textLimit = () => {
+    if (value.length > 100) {
+      alert("100자 이내로 입력해주세요.");
+    }
+  };
+
   return (
     <div>
       <Container>
@@ -10,7 +18,13 @@ const AddedCard = () => {
           <div style={{ marginRight: 10, marginLeft: 10 }}> | </div>
           <button>삭제</button>
         </SelectBox>
-        <ProblemBox />
+        <ProblemBox
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+            textLimit();
+          }}
+        />
         <AnswerBox />
       </Container>
     </div>
@@ -19,12 +33,15 @@ const AddedCard = () => {
 
 export default AddedCard;
 
-export const SelectedNum = () => {
+export const SelectedNum = ({ children }) => {
   return (
     <div>
       <SelectedBar>
-        <div style={{ marginRight: 8 }}>2개 카드 선택 </div>
-        <div> / 총 6개</div>
+        <div>
+          <div className="selectedCard">2개 카드 선택 </div>
+          <div>총 6개</div>
+        </div>
+        <div>{children}</div>
       </SelectedBar>
     </div>
   );
@@ -40,6 +57,16 @@ const SelectedBar = styled.div`
   border: 1px solid #bbb;
   margin-top: 120px;
   margin-bottom: 20px;
+  justify-content: space-between;
+  & div:first-child {
+    display: flex;
+  }
+  & div:last-child {
+    margin-right: 20px;
+  }
+  & .selectedCard::after {
+    content: "/";
+  }
 `;
 
 const Container = styled.div`
@@ -47,13 +74,16 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const ProblemBox = styled.input`
+const ProblemBox = styled.textarea`
   display: flex;
   position: relative;
   top: 20px;
   width: 580px;
   height: 130px;
   border: 1px solid #bbb;
+
+  resize: none;
+  overflow: hidden;
 
   padding-left: 15px;
   font-size: 16px;
@@ -64,13 +94,17 @@ const ProblemBox = styled.input`
   }
 `;
 
-const AnswerBox = styled.input`
+const AnswerBox = styled.textarea`
   display: flex;
   position: relative;
   width: 580px;
   height: 130px;
+
+  resize: none;
+  overflow: hidden;
+
   border: 1px solid #bbb;
-  margin-bottom: 100px;
+  margin-bottom: 30px;
   padding-left: 15px;
   font-size: 16px;
   color: #666;
