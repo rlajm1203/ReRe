@@ -36,4 +36,8 @@ public class User implements Serializable {
         this.pw = pw;
         this.nickname = nickname;
     }
+
+    public void updatePw(String pw) {
+        this.pw = pw;
+    }
 }
