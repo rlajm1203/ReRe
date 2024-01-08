@@ -8,6 +8,7 @@ const Bar = ({ text }) => {
     <div>
       <MainContainer>
         <BarArea>
+          <Icon type="back" />
           <Title>{text}</Title>
         </BarArea>
       </MainContainer>
@@ -20,8 +21,7 @@ export default Bar;
 const BarArea = styled.div`
   align-items: center;
   position: relative;
-  top: 80px;
-  margin-bottom: 30px;
+  top: 50px;
   left: 0px;
 `;
 

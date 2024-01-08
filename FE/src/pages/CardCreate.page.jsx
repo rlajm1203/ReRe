@@ -13,8 +13,11 @@ const CardCreatePage = () => {
   return (
     <div>
       <Header />
-      <Bar text="목차명 입력"></Bar>
       <MainContainer>
+        <div style={{ display: "flex" }}>
+          <Input type="text" placeholder="목차명 입력" />
+          <SaveButton>저장</SaveButton>
+        </div>
         <div style={{ display: "flex" }}>
           <div style={{ marginRight: "25px" }}>
             <CardInputWithGreyBar greyBarText="문제 입력" />
@@ -54,10 +57,32 @@ const ButtonContainer = styled.div`
   width: 180px;
   justify-content: center;
   position: relative;
-  margin-top: 80px;
+  margin-top: 40px;
   margin-left: 1068px;
 `;
 
 const IconSpace = styled(StyledIcon)`
   color: #007af3;
+`;
+
+const Input = styled.input`
+  width: 1145px;
+  height: 35px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 40px;
+  padding-left: 12px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  outline: none;
+`;
+
+const SaveButton = styled(Button)`
+  width: 80px;
+  height: 39px;
+  font-weight: 400;
+  border-radius: 5px;
+  background-color: grey;
+  align-items: center;
 `;

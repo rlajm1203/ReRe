@@ -28,7 +28,7 @@ const Container = styled.div`
 const InputBox = styled.input`
   display: flex;
   position: relative;
-  top: 100px;
+  top: 60px;
   width: 580px;
   height: 130px;
   border: 1px solid #bbb;
@@ -44,7 +44,7 @@ const InputBox = styled.input`
 const GreyBox = styled.label`
   display: flex;
   position: relative;
-  top: 100px;
+  top: 60px;
   width: 582px;
   height: 30px;
   padding-left: 15px;

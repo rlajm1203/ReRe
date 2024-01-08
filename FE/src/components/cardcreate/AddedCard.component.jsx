@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+import { Icon, StyledIcon } from "../common/Icon.component";
 
 const AddedCard = () => {
   const [value, setValue] = useState();
@@ -14,8 +15,11 @@ const AddedCard = () => {
     <div>
       <Container>
         <SelectBox>
+          <IconSpace>
+            <Icon type="checkbox" />
+          </IconSpace>
           <button>수정 </button>
-          <div style={{ marginRight: 10, marginLeft: 10 }}> | </div>
+          <div style={{ marginTop: 2, marginRight: 10, marginLeft: 10 }}>|</div>
           <button>삭제</button>
         </SelectBox>
         <ProblemBox
@@ -55,7 +59,7 @@ const SelectedBar = styled.div`
   height: 50px;
   background-color: #f9f9f9;
   border: 1px solid #bbb;
-  margin-top: 120px;
+  margin-top: 100px;
   margin-bottom: 20px;
   justify-content: space-between;
   & div:first-child {
@@ -130,4 +134,10 @@ const SelectBox = styled.label`
   color: #666;
   outline: none;
   background-color: #fff;
+`;
+
+const IconSpace = styled(StyledIcon)`
+  position: absolute;
+  left: 10px;
+  color: #007af3;
 `;
