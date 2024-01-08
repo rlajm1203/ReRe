@@ -22,6 +22,7 @@ public class UserCardBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Integer userCardbookId;
 
     //    @Column(columnDefinition = "TEXT")
@@ -40,8 +41,6 @@ public class UserCardBook {
 
     @OneToMany(mappedBy = "userCardBook", cascade = CascadeType.REMOVE)
     private List<StudyComplete> studyCompletes;
-
-
 
     public UserCardBook(){}
 

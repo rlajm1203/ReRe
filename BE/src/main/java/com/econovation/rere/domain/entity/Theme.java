@@ -15,6 +15,7 @@ public class Theme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private Integer themeId;
 
     @Column(length = 60, nullable = false)
