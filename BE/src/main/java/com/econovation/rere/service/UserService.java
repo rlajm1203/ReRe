@@ -7,6 +7,8 @@ import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +17,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public boolean checkLoginId(UserLoginIdRequestDTO userLoginIdRequestDTO) {
         Optional<User> user = userRepository.findByLoginId(userLoginIdRequestDTO.getLoginId());
@@ -32,13 +36,20 @@ public class UserService {
     public String join(UserCreateRequestDTO userCreateRequestDTO) {
 
         User user = userCreateRequestDTO.toEntity();
+        user.updatePw(passwordEncoder.encode(user.getPw()));
         userRepository.save(user);
         return userCreateRequestDTO.getLoginId();
     }
 
     public Optional<User> login(UserLoginRequestDTO loginRequest) {
         return userRepository.findByLoginId(loginRequest.getLoginId())
-                .filter(user -> user.getPw().equals(loginRequest.getPw()));
+                .filter(user -> passwordEncoder.matches(loginRequest.getPw(), user.getPw()));
+    }
+
+    // 로그인 상태 확인
+    public boolean isUserLoggedIn(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // 현재 세션을 가져옴, 없으면 null 반환
+        return (session != null && session.getAttribute("USER") != null);
     }
 
 }
