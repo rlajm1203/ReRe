@@ -39,9 +39,8 @@ public class ThemeController {
 
     //    목차,카드 수정하기
     @PutMapping("/cardbook/{cardbookId}/theme/{themeId}")
-    public void modifyThemeAndCards(@RequestBody @Valid ThemeUpdateRequestDTO themeUpdateRequestDTO, @PathVariable Integer themeId){
-        log.info(themeService.update(themeUpdateRequestDTO, themeId)+"");
+    public ApiResult<ThemeResponseDTO> updateThemeAndCards(@RequestBody @Valid ThemeUpdateRequestDTO themeUpdateRequestDTO, @PathVariable Integer themeId){
+        return ApiUtils.success(themeService.update(themeUpdateRequestDTO, themeId),"목차 수정에 성공하였습니다.");
     }
-
 
 }
