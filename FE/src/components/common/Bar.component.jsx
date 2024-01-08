@@ -23,6 +23,7 @@ const BarArea = styled.div`
   position: relative;
   top: 50px;
   left: 0px;
+  margin-bottom: 100px;
 `;
 
 const Title = styled.h2`
