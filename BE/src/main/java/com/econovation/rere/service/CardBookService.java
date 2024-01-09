@@ -86,6 +86,11 @@ public class CardBookService {
         return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks);
     }
 
+//    카드북 id를 기준으로 카드북 가져오기
+    public CardBook getCardbook(Integer cardbookId){
+        return cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
+    }
+
 //    메인 페이지에 띄울 기본 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)
     public List<CardBookResponseDTO> getDefaultCardbook(){
         List<CardBook> cardBooks = cardBookRepository.findByWriter("admin");
