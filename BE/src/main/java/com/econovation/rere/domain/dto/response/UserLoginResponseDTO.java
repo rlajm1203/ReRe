@@ -7,12 +7,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserLoginResponseDTO {
 
-    private String sessionId;
+
     private String nickname;
 
     @Builder
-    public UserLoginResponseDTO(String sessionId, String nickname) {
-        this.sessionId = sessionId;
+    public UserLoginResponseDTO(String nickname) {
         this.nickname = nickname;
     }
 

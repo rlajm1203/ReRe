@@ -55,7 +55,6 @@ public class UserController {
         session.setMaxInactiveInterval(1800);
 
         UserLoginResponseDTO userLoginResponseDTO = UserLoginResponseDTO.builder()
-                .sessionId(session.getId())
                 .nickname(user.getNickname())
                 .build();
 
