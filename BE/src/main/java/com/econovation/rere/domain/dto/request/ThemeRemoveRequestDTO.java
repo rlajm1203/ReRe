@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -11,10 +12,10 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class ThemeRemoveRequestDTO {
 
-    @NotBlank(message = "please write cardbookId")
+    @NotNull(message = "please write cardbookId")
     private Integer cardbookId;
 
-    @NotBlank(message = "please write themeId")
+    @NotNull(message = "please write themeId")
     private Integer themeId;
 
 }

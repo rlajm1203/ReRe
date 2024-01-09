@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotEmpty;
 public class BlindCardCreateRequestDTO {
 
 //    이게 맞나..?
-    @NotBlank(message = "please write card id")
+    @NotNull(message = "please write card id")
     private Integer cardId;
 
 }
