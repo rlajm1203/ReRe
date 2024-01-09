@@ -3,10 +3,7 @@ package com.econovation.rere.controller;
 
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
-import com.econovation.rere.exception.AlreadyExistsInUserCardBookException;
-import com.econovation.rere.exception.DuplicateLoginIdException;
-import com.econovation.rere.exception.DuplicateNicknameException;
-import com.econovation.rere.exception.EntityNotFoundException;
+import com.econovation.rere.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,12 +35,29 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateLoginIdException.class)
     public ApiResult<?> handlerDuplicateLoginIdException(DuplicateLoginIdException e){
-        return ApiUtils.error("중복된 아이디 입니다.", HttpStatus.BAD_REQUEST);
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DuplicateNicknameException.class)
     public ApiResult<?> handlerDuplicateNicknameException(DuplicateNicknameException e){
-        return ApiUtils.error("중복된 닉네임 입니다.", HttpStatus.BAD_REQUEST);
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ApiResult<?> handlerUserNotFoundException(UserNotFoundException e){
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidLoginException.class)
+    public ApiResult<?> handlerInvalidLoginException(InvalidLoginException e){
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidLogoutException.class)
+    public ApiResult<?> handlerInvalidLogoutException(InvalidLogoutException e){
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }
