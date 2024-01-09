@@ -6,6 +6,8 @@ import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
 import com.econovation.rere.domain.dto.response.MainPageResponseDTO;
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
+import com.econovation.rere.domain.entity.User;
+import com.econovation.rere.exception.NotAthenticationException;
 import com.econovation.rere.service.CardBookService;
 import com.econovation.rere.service.ThemeService;
 import com.econovation.rere.service.UserCardBookService;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,8 +33,9 @@ public class CardBookController {
 
 //    생성
     @PostMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> createCardBook(@RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO, Integer userId){
-        CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, 1);
+    public ApiResult<CardBookResponseDTO> createCardBook(@RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+        CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, user.getUserId());
         return ApiUtils.success(
                 cardBookResponseDTO
                 ,"카드북이 생성되었습니다."
@@ -40,8 +44,12 @@ public class CardBookController {
 
 //    수정
     @PutMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> updateCardBook(@RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO, Integer userId){
+    public ApiResult<CardBookResponseDTO> updateCardBook(@RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+
+        if(user.getNickname() != cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getName()) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
+
         return ApiUtils.success(
                 cardBookResponseDTO
                 ,"카드북이 수정되었습니다."
@@ -50,7 +58,11 @@ public class CardBookController {
 
 //    삭제
     @DeleteMapping("/cardbook")
-    public ApiResult<Boolean> removeCardBook(@RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
+    public ApiResult<Boolean> removeCardBook(@RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+
+        if(user.getNickname() != cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriter()) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+
         Boolean result = cardBookService.remove(cardBookRemoveRequestDTO);
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
     }
@@ -64,9 +76,11 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
-        List<CardBookResponseDTO> myCardbook = cardBookService.getMyCardbook(1);
+        List<CardBookResponseDTO> myCardbook = cardBookService.getMyCardbook(
+                ((User)request.getSession().getAttribute("USER")).getUserId()
+        );
 
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
                 .originCardbooks(defaultCardbook)
@@ -78,14 +92,16 @@ public class CardBookController {
 
 //    사용자가 카드북 담기
     @PostMapping("/cardbook/{cardbookId}")
-    public ApiResult<UserCardBookResponseDTO> chooseCardBook(@PathVariable("cardbookId") Integer cardbookId){
-        UserCardBookResponseDTO userCardBookResponseDTO = userCardBookService.choose(1, cardbookId);
+    public ApiResult<UserCardBookResponseDTO> chooseCardBook(@PathVariable("cardbookId") Integer cardbookId, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+        UserCardBookResponseDTO userCardBookResponseDTO = userCardBookService.choose(user.getUserId(), cardbookId);
         return ApiUtils.success(userCardBookResponseDTO, "카드북을 담았습니다.");
     }
 
-//    사용자가 카드북 다시 반환
+//    사용자가 카드북을 담기 취소
     @DeleteMapping("/cardbook/{cardbookId}")
-    public ApiResult<UserCardBookResponseDTO> unchooseCardBook(@PathVariable("cardbookId") Integer cardbookId){
-        return ApiUtils.success(userCardBookService.unchoose(1, cardbookId), "카드북을 제외하였습니다.");
+    public ApiResult<UserCardBookResponseDTO> unchooseCardBook(@PathVariable("cardbookId") Integer cardbookId, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+        return ApiUtils.success(userCardBookService.unchoose(user.getUserId(), cardbookId), "카드북을 제외하였습니다.");
     }
 }

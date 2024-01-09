@@ -28,10 +28,22 @@ public class GlobalExceptionHandler {
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+//    권한이 안 맞는 요청이 들어올 경우에 대한 예외 처리
+    @ExceptionHandler(NotAthenticationException.class)
+    public ApiResult<?> handlerNotAthenticationException(NotAthenticationException e){
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
+//    어떠한 값도 입력하지 않았을 경우에 대한 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResult<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         return ApiUtils.error("값을 입력해주세요.", HttpStatus.BAD_REQUEST);
     }
+
+
+
+
 
     @ExceptionHandler(DuplicateLoginIdException.class)
     public ApiResult<?> handlerDuplicateLoginIdException(DuplicateLoginIdException e){
@@ -57,7 +69,5 @@ public class GlobalExceptionHandler {
     public ApiResult<?> handlerInvalidLogoutException(InvalidLogoutException e){
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-
 
 }

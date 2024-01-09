@@ -26,7 +26,7 @@ public class CardBookRepositoryTest {
             CardBook cardBook = CardBook.builder()
                     .name("AdminTest"+i)
                     .writer("admin")
-                    .scrapCnt(i)
+                    .scrapCnt(0)
                     .createDate(time)
                     .updateDate(time)
                     .build();

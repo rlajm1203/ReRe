@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class CardBookRemoveRequestDTO {
 
-    @NotBlank(message = "please write cardbookId")
+    @NotNull(message = "please write cardbookId")
     private Integer cardbookId;
 
 }

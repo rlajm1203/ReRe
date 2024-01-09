@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 //  CardBook을 수정할 때 요청 정보를 담는 클래스
@@ -18,7 +19,9 @@ public class CardBookUpdateRequestDTO {
     @NotBlank(message = "please write new name")
     private String name;
 
-    @NotBlank(message = "please write cardbookId")
+//    NotBlank는 String
+//    NotNull은 String 이외의 타입
+    @NotNull(message = "please write cardbookId")
     private Integer cardbookId;
 
     //    시간 정보는 프론트에서 전송 시점을 기준으로 하는 게 아니라

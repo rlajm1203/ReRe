@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CardUpdateRequestDTO {
 
-    @NotBlank(message = "please write cardId")
+    @NotNull(message = "please write cardId")
     private Integer cardId;
 
     @NotBlank(message = "please write content")
