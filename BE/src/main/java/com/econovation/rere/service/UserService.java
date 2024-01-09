@@ -7,6 +7,7 @@ import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
 import com.econovation.rere.exception.DuplicateLoginIdException;
+import com.econovation.rere.exception.DuplicateNicknameException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,9 +32,11 @@ public class UserService {
         }
     }
 
-    public boolean checkNickname(UserNicknameRequestDTO userNicknameRequestDTO) {
+    public void checkNickname(UserNicknameRequestDTO userNicknameRequestDTO) {
         Optional<User> user = userRepository.findByNickname(userNicknameRequestDTO.getNickname());
-        return user.isPresent();
+        if (user.isPresent()) {
+            throw new DuplicateNicknameException("중복된 닉네임입니다.");
+        }
     }
 
     public String join(UserCreateRequestDTO userCreateRequestDTO) {
