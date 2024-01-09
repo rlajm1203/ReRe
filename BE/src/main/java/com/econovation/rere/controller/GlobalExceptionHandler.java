@@ -23,7 +23,8 @@ public class GlobalExceptionHandler {
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AlreadyExistsInUserCardBookException.class)
+//    데이터베이스에 이미 존재하는 값을 입력했을 경우
+    @ExceptionHandler(AlreadyExistsInEntityException.class)
     public ApiResult<?> handlerAlreadyExistsInUserCardBookExcepion(AlreadyExistsInUserCardBookException e){
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
@@ -34,37 +35,19 @@ public class GlobalExceptionHandler {
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-
 //    어떠한 값도 입력하지 않았을 경우에 대한 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResult<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         return ApiUtils.error("값을 입력해주세요.", HttpStatus.BAD_REQUEST);
     }
 
-
-
-
-
-    @ExceptionHandler(DuplicateLoginIdException.class)
-    public ApiResult<?> handlerDuplicateLoginIdException(DuplicateLoginIdException e){
-        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(DuplicateNicknameException.class)
-    public ApiResult<?> handlerDuplicateNicknameException(DuplicateNicknameException e){
-        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ApiResult<?> handlerUserNotFoundException(UserNotFoundException e){
-        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
+//    아이디, 패스워드 불일치
     @ExceptionHandler(InvalidLoginException.class)
     public ApiResult<?> handlerInvalidLoginException(InvalidLoginException e){
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+//    세션이 없을 경우에 로그아웃 요청시
     @ExceptionHandler(InvalidLogoutException.class)
     public ApiResult<?> handlerInvalidLogoutException(InvalidLogoutException e){
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
