@@ -16,7 +16,7 @@ const AddedCard = () => {
       <Container>
         <SelectBox>
           <IconSpace>
-            <Icon type="checkbox" />
+            <Icon type="checkbox" size={30} />
           </IconSpace>
           <button>수정 </button>
           <div style={{ marginTop: 2, marginRight: 10, marginLeft: 10 }}>|</div>
@@ -55,7 +55,6 @@ const SelectedBar = styled.div`
   display: flex;
   padding-left: 20px;
   align-items: center;
-  width: 1230px;
   height: 50px;
   background-color: #f9f9f9;
   border: 1px solid #bbb;
@@ -139,5 +138,7 @@ const SelectBox = styled.label`
 const IconSpace = styled(StyledIcon)`
   position: absolute;
   left: 10px;
+  font-size: 30px;
+  height: 30px;
   color: #007af3;
 `;

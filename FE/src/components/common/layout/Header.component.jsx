@@ -1,15 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { StyledIcon, Icon } from "../Icon.component";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <div>
       <HeaderArea>
         <Inner>
-          <a href="/">
-            <Logo src="logo.png" alt="logo" />
-          </a>
+          <Link to="/">
+            <Logo
+              style={{ zIndex: 9999, position: "relative" }}
+              src="logo.png"
+              alt="logo"
+            />
+          </Link>
 
           <Submenu>
             <Menu>
@@ -29,8 +34,12 @@ const Header = () => {
                 <Icon type="search" />
               </IconSpace>
             </Search>
-            <Button>로그인</Button>
-            <Button>회원가입</Button>
+            <Button>
+              <Link to="/login">로그인</Link>
+            </Button>
+            <Button>
+              <Link to="/signup">회원가입</Link>
+            </Button>
           </Submenu>
         </Inner>
       </HeaderArea>
@@ -48,17 +57,19 @@ const HeaderArea = styled.header`
 `;
 
 const Logo = styled.img`
-  position: absolute;
-  top: 0;
   bottom: 0;
   margin: auto 0;
-  width: 8.125rem;
+  transform: translate(40px, -4px);
+  width: 3.125rem;
   display: block;
 `;
 
 const Inner = styled.div`
   position: relative;
-  width: 83.125rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  max-width: 83.125rem;
   height: 5rem;
   margin: 0 auto;
 `;

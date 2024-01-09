@@ -2,13 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { MainContainer } from "../../styles/Container";
 import { Icon } from "./Icon.component";
+import { Link } from "react-router-dom";
 
 const Bar = ({ text }) => {
   return (
     <div>
       <MainContainer>
         <BarArea>
-          <Icon type="back" />
+          <Link to="../">
+            <Icon type="back" />
+          </Link>
           <Title>{text}</Title>
         </BarArea>
       </MainContainer>

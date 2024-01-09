@@ -13,19 +13,29 @@ const InputLabel = styled.label`
 `;
 
 const InputField = styled.input`
-  padding: 16px 205px 16px 15px;
+  padding: 16px 115px 16px 15px;
   border: 1px solid #bbb;
   border-radius: 6px;
   margin: 0 auto;
 `;
 
-const Input = ({ label, register, id, rules }) => {
+const InputDuplicate = ({ label, register, id, rules }) => {
   return (
     <InputContainer>
       <InputLabel>{label}</InputLabel>
-      <InputField {...register(id, rules)} />
+      <div>
+        <InputField {...register(id, rules)} />
+        <Button>중복 확인</Button>
+      </div>
     </InputContainer>
   );
 };
 
-export default Input;
+export default InputDuplicate;
+
+const Button = styled.button`
+  padding: 16px 15px;
+  border-radius: 6px;
+  margin-left: 8px;
+  border: 1px solid #bbb;
+`;

@@ -7,11 +7,11 @@ import { HiOutlinePlus } from "react-icons/hi2";
 
 export const StyledIcon = styled.span`
   height: 20px;
-  font-size: 20px;
+  font-size: ${(props) => props.size || "20px"};
   position: relative;
 `;
 
-export const Icon = ({ type }) => {
+export const Icon = ({ type, size }) => {
   const IconType = {
     search: <IoIosSearch />,
     back: <MdArrowBackIosNew />,
@@ -21,5 +21,5 @@ export const Icon = ({ type }) => {
     plus: <HiOutlinePlus />,
   };
 
-  return <StyledIcon>{IconType[type]}</StyledIcon>;
+  return <StyledIcon size={size}>{IconType[type]}</StyledIcon>;
 };

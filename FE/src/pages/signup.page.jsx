@@ -4,25 +4,103 @@ import { MainContainer } from "../styles/Container.jsx";
 import Header from "../components/common/layout/Header.component.jsx";
 import Button from "../components/common/Button.component.jsx";
 import Input from "../components/signup/Input.component.jsx";
+import { useForm } from "react-hook-form";
+import InputDuplicate from "../components/signup/InputDuplicate.component.jsx";
 
-const SignupPage = () => {
+function SignupPage({}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, isSubmitted, errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <div>
-      <Header />
-      <MainContainer>
-        <Title>회원가입</Title>
-        <SubTitle>암기에 목 마를 때, 뤼뤼</SubTitle>
-        <Form>
-          <Input label="아이디" type="text" placeholder="example" />
-          <Input label="비밀번호" type="password" placeholder="******" />
-          <Input label="비밀번호 확인" type="password" placeholder="******" />
-          <Input label="닉네임" type="text" placeholder="example" />
-          <Button>가입하기</Button>
-        </Form>
-      </MainContainer>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Header />
+        <MainContainer>
+          <Title>회원가입</Title>
+          <SubTitle>암기에 목 마를 때, 뤼뤼</SubTitle>
+          <LabelCenter>
+            <InputDuplicate
+              label="아이디"
+              type="text"
+              placeholder="example"
+              register={register}
+              id="id"
+              rules={{
+                required: "아이디를 입력하세요.",
+                pattern: {
+                  value: /^[a-z0-9]{4,20}$/i,
+                  message: "4~20자의 영문 대소문자, 숫자만 사용 가능합니다.",
+                },
+              }}
+            />
+            {errors.id && <ErrorMessage>{errors.id.message}</ErrorMessage>}
+            <Input
+              label="비밀번호"
+              type="password"
+              placeholder="******"
+              id="password"
+              register={register}
+              rules={{
+                required: "비밀번호를 입력하세요.",
+                minLength: {
+                  value: 8,
+                  message: "8자리 이상 비밀번호를 사용하세요.",
+                },
+              }}
+            />
+            {errors.password && (
+              <ErrorMessage>{errors.password.message}</ErrorMessage>
+            )}
+            <Input
+              label="비밀번호 확인"
+              type="password"
+              placeholder="******"
+              id="passwordConfirm"
+              register={register}
+              rules={{
+                required: "비밀번호를 입력하세요.",
+                minLength: {
+                  value: 8,
+                  message: "8자리 이상 비밀번호를 사용하세요.",
+                },
+                validate: (value) =>
+                  value === password || "비밀번호가 일치하지 않습니다.",
+              }}
+            />
+            {errors.passwordConfirm && (
+              <ErrorMessage>{errors.passwordConfirm.message}</ErrorMessage>
+            )}
+
+            <InputDuplicate
+              label="닉네임"
+              type="text"
+              placeholder="example"
+              id="nickname"
+              register={register}
+              rules={{ required: "닉네임을 입력하세요." }}
+            />
+            {errors.nickname && (
+              <ErrorMessage>{errors.nickname.message}</ErrorMessage>
+            )}
+            <Button
+              style={{ marginBottom: 100 }}
+              disabled={isSubmitting}
+              type="submit"
+            >
+              가입하기
+            </Button>
+          </LabelCenter>
+        </MainContainer>
+      </form>
     </div>
   );
-};
+}
 
 export default SignupPage;
 
@@ -41,6 +119,12 @@ const SubTitle = styled.h3`
   margin-bottom: 34px;
 `;
 
-const Form = styled.form`
+const LabelCenter = styled.div`
   margin: 0 auto;
+`;
+
+const ErrorMessage = styled.span`
+  color: red;
+  margin-bottom: 10px;
+  top: 0px;
 `;
