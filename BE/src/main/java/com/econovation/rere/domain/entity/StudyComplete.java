@@ -33,9 +33,18 @@ public class StudyComplete {
     private LocalDateTime completeDate;
 
     // 학습 할 단계가 몇 단계인지
+//    0 -> 학습을 하지 않은 상태
+//    1 -> 첫 번째 학습을 완료한 상태
+//    2 -> 두 번째 학습을 완료한 상태
+//    3 -> 세 번째 학습을 완료한 상태
+//    4 -> 네 번째 학습을 완료한 상태
     @Column(nullable = false)
     @ColumnDefault("0")
     private Integer step;
+
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private Integer count;
 
     public StudyComplete(){}
 

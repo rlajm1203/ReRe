@@ -41,8 +41,6 @@ public class UserCardBook {
     @OneToMany(mappedBy = "userCardBook", cascade = CascadeType.REMOVE)
     private List<StudyComplete> studyCompletes;
 
-
-
     public UserCardBook(){}
 
 }

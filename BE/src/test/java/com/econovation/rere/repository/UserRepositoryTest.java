@@ -2,6 +2,7 @@ package com.econovation.rere.repository;
 
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
+import com.econovation.rere.exception.UserNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,6 @@ public class UserRepositoryTest {
     @Test
     void testUserInsert(){
 //        user1 생성
-
 //        DB에 이미 있는 값을 넣으면 에러 발생
         User user1 = new User("rere1", "1q2w3e4r!", "econovation");
 
@@ -34,11 +34,8 @@ public class UserRepositoryTest {
 
     @Test
     void testUserDelete(){
-        Optional<User> ou = this.userRepository.findById(2);
+        User user = this.userRepository.findById(2).orElseThrow(()-> new UserNotFoundException());
 
-        if(ou.isPresent()){
-            User user = ou.get();
-            this.userRepository.delete(user);
-        }
+        this.userRepository.delete(user);
     }
 }

@@ -50,4 +50,5 @@ public class User implements Serializable {
     public void updatePw(String pw) {
         this.pw = pw;
     }
+
 }

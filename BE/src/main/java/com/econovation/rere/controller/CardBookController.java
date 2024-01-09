@@ -32,7 +32,6 @@ public class CardBookController {
     @PostMapping("/cardbook")
     public ApiResult<CardBookResponseDTO> createCardBook(@RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO, Integer userId){
         CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, 1);
-        log.info(cardBookResponseDTO+"");
         return ApiUtils.success(
                 cardBookResponseDTO
                 ,"카드북이 생성되었습니다."
