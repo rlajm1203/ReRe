@@ -6,6 +6,7 @@ import com.econovation.rere.domain.dto.request.UserLoginRequestDTO;
 import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
+import com.econovation.rere.exception.DuplicateLoginIdException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,9 +24,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public boolean checkLoginId(UserLoginIdRequestDTO userLoginIdRequestDTO) {
+    public void checkLoginId(UserLoginIdRequestDTO userLoginIdRequestDTO) {
         Optional<User> user = userRepository.findByLoginId(userLoginIdRequestDTO.getLoginId());
-        return user.isPresent();
+        if (user.isPresent()) {
+            throw new DuplicateLoginIdException("중복된 아이디입니다.");
+        }
     }
 
     public boolean checkNickname(UserNicknameRequestDTO userNicknameRequestDTO) {
