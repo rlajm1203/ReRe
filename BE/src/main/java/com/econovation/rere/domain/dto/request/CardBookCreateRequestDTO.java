@@ -28,6 +28,7 @@ public class CardBookCreateRequestDTO {
                 .writer(writer)
                 .createDate(timenow)
                 .updateDate(timenow)
+                .scrapCnt(1) // 카드북을 생성하면 무조건 나의 카드북에 담기므로 스크랩 카운트를 1로 설정
                 .build();
     }
 

@@ -1,19 +1,22 @@
 package com.econovation.rere.controller;
 
-import com.econovation.rere.apiresponse.ApiError;
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.domain.dto.request.UserCreateRequestDTO;
 import com.econovation.rere.domain.dto.request.UserLoginIdRequestDTO;
+import com.econovation.rere.domain.dto.request.UserLoginRequestDTO;
 import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
+import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -40,13 +43,33 @@ public class UserController {
         }
     }
 
-
-
     @PostMapping("/signup")
     public ApiResult<?> joinMember(@RequestBody @Valid UserCreateRequestDTO userCreateRequestDTO) {
         userService.join(userCreateRequestDTO);
         return ApiUtils.success("회원가입 성공");
+    }
 
+    @PostMapping("/login")
+    public ApiResult<?> login(@RequestBody @Valid UserLoginRequestDTO loginRequest, HttpServletRequest request) {
+        Optional<User> user = userService.login(loginRequest);
+        if (user.isPresent()) {
+            // 세션 생성 및 사용자 정보 저장
+            HttpSession session = request.getSession();
+            session.setAttribute("USER", user.get());
+            return ApiUtils.success("로그인 성공");
+        } else {
+            return ApiUtils.error("로그인 실패", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/logout")
+    public ApiResult<?> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+            return ApiUtils.success("로그아웃 성공");
+        }
+        return ApiUtils.error("로그아웃 실패", HttpStatus.BAD_REQUEST);
     }
 
 

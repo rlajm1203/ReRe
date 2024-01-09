@@ -1,11 +1,13 @@
 package com.econovation.rere.service;
 
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
+import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.UserCardBook;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
 import com.econovation.rere.exception.AlreadyExistsInUserCardBookException;
+import com.econovation.rere.exception.CardBookNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,10 @@ public class UserCardBookService {
             throw new AlreadyExistsInUserCardBookException();
         }
 
-//
+//        스크랩 카운트 1 증가
+        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
+        cardBook.setScrapCnt(cardBook.getScrapCnt()+1);
+
         // userId -> Session에서 꺼내서 사용
         // cardbookId -> 요청에서 찾아서 사용
         UserCardBook userCardBook = UserCardBook.builder()
