@@ -23,6 +23,7 @@ public class StudyService {
     private final ThemeRepository themeRepository;
     private final CardBookRepository cardBookRepository;
 
+//    학습 완료 메소드
     @Transactional(readOnly = false)
     public StudyCompleteResponseDTO studyComplete(Integer cardbookId, Integer themeId, Integer userId){
         User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException());
