@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../components/common/layout/Header.component.jsx";
-import Bar from "../components/common/Bar.component.jsx";
 import { MainContainer } from "../styles/Container.jsx";
 import Button from "../components/common/Button.component.jsx";
 import CardInputWithGreyBar from "../components/cardcreate/CardInput.component.jsx";

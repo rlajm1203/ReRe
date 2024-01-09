@@ -2,14 +2,12 @@ import React from "react";
 import Header from "../components/common/layout/Header.component.jsx";
 import styled from "styled-components";
 import Bar from "../components/common/Bar.component.jsx";
-import { Link } from "react-router-dom";
 
 const CardPage = () => {
   return (
     <div>
       <Header />
       <Bar text="운영체제"></Bar>
-
       <Card>카드</Card>
     </div>
   );
