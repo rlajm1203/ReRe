@@ -4,6 +4,7 @@ package com.econovation.rere.controller;
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.exception.AlreadyExistsInUserCardBookException;
+import com.econovation.rere.exception.DuplicateLoginIdException;
 import com.econovation.rere.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,5 +33,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResult<?> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e){
         return ApiUtils.error("값을 입력해주세요.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DuplicateLoginIdException.class)
+    public ApiResult<?> handlerduplicateLoginIdException(DuplicateLoginIdException e){
+        return ApiUtils.error("중복된 아이디 입니다.", HttpStatus.BAD_REQUEST);
     }
 }
