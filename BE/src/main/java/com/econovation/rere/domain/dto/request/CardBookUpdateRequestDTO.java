@@ -3,6 +3,7 @@ package com.econovation.rere.domain.dto.request;
 import com.econovation.rere.domain.entity.CardBook;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
@@ -14,10 +15,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CardBookUpdateRequestDTO {
 
-    @NotEmpty(message = "please write new name")
+    @NotBlank(message = "please write new name")
     private String name;
 
-    @NotEmpty(message = "please write cardbookId")
+    @NotBlank(message = "please write cardbookId")
     private Integer cardbookId;
 
     //    시간 정보는 프론트에서 전송 시점을 기준으로 하는 게 아니라

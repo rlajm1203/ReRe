@@ -21,16 +21,19 @@ public class CardBookRepositoryTest {
 //  카드북 생성 테스트
     @Test
     void testCardBookInsert(){
-        CardBook cardBook = new CardBook();
-        LocalDateTime time = LocalDateTime.now();
-        cardBook.setName("정보처리기사");
-        cardBook.setWriter("user04");
-        cardBook.setScrapCnt(0);
-        cardBook.setCreateDate(time);
-        cardBook.setUpdateDate(time);
+        for(int i=0; i<100; i++) {
+            LocalDateTime time = LocalDateTime.now();
+            CardBook cardBook = CardBook.builder()
+                    .name("AdminTest"+i)
+                    .writer("admin")
+                    .scrapCnt(i)
+                    .createDate(time)
+                    .updateDate(time)
+                    .build();
 
 //      초기화한 cardBook DB에 insert
-        this.repository.save(cardBook);
+            this.repository.save(cardBook);
+        }
     }
 
 //    조회 테스트
@@ -87,13 +90,7 @@ public class CardBookRepositoryTest {
 //    삭제 테스트
     @Test
     void testCardBookDelete(){
-
-        List<CardBook> oc = this.repository.findByName("정보처리기사");
-
-        /*if(oc.isPresent()){
-            CardBook cardBook = oc.get();
-            this.repository.delete(cardBook);
-        }*/
+        repository.deleteById(1);
     }
 
     @Test

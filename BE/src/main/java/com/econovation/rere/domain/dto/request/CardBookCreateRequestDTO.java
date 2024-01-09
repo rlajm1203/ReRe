@@ -3,6 +3,7 @@ package com.econovation.rere.domain.dto.request;
 import com.econovation.rere.domain.entity.CardBook;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CardBookCreateRequestDTO {
 
-    @NotEmpty(message = "please write cardbook name")
+    @NotBlank(message = "please write cardbook name")
     private String name;
 
 //    시간 정보는 프론트에서 전송 시점을 기준으로 하는 게 아니라
@@ -27,6 +28,7 @@ public class CardBookCreateRequestDTO {
                 .writer(writer)
                 .createDate(timenow)
                 .updateDate(timenow)
+                .scrapCnt(1) // 카드북을 생성하면 무조건 나의 카드북에 담기므로 스크랩 카운트를 1로 설정
                 .build();
     }
 

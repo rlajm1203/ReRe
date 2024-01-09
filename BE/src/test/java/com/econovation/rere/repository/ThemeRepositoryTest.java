@@ -1,6 +1,8 @@
 package com.econovation.rere.repository;
 
+import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.Theme;
+import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.ThemeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class ThemeRepositoryTest {
     @Autowired
     private ThemeRepository repository;
 
+    @Autowired
+    private CardBookRepository cardBookRepository;
+
     @Test
     void testThemeInsert(){
         Theme theme = new Theme();
@@ -24,12 +29,18 @@ public class ThemeRepositoryTest {
 //        어떻게 설정하지?
 //        CardBookRepository의 findAll()을 이용해서
 //        CardBook Name과 일치하는 곳에 cardbook_cardbook_id 를 삽입하면 될 듯?
-//        theme.setCardbook();
+        CardBook cardBook = cardBookRepository.findById(1).orElseThrow();
+        theme.setCardbook(cardBook);
 
         theme.setCreateDate(time);
         theme.setUpdateDate(time);
 
         this.repository.save(theme);
 
+    }
+
+    @Test
+    void testThemeDelete(){
+        repository.deleteById(1);
     }
 }

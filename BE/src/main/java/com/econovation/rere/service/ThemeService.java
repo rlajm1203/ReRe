@@ -1,9 +1,6 @@
 package com.econovation.rere.service;
 
-import com.econovation.rere.domain.dto.request.CardCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.CardUpdateRequestDTO;
-import com.econovation.rere.domain.dto.request.ThemeCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.ThemeUpdateRequestDTO;
+import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.ThemeResponseDTO;
 import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.CardBook;
@@ -11,6 +8,8 @@ import com.econovation.rere.domain.entity.Theme;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.CardRepository;
 import com.econovation.rere.domain.repository.ThemeRepository;
+import com.econovation.rere.exception.CardBookNotFoundException;
+import com.econovation.rere.exception.ThemeNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 @Slf4j
 public class ThemeService {
 
@@ -33,14 +32,15 @@ public class ThemeService {
 
 //    생성
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
-    public ThemeResponseDTO register(ThemeCreateRequestDTO themeCreateRequestDTO, Integer cardbookId){
+    @Transactional(readOnly = false)
+    public ThemeResponseDTO register(ThemeCreateRequestDTO themeCreateRequestDTO, Integer cardbookId) throws CardBookNotFoundException{
         LocalDateTime timenow = LocalDateTime.now();
 
         List<CardCreateRequestDTO> cardCreateRequestDTOS = themeCreateRequestDTO.getCards();
         List<Card> cardEntities = cardService.CreateDTOStoCardEntities(cardCreateRequestDTOS,timenow);
 
         Theme theme = themeCreateRequestDTO.toEntity(
-                cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다.")),
+                cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException()),
                         cardEntities,
                         timenow);
 
@@ -54,38 +54,38 @@ public class ThemeService {
         return toThemeResponseDTO(theme);
     }
 
-//    수정
+//    수정m
 //    생성,수정할 때만 목차 정보와 카드 정보를 동시에 받는다.
-    public ThemeResponseDTO modify(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId){
+    @Transactional(readOnly = false)
+    public ThemeResponseDTO update(ThemeUpdateRequestDTO themeUpdateRequestDTO, Integer themeId) throws ThemeNotFoundException{
         LocalDateTime timenow = LocalDateTime.now();
-        Theme theme = themeRepository.findById(themeId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 목차입니다."));
+        Theme theme = themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException());
 
         theme.setName(themeUpdateRequestDTO.getName());
-        theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
-        theme = themeRepository.save(theme);
+//        theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
 
 
         if(cardService.removeAllByTheme(theme)>0) {
 ////        기존에 존재하던 카드 전부 삭제
 ////        카드 수정이 목차 수정과 동시에 이루어진다.
             for (CardUpdateRequestDTO dto : themeUpdateRequestDTO.getCards()){
-                cardService.modify(dto, theme, timenow);
+                cardService.update(dto, theme, timenow);
             }
         }
         return toThemeResponseDTO(theme);
     }
 
 //    삭제
-    public boolean remove(Integer themeId){
-        Optional<Theme> ot = themeRepository.findById(themeId);
-        if(themeRepository.deleteByThemeId(themeId)==1) return true;
+    @Transactional(readOnly = false)
+    public boolean remove(ThemeRemoveRequestDTO themeRemoveRequestDTO){
+        if(themeRepository.deleteByThemeId(themeRemoveRequestDTO.getThemeId())==1) return true;
         else return false;
     }
 
 //    목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
-    public List<Theme> getAll(Integer cardbookId){
-        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new IllegalArgumentException("존재하지 않는 카드북입니다."));
-        return themeRepository.findAllByCardbook(cardBook);
+    public List<ThemeResponseDTO> getAll(Integer cardbookId) throws CardBookNotFoundException{
+        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
+        return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook));
     }
 
 //    내부 메소드
@@ -105,5 +105,7 @@ public class ThemeService {
 
         return themeResponseDTOS;
     }
+
+
 
 }
