@@ -4,9 +4,11 @@ import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.entity.UserCardBook;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,9 @@ public interface UserCardBookRepository extends JpaRepository<UserCardBook, Inte
     List<UserCardBook> findAllByUser(User user);
 
 //    삭제된 개수 리턴
-    Integer e(CardBook cardBook, User user);
+//    hard delete가 수행되지 않아서 soft delete로 처리
+
+    Optional<UserCardBook> findByCardbookAndUser(CardBook cardBook, User user);
 
 //    사용자가 카드북을 이미 담았는지 체크
     boolean existsByCardbookAndUser(CardBook cardBook, User user);

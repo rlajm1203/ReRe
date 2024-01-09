@@ -5,7 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
+
+import java.util.List;
+
 
 @Entity
 @Setter
@@ -16,17 +20,23 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(length = 20, unique = true)
+    @Column(length = 20, unique = true, nullable = false)
     private String loginId;
 
-    // 로그인 PW는 SHA-256 방식으로 인코딩 할 예정
+    // 로그인 PW는 Bcrypt 방식으로 인코딩 할 예정
     // 타입을 String이 아니라 다른 타입으로 해야 할 듯?
     // 좀 더 알아보고 수정할 예정
-    @Column(length = 256)
+    @Column(length = 256, nullable = false)
     private String pw;
 
-    @Column(length = 30, unique = true)
+    @Column(length = 30, unique = true, nullable = false)
     private String nickname;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<UserCardBook> userCardBooks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<BlindCard> blindCards;
 
     public User(){};
 

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -16,21 +17,26 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardId;
 
-    @Column(length = 600)
+    @Column(length = 600, nullable = false)
     private String content;
 
-    @Column(length = 300)
+    @Column(length = 300, nullable = false)
     private String answer;
 
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
-    @Column(columnDefinition = "TEXT")
+//    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false)
     private LocalDateTime updateDate;
 
     @ManyToOne
-//  card : theme는 N:1 관계
+////  card : theme는 N:1 관계
     private Theme theme;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<BlindCard> blindCards;
 
     public Card(){}
 }

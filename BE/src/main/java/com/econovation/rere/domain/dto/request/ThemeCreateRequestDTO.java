@@ -5,6 +5,7 @@ import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.Theme;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ThemeCreateRequestDTO {
 
-    @NotEmpty(message = "please write themeName")
+    @NotBlank(message = "please write themeName")
     private String name;
 
 //    이 정보가 굳이 필요가 없을듯?
@@ -40,7 +41,7 @@ public class ThemeCreateRequestDTO {
                 .name(name)
                 .createDate(timenow)
                 .updateDate(timenow)
-                .cardList(cards)
+//                .cardList(cards)
                 .build();
     }
 

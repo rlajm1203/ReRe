@@ -4,6 +4,7 @@ import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.CardBook;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
@@ -13,10 +14,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CardCreateRequestDTO {
 
-    @NotEmpty(message = "please write content")
+    @NotBlank(message = "please write content")
     private String content;
 
-    @NotEmpty(message = "please write answer")
+    @NotBlank(message = "please write answer")
     private String answer;
 
 
