@@ -1,5 +1,6 @@
 package com.econovation.rere.controller;
 
+import com.econovation.rere.apiresponse.ApiError;
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.domain.dto.request.UserCreateRequestDTO;
@@ -21,11 +22,12 @@ import java.util.Optional;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("check-login")
+    @GetMapping("/login-id/check")
     public ApiResult<?> checkUserLoginId(@RequestBody @Valid UserLoginIdRequestDTO userLoginIdRequestDTO) {
         if (userService.checkLoginId(userLoginIdRequestDTO)) {
             return ApiUtils.error("중복된 아이디입니다", HttpStatus.BAD_REQUEST);
@@ -34,7 +36,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/check-nickname")
+    @GetMapping("/nickname/check")
     public ApiResult<?> checkUserNickname(@RequestBody @Valid UserNicknameRequestDTO userNicknameRequestDTO) {
         if (userService.checkNickname(userNicknameRequestDTO)) {
             return ApiUtils.error("중복된 닉네임입니다", HttpStatus.BAD_REQUEST);
@@ -56,6 +58,7 @@ public class UserController {
             // 세션 생성 및 사용자 정보 저장
             HttpSession session = request.getSession();
             session.setAttribute("USER", user.get());
+            session.setMaxInactiveInterval(1800);
             return ApiUtils.success("로그인 성공");
         } else {
             return ApiUtils.error("로그인 실패", HttpStatus.UNAUTHORIZED);
@@ -72,5 +75,12 @@ public class UserController {
         return ApiUtils.error("로그아웃 실패", HttpStatus.BAD_REQUEST);
     }
 
-
+    @PostMapping("/check-login-status")
+    public ApiResult<?> chechkLogin(HttpServletRequest request) {
+        if(userService.isUserLoggedIn(request)) {
+            return ApiUtils.success("사용자가 로그인 했습니다.");
+        } else {
+            return ApiUtils.error("사용자가 로그인하지 않았습니다.", HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
