@@ -15,7 +15,7 @@ public class UserLoginRequestDTO {
 
 
     @NotBlank(message = "please write ID")
-    private String loginID;
+    private String loginId;
 
     @NotBlank(message = "please write PW")
     private String pw;
