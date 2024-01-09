@@ -1,21 +1,24 @@
 package com.econovation.rere.domain.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
+
 import java.util.List;
+
 
 @Entity
 @Setter
 @Getter
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Long userId;
 
     @Column(length = 20, unique = true, nullable = false)
     private String loginId;
@@ -42,5 +45,9 @@ public class User {
         this.loginId = loginId;
         this.pw = pw;
         this.nickname = nickname;
+    }
+
+    public void updatePw(String pw) {
+        this.pw = pw;
     }
 }
