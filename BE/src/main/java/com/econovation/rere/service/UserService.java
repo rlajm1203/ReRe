@@ -8,6 +8,8 @@ import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
 import com.econovation.rere.exception.DuplicateLoginIdException;
 import com.econovation.rere.exception.DuplicateNicknameException;
+import com.econovation.rere.exception.InvalidLoginException;
+import com.econovation.rere.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,22 +42,18 @@ public class UserService {
     }
 
     public String join(UserCreateRequestDTO userCreateRequestDTO) {
-
         User user = userCreateRequestDTO.toEntity();
         user.updatePw(passwordEncoder.encode(user.getPw()));
         userRepository.save(user);
         return userCreateRequestDTO.getLoginId();
     }
 
-    public Optional<User> login(UserLoginRequestDTO loginRequest) {
-        return userRepository.findByLoginId(loginRequest.getLoginId())
-                .filter(user -> passwordEncoder.matches(loginRequest.getPw(), user.getPw()));
+    public User login(UserLoginRequestDTO loginRequest) {
+        User user = userRepository.findByLoginId(loginRequest.getLoginId())
+                .orElseThrow(() -> new UserNotFoundException("해당 사용자가 존재하지 않습니다."));
+        if (!passwordEncoder.matches(loginRequest.getPw(), user.getPw())) {
+            throw new InvalidLoginException("아이디와 비밀번호가 일치하지 않습니다.");
+        }
+        return user;
     }
-
-    // 로그인 상태 확인
-    public boolean isUserLoggedIn(HttpServletRequest request) {
-        HttpSession session = request.getSession(false); // 현재 세션을 가져옴, 없으면 null 반환
-        return (session != null && session.getAttribute("USER") != null);
-    }
-
 }
