@@ -17,7 +17,6 @@ public class StudyComplete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
     private Integer completeId;
 
     // 어떤 회원이

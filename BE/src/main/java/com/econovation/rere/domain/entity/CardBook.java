@@ -24,13 +24,14 @@ import java.util.List;
 // 따라서 @ColumnDefault 를 적용하기 위해서는 @DynamicInsert를 같이 사용해야 한다.
 public class CardBook {
 
-    @Id // primary key 지정
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
     // GeneratedValue를 사용하면 데이터를 추가할 때 해당 속성에 값을 따로 세팅하지 않아도 자동으로 1씩 증가
     // strategy는 고유 번호를 생성하는 옵션으로 GenerationType.IDENTITY를 많이 사용함
     // camel 케이스로 설정 시 DB에는 스네이크 케이스로 저장됨
+    @Id // primary key 지정
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardbookId;
+
+
 
     // 엔티티 속성 지정
     // 테이블의 컬럼명을 지정, length는 컬럼의 길이를 지정할 때 사용
