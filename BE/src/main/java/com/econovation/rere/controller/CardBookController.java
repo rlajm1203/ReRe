@@ -78,8 +78,10 @@ public class CardBookController {
     @GetMapping("/cardbooks")
     public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
-        User user = ((User)request.getSession().getAttribute("USER"));
         List<CardBookResponseDTO> myCardbook = null;
+
+        User user = ((User)request.getSession().getAttribute("USER"));
+
         if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
 
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
