@@ -35,6 +35,11 @@ public class CardBookController {
     @PostMapping("/cardbook")
     public ApiResult<CardBookResponseDTO> createCardBook(@RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
+
+
+        log.info("사용자 : "+user.getNickname()+", 카드북 생성 : "+cardBookCreateRequestDTO.getName());
+
+
         CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, user.getUserId());
         return ApiUtils.success(
                 cardBookResponseDTO
@@ -46,8 +51,8 @@ public class CardBookController {
     @PutMapping("/cardbook")
     public ApiResult<CardBookResponseDTO> updateCardBook(@RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
-
-        if(user.getNickname() != cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getName()) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        log.info("사용자 : "+user.getNickname()+", 카드북 수정 : "+cardBookUpdateRequestDTO.getName());
+        if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getName().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
 
         return ApiUtils.success(
@@ -60,8 +65,8 @@ public class CardBookController {
     @DeleteMapping("/cardbook")
     public ApiResult<Boolean> removeCardBook(@RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
-
-        if(user.getNickname() != cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriter()) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        log.info("사용자 : "+user.getNickname()+", 카드북 삭제 (카드북ID) : "+cardBookRemoveRequestDTO.getCardbookId());
+        if(!cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
 
         Boolean result = cardBookService.remove(cardBookRemoveRequestDTO);
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
@@ -70,6 +75,7 @@ public class CardBookController {
 //    검색
     @GetMapping("/cardbook/search")
     public ApiResult<List<CardBookResponseDTO>> searchCardBook(@RequestParam String keyword) {
+        log.info("카드북 검색 (keyword) : "+keyword);
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.search(keyword);
         return ApiUtils.success(cardBookResponseDTOS, "검색에 성공하였습니다.");
     }
@@ -77,6 +83,8 @@ public class CardBookController {
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
     public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
+        log.info("메인 페이지 카드북 조회");
+
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = cardBookService.getMyCardbook(
                 ((User)request.getSession().getAttribute("USER")).getUserId()
@@ -94,6 +102,7 @@ public class CardBookController {
     @PostMapping("/cardbook/{cardbookId}")
     public ApiResult<UserCardBookResponseDTO> chooseCardBook(@PathVariable("cardbookId") Integer cardbookId, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
+        log.info("사용자 : "+user.getNickname()+", 카드북 담기 (cardbookId) : "+cardbookId);
         UserCardBookResponseDTO userCardBookResponseDTO = userCardBookService.choose(user.getUserId(), cardbookId);
         return ApiUtils.success(userCardBookResponseDTO, "카드북을 담았습니다.");
     }
@@ -102,6 +111,7 @@ public class CardBookController {
     @DeleteMapping("/cardbook/{cardbookId}")
     public ApiResult<UserCardBookResponseDTO> unchooseCardBook(@PathVariable("cardbookId") Integer cardbookId, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
+        log.info("사용자 : "+user.getNickname()+", 카드북 담기 취소 (cardbookId) : "+cardbookId);
         return ApiUtils.success(userCardBookService.unchoose(user.getUserId(), cardbookId), "카드북을 제외하였습니다.");
     }
 }
