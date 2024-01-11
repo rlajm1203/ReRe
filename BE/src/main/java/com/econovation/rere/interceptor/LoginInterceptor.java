@@ -1,5 +1,6 @@
 package com.econovation.rere.interceptor;
 
+import com.econovation.rere.exception.NotAthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -16,8 +17,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         // 로그인 하지 않았을 떄
         if (session == null || session.getAttribute("USER") == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인이 필요합니다");
-            return false;
+            throw new NotAthenticationException("접근 권한이 없습니다.");
         }
         // 로그인한 사용자에 대해서는 요청 처리 계속
         return true;
