@@ -14,34 +14,73 @@ function SignupPage({}) {
     register,
     handleSubmit,
     getValues,
-    formState: { isSubmitting, isSubmitted, errors },
+    formState: { isSubmitting, errors },
   } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
 
   const [doubleName, setDoubleName] = useState(false);
   const [doubleId, setDoubleId] = useState(false);
 
-  const passwordCheck = (password) => {
+  const handleIdDuplicate = () => {
+    const loginId = getValues("loginId");
+
+    if (!errors.loginId) {
+      axios
+        .post("http://192.168.0.200:8080/users/login-id/check", { loginId })
+        .then((res) => {
+          console.log(res);
+          if (!res.data.success) {
+            setDoubleId(false);
+          }
+          alert(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const handleNicknameDuplicate = () => {
+    const nickname = getValues("nickname");
+    if (!errors.nickname) {
+      axios
+        .post("http://192.168.0.200:8080/users/nickname/check", {
+          nickname,
+        })
+        .then((res) => {
+          console.log(res);
+          if (!res.data.success) {
+            setDoubleName(false);
+          }
+          alert(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const passwordCheck = (pw) => {
     return {
       required: "비밀번호를 입력하세요.",
-      minLength: {
-        value: 8,
-        message: "8자리 이상 비밀번호를 사용하세요.",
+      pattern: {
+        value: /^[a-z0-9]{6,15}$/i,
+        message: "6~15자의 영문 대소문자, 숫자만 사용 가능합니다.",
       },
-      validate: (value) =>
-        value === password || "비밀번호가 일치하지 않습니다.",
+      validate: (value) => value === pw || "비밀번호가 일치하지 않습니다.",
     };
   };
 
   const handleSignup = (data) => {
+    delete data.passwordConfirm;
+
     if (doubleName && doubleId) {
       axios
         .post("http://192.168.0.200:8080/users/signup", data)
         .then((res) => {
           console.log(res);
+          if (res.data.success) {
+            window.location.href = "/";
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -66,7 +105,8 @@ function SignupPage({}) {
               placeholder="example"
               register={register}
               setState={setDoubleId}
-              id="id"
+              duplicateCheck={handleIdDuplicate}
+              id="loginId"
               rules={{
                 required: "아이디를 입력하세요.",
                 pattern: {
@@ -75,31 +115,31 @@ function SignupPage({}) {
                 },
               }}
             />
-            {errors.id && <ErrorMessage>{errors.id.message}</ErrorMessage>}
+            {errors.loginId && (
+              <ErrorMessage>{errors.loginId.message}</ErrorMessage>
+            )}
             <Input
               label="비밀번호"
               type="password"
               placeholder="******"
-              id="password"
+              id="pw"
               register={register}
               rules={{
                 required: "비밀번호를 입력하세요.",
-                minLength: {
-                  value: 8,
-                  message: "8자리 이상 비밀번호를 사용하세요.",
+                pattern: {
+                  value: /^[a-z0-9]{6,15}$/i,
+                  message: "6~15자의 영문 대소문자, 숫자만 사용 가능합니다.",
                 },
               }}
             />
-            {errors.password && (
-              <ErrorMessage>{errors.password.message}</ErrorMessage>
-            )}
+            {errors.pw && <ErrorMessage>{errors.pw.message}</ErrorMessage>}
             <Input
               label="비밀번호 확인"
               type="password"
               placeholder="******"
               id="passwordConfirm"
               register={register}
-              rules={passwordCheck(getValues("password"))}
+              rules={passwordCheck(getValues("pw"))}
             />
             {errors.passwordConfirm && (
               <ErrorMessage>{errors.passwordConfirm.message}</ErrorMessage>
@@ -111,8 +151,15 @@ function SignupPage({}) {
               placeholder="example"
               id="nickname"
               register={register}
-              rules={{ required: "닉네임을 입력하세요." }}
+              rules={{
+                required: "닉네임을 입력하세요.",
+                pattern: {
+                  value: /^[가-힣a-z0-9]{6,15}$/i,
+                  message: "6~15자의 영문 대소문자, 숫자만 사용 가능합니다.",
+                },
+              }}
               setState={setDoubleName}
+              duplicateCheck={handleNicknameDuplicate}
             />
             {errors.nickname && (
               <ErrorMessage>{errors.nickname.message}</ErrorMessage>

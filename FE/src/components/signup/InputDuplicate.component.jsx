@@ -19,16 +19,27 @@ const InputField = styled.input`
   margin: 0 auto;
 `;
 
-const InputDuplicate = ({ label, register, setState, id, rules }) => {
+const InputDuplicate = ({
+  label,
+  register,
+  setState,
+  id,
+  rules,
+  duplicateCheck,
+}) => {
   const handleClick = () => {
     setState(true);
+  };
+  const handleClickWithDuplicateCheck = () => {
+    handleClick();
+    duplicateCheck();
   };
   return (
     <InputContainer>
       <InputLabel>{label}</InputLabel>
       <div>
         <InputField {...register(id, rules)} />
-        <Button type="button" onClick={handleClick}>
+        <Button type="button" onClick={handleClickWithDuplicateCheck}>
           중복 확인
         </Button>
       </div>
