@@ -6,20 +6,55 @@ import Button from "../components/common/Button.component.jsx";
 import Input from "../components/signup/Input.component.jsx";
 import { useForm } from "react-hook-form";
 import InputDuplicate from "../components/signup/InputDuplicate.component.jsx";
+import { useState } from "react";
+import axios from "axios";
 
 function SignupPage({}) {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { isSubmitting, isSubmitted, errors },
   } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
   };
+
+  const [doubleName, setDoubleName] = useState(false);
+  const [doubleId, setDoubleId] = useState(false);
+
+  const passwordCheck = (password) => {
+    return {
+      required: "비밀번호를 입력하세요.",
+      minLength: {
+        value: 8,
+        message: "8자리 이상 비밀번호를 사용하세요.",
+      },
+      validate: (value) =>
+        value === password || "비밀번호가 일치하지 않습니다.",
+    };
+  };
+
+  const handleSignup = (data) => {
+    if (doubleName && doubleId) {
+      axios
+        .post("http://192.168.0.200:8080/users/signup", data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      console.log(data);
+    } else {
+      alert("닉네임과 아이디를 중복 확인하세요.");
+    }
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleSignup)}>
         <Header />
         <MainContainer>
           <Title>회원가입</Title>
@@ -30,6 +65,7 @@ function SignupPage({}) {
               type="text"
               placeholder="example"
               register={register}
+              setState={setDoubleId}
               id="id"
               rules={{
                 required: "아이디를 입력하세요.",
@@ -63,15 +99,7 @@ function SignupPage({}) {
               placeholder="******"
               id="passwordConfirm"
               register={register}
-              rules={{
-                required: "비밀번호를 입력하세요.",
-                minLength: {
-                  value: 8,
-                  message: "8자리 이상 비밀번호를 사용하세요.",
-                },
-                validate: (value) =>
-                  value === password || "비밀번호가 일치하지 않습니다.",
-              }}
+              rules={passwordCheck(getValues("password"))}
             />
             {errors.passwordConfirm && (
               <ErrorMessage>{errors.passwordConfirm.message}</ErrorMessage>
@@ -84,6 +112,7 @@ function SignupPage({}) {
               id="nickname"
               register={register}
               rules={{ required: "닉네임을 입력하세요." }}
+              setState={setDoubleName}
             />
             {errors.nickname && (
               <ErrorMessage>{errors.nickname.message}</ErrorMessage>

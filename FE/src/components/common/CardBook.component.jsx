@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const GridContainer = styled.div`
+const CardBookContainer = styled.div`
   display: flex;
 `;
 
@@ -20,18 +20,19 @@ const ButtonField = styled.button`
   margin-top: 80px;
 `;
 
-const Grid = () => {
+const CardBook = (data) => {
+  console.log(data);
   return (
-    <GridContainer>
+    <CardBookContainer>
       <ImageField src="bookImage.png" alt="book cover" />
       <ButtonField>
-        <div>해커스 토익 보카</div>
+        {/* <div>해커스 토익 보카</div>
         <div></div>
         <div></div>
-        <div></div>
+        <div></div> */}
       </ButtonField>
-    </GridContainer>
+    </CardBookContainer>
   );
 };
 
-export default Grid;
+export default CardBook;
