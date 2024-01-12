@@ -14,7 +14,7 @@ const ImageField = styled.img`
 const ButtonField = styled.button`
   padding: 20px;
   display: flex;
-  width: 280px;
+  width: 230px;
   border-radius: 0px 4px 4px 0px;
   border: #007af3 1px solid;
   margin-top: 80px;
