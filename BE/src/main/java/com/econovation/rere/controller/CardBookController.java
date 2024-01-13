@@ -73,7 +73,7 @@ public class CardBookController {
     }
 
 //    검색
-    @GetMapping("/cardbook/search")
+    @GetMapping("/cardbooks/search")
     public ApiResult<List<CardBookResponseDTO>> searchCardBook(@RequestParam String keyword) {
         log.info("카드북 검색 (keyword) : "+keyword);
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.search(keyword);
@@ -86,9 +86,11 @@ public class CardBookController {
         log.info("메인 페이지 카드북 조회");
 
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
-        List<CardBookResponseDTO> myCardbook = cardBookService.getMyCardbook(
-                ((User)request.getSession().getAttribute("USER")).getUserId()
-        );
+        List<CardBookResponseDTO> myCardbook = null;
+
+        User user = ((User)request.getSession().getAttribute("USER"));
+
+        if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
 
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
                 .originCardbooks(defaultCardbook)
