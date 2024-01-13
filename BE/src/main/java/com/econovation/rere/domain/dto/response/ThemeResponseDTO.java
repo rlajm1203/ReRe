@@ -15,5 +15,6 @@ public class ThemeResponseDTO {
 //  추후 Card 조회를 위해 themeId를 보내야 함
     private Integer themeId;
     private String name;
+    private Integer step; // 로그인 사용자일 경우엔 정수 값을, 비로그인 사용자일 경우에는 null 값을 할당하면 될까?
 
 }
