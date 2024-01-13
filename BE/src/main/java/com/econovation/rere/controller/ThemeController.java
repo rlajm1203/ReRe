@@ -11,6 +11,7 @@ import com.econovation.rere.exception.NotAthenticationException;
 import com.econovation.rere.service.CardBookService;
 import com.econovation.rere.service.CardService;
 import com.econovation.rere.service.ThemeService;
+import com.econovation.rere.service.UserCardBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class ThemeController {
 
     private final CardBookService cardBookService;
     private final ThemeService themeService;
+    private final UserCardBookService userCardBookService;
     private final CardService cardService;
 
     //    새로운 목차 생성
@@ -40,8 +42,12 @@ public class ThemeController {
 
     //    해당 카드북의 모든 목차 가져오기
     @GetMapping("/cardbook/{cardbookId}/themes")
-    public ApiResult<List<ThemeResponseDTO>> themepageThemes(@PathVariable Integer cardbookId){
-        return ApiUtils.success(themeService.getAll(cardbookId),"목차 조회에 성공하였습니다.");
+    public ApiResult<List<ThemeResponseDTO>> themepageThemes(@PathVariable Integer cardbookId, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+        if(userCardBookService.checkExistsInUserCardBook(user.getUserId(), cardbookId)|| cardBookService.getCardbook(cardbookId).getWriter()=="admin")
+            return ApiUtils.success(themeService.getAll(cardbookId),"목차 조회에 성공하였습니다.");
+        else
+            throw new NotAthenticationException("카드북을 담지 않았습니다.");
     }
 
     //    목차,카드 수정하기
@@ -52,5 +58,4 @@ public class ThemeController {
 
         return ApiUtils.success(themeService.update(themeUpdateRequestDTO, themeId),"목차 수정에 성공하였습니다.");
     }
-
 }
