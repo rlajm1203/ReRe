@@ -45,10 +45,16 @@ public class ThemeController {
     @GetMapping("/cardbook/{cardbookId}/themes")
     public ApiResult<List<ThemeResponseDTO>> themepageThemes(@PathVariable Integer cardbookId, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
-        if(userCardBookService.checkExistsInUserCardBook(user.getUserId(), cardbookId)|| cardBookService.getCardbook(cardbookId).getWriter()=="admin")
-            return ApiUtils.success(themeService.getAll(cardbookId),"목차 조회에 성공하였습니다.");
-        else
-            throw new NotAthenticationException("카드북을 담지 않았습니다.");
+
+        if(user==null) {
+            return ApiUtils.success(themeService.getAllNotLogin(cardbookId), "목차 조회에 성공하였습니다.");
+        }
+        else {
+            if (userCardBookService.checkExistsInUserCardBook(user.getUserId(), cardbookId))
+                return ApiUtils.success(themeService.getAll(cardbookId, user.getUserId()), "목차 조회에 성공하였습니다.");
+            else
+                throw new NotAthenticationException("카드북을 담지 않았습니다.");
+        }
     }
 
     //    목차,카드 수정하기
@@ -59,7 +65,6 @@ public class ThemeController {
         if(!cardBookService.getCardbook(cardbookId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         return ApiUtils.success(themeService.update(themeUpdateRequestDTO, themeId),"목차 수정에 성공하였습니다.");
     }
-
 
 //    목차 삭제하기
 }
