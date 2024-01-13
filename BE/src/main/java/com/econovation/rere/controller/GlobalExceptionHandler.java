@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
 
 //    데이터베이스에 이미 존재하는 값을 입력했을 경우
     @ExceptionHandler(AlreadyExistsInEntityException.class)
-    public ApiResult<?> handlerAlreadyExistsInUserCardBookExcepion(AlreadyExistsInUserCardBookException e){
+    public ApiResult<?> handlerAlreadyExistsInUserCardBookExcepion(AlreadyExistsInEntityException e){
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -52,5 +52,7 @@ public class GlobalExceptionHandler {
     public ApiResult<?> handlerInvalidLogoutException(InvalidLogoutException e){
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+//
 
 }
