@@ -66,7 +66,7 @@ const Logo = styled.img`
 
 const Inner = styled.div`
   position: relative;
-  width: 100%;
+  width: 1320px;
   display: flex;
   align-items: center;
   max-width: 83.125rem;

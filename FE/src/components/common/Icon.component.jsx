@@ -4,6 +4,7 @@ import { BsTrash3 } from "react-icons/bs";
 import { IoIosCheckboxOutline, IoIosSearch } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 import { HiOutlinePlus } from "react-icons/hi2";
+import { VscDeviceCamera } from "react-icons/vsc";
 
 export const StyledIcon = styled.span`
   height: 20px;
@@ -19,6 +20,7 @@ export const Icon = ({ type, size }) => {
     checkbox: <IoIosCheckboxOutline />,
     close: <IoCloseOutline />,
     plus: <HiOutlinePlus />,
+    camera: <VscDeviceCamera />,
   };
 
   return <StyledIcon size={size}>{IconType[type]}</StyledIcon>;

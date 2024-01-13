@@ -183,16 +183,16 @@ export default SignupPage;
 const Title = styled.h2`
   text-align: center;
   font-weight: 400;
-  font-size: 28px;
+  font-size: 1.75rem;
   margin-bottom: 12px;
-  margin-top: 60px;
+  margin-top: 3.75rem;
 `;
 
 const SubTitle = styled.h3`
   text-align: center;
   font-weight: 400;
-  font-size: 17px;
-  margin-bottom: 34px;
+  font-size: 1.0625rem;
+  margin-bottom: 2.125rem;
 `;
 
 const LabelCenter = styled.div`

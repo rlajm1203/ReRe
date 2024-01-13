@@ -18,10 +18,10 @@ const CardCreatePage = () => {
           <SaveButton>저장</SaveButton>
         </div>
         <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "25px" }}>
+          <div style={{ marginRight: "1.5625rem" }}>
             <CardInputWithGreyBar greyBarText="문제 입력" />
           </div>
-          <div style={{ marginLeft: "25px" }}>
+          <div style={{ marginLeft: "1.5625rem" }}>
             <CardInputWithGreyBar greyBarText="정답 입력" />
           </div>
         </div>
@@ -53,11 +53,11 @@ export default CardCreatePage;
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 180px;
+  width: 11.25rem;
   justify-content: center;
   position: relative;
-  margin-top: 40px;
-  margin-left: 1068px;
+  margin-top: 2.5rem;
+  margin-left: 66.75rem;
 `;
 
 const IconSpace = styled(StyledIcon)`
@@ -65,23 +65,23 @@ const IconSpace = styled(StyledIcon)`
 `;
 
 const Input = styled.input`
-  width: 1145px;
-  height: 35px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-top: 40px;
-  padding-left: 12px;
-  font-size: 18px;
+  width: 71.5625rem;
+  height: 2.1875rem;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.3125rem;
+  margin-top: 2.5rem;
+  padding-left: 0.75rem;
+  font-size: 1.125rem;
   font-weight: 400;
   color: #333;
   outline: none;
 `;
 
 const SaveButton = styled(Button)`
-  width: 80px;
-  height: 39px;
+  width: 5rem;
+  height: 2.4375rem;
   font-weight: 400;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   background-color: grey;
   align-items: center;
 `;

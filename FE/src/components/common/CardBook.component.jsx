@@ -26,10 +26,8 @@ const CardBook = (data) => {
     <CardBookContainer>
       <ImageField src="bookImage.png" alt="book cover" />
       <ButtonField>
-        {/* <div>해커스 토익 보카</div>
-        <div></div>
-        <div></div>
-        <div></div> */}
+        <div>{data.cardbookName}</div>
+        <div>{data.writer}</div>
       </ButtonField>
     </CardBookContainer>
   );

@@ -69,7 +69,7 @@ const LogoCenter = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 120px;
-  height: 107px;
-  margin: 80px 0 30px 113px;
+  width: 7.5rem;
+  height: 6.75rem;
+  margin: 5rem 0 2.5rem 7.125rem;
 `;
