@@ -61,7 +61,6 @@ public class ThemeService {
         Theme theme = themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException());
 
         theme.setName(themeUpdateRequestDTO.getName());
-//        theme.setCardList(cardService.UpdateDTOStoCardEntities(themeUpdateRequestDTO.getCards(),timenow));
 
         if(cardService.removeAllByTheme(theme)>0) {
 ////        기존에 존재하던 카드 전부 삭제
@@ -80,28 +79,45 @@ public class ThemeService {
         else return Boolean.FALSE;
     }
 
-//    목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
+//    (로그인 사용자용) 목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
     public List<ThemeResponseDTO> getAll(Integer cardbookId, Integer userId) throws CardBookNotFoundException{
         CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
         return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook), cardbookId, userId);
     }
 
+//    (비로그인 사용자용) 목차 페이지에서 (이전에 클릭한 카드북의) 모든 목차 조회
+    public List<ThemeResponseDTO> getAllNotLogin(Integer cardbookId) throws CardBookNotFoundException{
+        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
+
+        return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook), cardbookId, null);
+    }
 //    내부 메소드
     private ThemeResponseDTO toThemeResponseDTO(Theme theme, Integer cardbookId, Integer userId){
 
         CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
-        User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundException());
-        UserCardBook userCardBook = userCardBookRepository.findByCardbookAndUser(cardBook, user).orElseThrow(()->new UserCardBookNotFoundException());
+        User user;
+        UserCardBook userCardBook;
+        StudyComplete studyComplete;
+
 
         try {
-            // 사용자가 한번이라도 학습을 하지 않았을 경우
-            StudyComplete studyComplete = studyCompleteRepository.findByUserCardBookAndTheme(userCardBook, theme).orElseThrow(() -> new StudyCompleteNotFoundException("사용자가 학습한 이력이 없습니다."));
+            if(userId!=null) {
+                user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
+                userCardBook = userCardBookRepository.findByCardbookAndUser(cardBook, user).orElseThrow(() -> new UserCardBookNotFoundException());
+                studyComplete = studyCompleteRepository.findByUserCardBookAndTheme(userCardBook, theme).orElseThrow(() -> new StudyCompleteNotFoundException("사용자가 학습한 이력이 없습니다."));
+                return ThemeResponseDTO.builder()
+                        .themeId(theme.getThemeId())
+                        .name(theme.getName())
+                        .step(studyComplete.getStep())
+                        .build();
+            }
             return ThemeResponseDTO.builder()
                     .themeId(theme.getThemeId())
                     .name(theme.getName())
-                    .step(studyComplete.getStep())
+                    .step(null)
                     .build();
-        } catch (StudyCompleteNotFoundException e){
+            // 사용자가 한번이라도 학습을 하지 않았을 경우
+        } catch (StudyCompleteNotFoundException e1){
             // 사용자가 한번도 학습을 하지 않았을 경우
             return ThemeResponseDTO.builder()
                     .themeId(theme.getThemeId())
@@ -118,9 +134,6 @@ public class ThemeService {
         for(Theme theme : themes){
             themeResponseDTOS.add(toThemeResponseDTO(theme, cardbookId, userId));
         }
-
         return themeResponseDTOS;
-
     }
-
 }
