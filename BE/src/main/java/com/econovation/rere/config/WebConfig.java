@@ -1,11 +1,11 @@
 package com.econovation.rere.config;
 
-import com.econovation.rere.interceptor.LoginInterceptor;
+import com.econovation.rere.interceptor.CUDLoginInterceptor;
+import com.econovation.rere.interceptor.ReadLoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,18 +14,27 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    private LoginInterceptor loginInterceptor;
+    private CUDLoginInterceptor cudloginInterceptor;
+
+    @Autowired
+    private ReadLoginInterceptor readLoginInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/*")
+        registry.addInterceptor(cudloginInterceptor)
+                .order(1)
+                .addPathPatterns("/cardbook/**")
                 .excludePathPatterns(
                         "/users/login-id/check",
                         "/users//nickname/check",
                         "/users/signup",
                         "/users/login",
                         "/users/logout");
+
+        registry.addInterceptor(readLoginInterceptor)
+                .order(2)
+                .addPathPatterns("/cardbook/{cardbookId}/themes/**")
+                .addPathPatterns("/cardbook/{cardbookId}/theme/**");
     }
 
 
@@ -38,6 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
