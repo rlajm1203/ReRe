@@ -3,6 +3,8 @@ package com.econovation.rere.domain.entity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @DynamicInsert
+@SQLDelete(sql = "update study_complete set deleted = true where complete_id = ?")
+@Where(clause = "deleted = false")
 public class StudyComplete {
 
     @Id
@@ -45,6 +49,10 @@ public class StudyComplete {
     @Column(nullable = false)
     @ColumnDefault("0")
     private Integer count;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean deleted;
 
     public StudyComplete(){}
 

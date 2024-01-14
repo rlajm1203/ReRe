@@ -1,6 +1,9 @@
 package com.econovation.rere.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +14,8 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@SQLDelete(sql = "update theme set deleted = true where theme_id = ?")
+@Where(clause = "deleted = false")
 public class Theme {
 
     @Id
@@ -27,6 +32,10 @@ public class Theme {
 //    @Column(columnDefinition = "TEXT")
     @Column(nullable = false)
     private LocalDateTime updateDate;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean deleted;
 
 //  테이블의 참조 관계를 명시적으로 표시해주는 역할
 //  관계형 데이터의 외래키 라고 생각하면 편하다.
