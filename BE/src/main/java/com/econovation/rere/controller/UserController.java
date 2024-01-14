@@ -67,14 +67,14 @@ public class UserController {
     }
 
     @PutMapping("update/pw")
-    public ApiResult<Boolean> updatePw(@CurrentUser Integer userId, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
-        userService.updatePw(userId, userPwUpdateRequestDTO);
+    public ApiResult<Boolean> updatePw(@CurrentUser User user, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
+        userService.updatePw(user.getUserId(), userPwUpdateRequestDTO);
         return ApiUtils.success(true, "비밀번호 변경 성공");
     }
 
     @PutMapping("update/nickname")
-    public ApiResult<Boolean> updateNickname(@CurrentUser Integer userId, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
-        userService.updateNickname(userId, userNicknameUpdateRequestDTO);
+    public ApiResult<Boolean> updateNickname(@CurrentUser User user, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
+        userService.updateNickname(user.getUserId(), userNicknameUpdateRequestDTO);
         return ApiUtils.success(true, "닉네임 변경 성공");
     }
 }
