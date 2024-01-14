@@ -33,7 +33,7 @@ public class ThemeController {
     private final CardService cardService;
 
     //    새로운 목차 생성
-    @PostMapping("/cardbook/{cardbookId}/theme/new")
+    @PostMapping("/cardbook/{cardbookId}/theme")
     public ApiResult<Boolean> createTheme(@RequestBody @Valid ThemeCreateRequestDTO themeCreateRequestDTO, @PathVariable("cardbookId") Integer cardbookId, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
         log.info("사용자 : "+user.getNickname()+", 목차 생성 : "+themeCreateRequestDTO.getName());
