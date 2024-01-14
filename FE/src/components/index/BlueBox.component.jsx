@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const BlueBox = () => {
+const BlueBox = ({ data }) => {
+  console.log(data);
   return (
     <div>
       <EditBox>
@@ -9,11 +11,25 @@ const BlueBox = () => {
         <div style={{ marginTop: 2, marginRight: 10, marginLeft: 10 }}>|</div>
         <button style={{ fontSize: 16 }}>삭제</button>
       </EditBox>
-      <BlueSquare>
+      <BlueSquare style={{}}>
         <div>
-          <Img src="macos-original-icon.png"></Img>
-          <p style={{ width: "100%", textAlign: "center", marginTop: 10 }}>
-            1장 UI테스트
+          <Link to="/card">
+            <Img
+              style={{ marginRight: 147 }}
+              src="macos-original-icon.png"
+            ></Img>
+          </Link>
+
+          <p
+            style={{
+              maxWidth: 100,
+              width: "100%",
+              textAlign: "center",
+              marginTop: 10,
+              marginLeft: -5,
+            }}
+          >
+            {data.themeName}
           </p>
         </div>
         <PlantBox>

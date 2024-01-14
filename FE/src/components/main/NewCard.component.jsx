@@ -1,8 +1,43 @@
 import React from "react";
 import styled from "styled-components";
 import { Icon } from "../common/Icon.component";
+import { useState } from "react";
+import { mainPageCardbooks } from "./MainTest.js";
 
 const NewCard = () => {
+  const [cardbookName, setCardbookName] = useState("");
+
+  const handleChange = (e) => {
+    setCardbookName(e.target.value);
+  };
+
+  const handleClick = () => {
+    const newCardbook = {
+      cardbookId: Date.now(), // 고유한 ID를 생성하기 위해 현재 시간을 사용합니다.
+      cardbookName: cardbookName,
+      writer: "관리자",
+      createDate: new Date().toISOString().split("T")[0], // 현재 날짜를 ISO 8601 형식으로 포맷합니다.
+    };
+
+    const updatedCardbooks = [
+      ...mainPageCardbooks.response.originCardbooks,
+      newCardbook,
+    ];
+
+    const updatedResponse = {
+      ...mainPageCardbooks.response,
+      originCardbooks: updatedCardbooks,
+    };
+
+    const updatedMainPageCardbooks = {
+      ...mainPageCardbooks,
+      response: updatedResponse,
+    };
+
+    console.log(updatedMainPageCardbooks);
+    // 여기서는 콘솔에 출력하였지만, 실제로는 서버로 데이터를 전송하거나 상태를 업데이트하는 등의 작업을 수행해야 합니다.
+  };
+
   return (
     <NewCardContainer>
       <ImageAdd>
@@ -18,9 +53,9 @@ const NewCard = () => {
         <div style={{ marginLeft: 20, marginTop: 30, color: "#007af3" }}>
           카드북 이름
         </div>
-        <InputTitle></InputTitle>
+        <InputTitle value={cardbookName} onChange={handleChange} />
 
-        <AddButton>신규 카드북 등록</AddButton>
+        <AddButton onClick={handleClick}>신규 카드북 등록</AddButton>
       </TitleAdd>
     </NewCardContainer>
   );

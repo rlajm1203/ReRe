@@ -1,19 +1,19 @@
 import React from "react";
-import CardBook from "../common/CardBook.component";
 import styled from "styled-components";
+import BlueBox from "./BlueBox.component";
 
-const Grid = (datas) => {
-  console.log(datas.data);
+const IndexGrid = (datas) => {
+  console.log(datas.data.themes);
   return (
     <GridContainer>
-      {datas.data.map((data) => {
-        return <CardBook data={data}></CardBook>;
+      {datas.data.themes.map((data) => {
+        return <BlueBox data={data} key={data.themeId}></BlueBox>;
       })}
     </GridContainer>
   );
 };
 
-export default Grid;
+export default IndexGrid;
 
 const GridContainer = styled.div`
   display: flex;
