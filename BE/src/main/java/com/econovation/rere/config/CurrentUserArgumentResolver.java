@@ -28,6 +28,6 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
         if (user == null) {
             throw new NotAthenticationException("로그인이 필요한 서비스 입니다.");
         }
-        return user.getUserId();
+        return user;
     }
 }
