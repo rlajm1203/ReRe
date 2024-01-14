@@ -1,25 +1,19 @@
 package com.econovation.rere.controller;
 
-import com.econovation.rere.apiresponse.ApiError;
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
-import com.econovation.rere.domain.dto.request.UserCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.UserLoginIdRequestDTO;
-import com.econovation.rere.domain.dto.request.UserLoginRequestDTO;
-import com.econovation.rere.domain.dto.request.UserNicknameRequestDTO;
+import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.UserLoginResponseDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.exception.InvalidLogoutException;
 import com.econovation.rere.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -70,4 +64,22 @@ public class UserController {
         session.invalidate();
         return ApiUtils.success(true, "로그아웃 성공");
     }
+
+    @PutMapping("update/pw")
+    public ApiResult<Boolean> updatePw(@RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+        userService.updatePw(user.getUserId(), userPwUpdateRequestDTO);
+        return ApiUtils.success(true, "비밀번호 변경 성공");
+    }
+
+    @PutMapping("update/nickname")
+    public ApiResult<Boolean> updateNickname(@RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
+        User user = (User)request.getSession().getAttribute("USER");
+        userService.updateNickname(user.getUserId(), userNicknameUpdateRequestDTO);
+        return ApiUtils.success(true, "닉네임 변경 성공");
+    }
+
+
+
+
 }
