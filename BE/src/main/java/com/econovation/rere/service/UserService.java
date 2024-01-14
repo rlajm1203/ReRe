@@ -24,28 +24,34 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void checkLoginId(UserLoginIdRequestDTO userLoginIdRequestDTO) {
+    public void checkLoginId(UserLoginIdRequestDTO userLoginIdRequestDTO) throws DuplicateLoginIdException{
         Optional<User> user = userRepository.findByLoginId(userLoginIdRequestDTO.getLoginId());
         if (user.isPresent()) {
             throw new DuplicateLoginIdException("중복된 아이디입니다.");
         }
     }
 
-    public void checkNickname(UserNicknameRequestDTO userNicknameRequestDTO) {
+    public void checkNickname(UserNicknameRequestDTO userNicknameRequestDTO) throws DuplicateNicknameException{
         Optional<User> user = userRepository.findByNickname(userNicknameRequestDTO.getNickname());
         if (user.isPresent()) {
             throw new DuplicateNicknameException("중복된 닉네임입니다.");
         }
     }
 
-    public String join(UserCreateRequestDTO userCreateRequestDTO) {
+    public String join(UserCreateRequestDTO userCreateRequestDTO) throws DuplicateLoginIdException{
         User user = userCreateRequestDTO.toEntity();
+        if(userRepository.findByLoginId(userCreateRequestDTO.getLoginId()).isPresent()){
+            throw new DuplicateLoginIdException();
+        }
+        if(userRepository.findByNickname(userCreateRequestDTO.getNickname()).isPresent()){
+            throw new DuplicateNicknameException();
+        }
         user.updatePw(passwordEncoder.encode(user.getPw()));
         userRepository.save(user);
         return userCreateRequestDTO.getLoginId();
     }
 
-    public User login(UserLoginRequestDTO loginRequest) {
+    public User login(UserLoginRequestDTO loginRequest) throws InvalidLoginException, UserNotFoundException{
         User user = userRepository.findByLoginId(loginRequest.getLoginId())
                 .orElseThrow(() -> new UserNotFoundException("해당 사용자가 존재하지 않습니다."));
         if (!passwordEncoder.matches(loginRequest.getPw(), user.getPw())) {
