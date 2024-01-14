@@ -3,6 +3,9 @@ package com.econovation.rere.domain.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -14,6 +17,8 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@SQLDelete(sql = "update user_card_book set deleted = true where user_id = ?")
+@Where(clause = "deleted = false")
 public class User implements Serializable {
 
     @Id
@@ -31,6 +36,10 @@ public class User implements Serializable {
 
     @Column(length = 30, unique = true, nullable = false)
     private String nickname;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean deleted;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserCardBook> userCardBooks;

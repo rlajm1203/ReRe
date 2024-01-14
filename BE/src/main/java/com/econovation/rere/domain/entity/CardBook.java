@@ -3,6 +3,8 @@ package com.econovation.rere.domain.entity;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @DynamicInsert
+@SQLDelete(sql = "update card_book set deleted = true where cardbook_id = ?")
+@Where(clause = "deleted = false")
 // 엔티티를 데이터베이스에 등록하거나 엔티티를 수정할 때, 모든 필드를 업데이트 하는 방식으로 이루어진다.
 // 즉, 특정 컬럼의 값만 수정할 때에도 UPDATE 쿼리에 모든 컬럼을 변경하도록 쿼리가 날아간다.
 // 또한, 특정 필드 값이 등록되거나 수정되지 않아도 JPA가 쿼리를 날릴 때, null 값으로 보내게 된다.
@@ -30,8 +34,6 @@ public class CardBook {
     @Id // primary key 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cardbookId;
-
-
 
     // 엔티티 속성 지정
     // 테이블의 컬럼명을 지정, length는 컬럼의 길이를 지정할 때 사용
@@ -52,6 +54,11 @@ public class CardBook {
     @ColumnDefault("0")
     @Column(nullable = false)
     private Integer scrapCnt;
+
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean deleted;
+
 
 //  cardbook에서도 theme 목록에 접근할 수 있다.
 //  cardbook : theme 은 1:N 관계
