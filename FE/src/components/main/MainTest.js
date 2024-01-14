@@ -10,7 +10,7 @@ export const mainPageCardbooks = {
       },
       {
         cardbookId: 2,
-        name: "컴퓨터 활용 능력 1급",
+        cardbookName: "컴퓨터 활용 능력 1급",
         writer: "관리자",
         createDate: "2023-11-11",
       },

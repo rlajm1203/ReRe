@@ -14,20 +14,24 @@ const ImageField = styled.img`
 const ButtonField = styled.button`
   padding: 20px;
   display: flex;
+  flex-direction: column;
   width: 230px;
   border-radius: 0px 4px 4px 0px;
   border: #007af3 1px solid;
   margin-top: 80px;
 `;
 
-const CardBook = (data) => {
+const CardBook = ({ data }) => {
   console.log(data);
   return (
     <CardBookContainer>
       <ImageField src="bookImage.png" alt="book cover" />
       <ButtonField>
-        <div>{data.cardbookName}</div>
-        <div>{data.writer}</div>
+        <div style={{ color: "#007af3", fontSize: 17 }}>
+          {data.cardbookName}
+        </div>
+        <div style={{ marginTop: 10, fontSize: 17 }}>{data.writer}</div>
+        <div style={{ marginTop: 30, fontSize: 17 }}>{data.createDate}</div>
       </ButtonField>
     </CardBookContainer>
   );
