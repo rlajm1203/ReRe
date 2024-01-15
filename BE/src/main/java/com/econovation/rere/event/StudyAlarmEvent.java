@@ -1,13 +1,12 @@
 package com.econovation.rere.event;
 
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
 @Builder
+@Data
+@Setter
+@Getter
 public class StudyAlarmEvent {
 
     private Integer themeId;
