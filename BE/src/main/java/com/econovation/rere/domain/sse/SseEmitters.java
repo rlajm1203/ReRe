@@ -1,5 +1,8 @@
 package com.econovation.rere.domain.sse;
 
+import com.econovation.rere.apiresponse.ApiResult;
+import com.econovation.rere.apiresponse.ApiUtils;
+import com.econovation.rere.event.StudyAlarmEvent;
 import com.econovation.rere.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
@@ -25,7 +29,7 @@ public class SseEmitters {
 //    주의할 점은 이 콜백이 SseEmitter를 관리하는 다른 스레드에서 실행된다는 것이다.
 //    따라서 thread-safe 한 자료구조를 사용하지 않으면 ConcurrentModificationException이 발생할 수 있다.
 //    여기선 CopyOnWriteArrayList를 사용했다.
-    private final List<SseEmitter> emitters;
+    private final List<SseEmitter> emitters = new ArrayList<>();
 
     public SseEmitter add(SseEmitter emitter) {
         this.emitters.add(emitter);
@@ -41,6 +45,16 @@ public class SseEmitters {
         });
 
         return emitter;
+    }
+
+    public ApiResult<StudyAlarmEvent> alarm(SseEmitter emitter){
+
+        return ApiUtils.success(StudyAlarmEvent.builder()
+                .message("학습하세요.")
+                .themeId(1)
+                .step(1)
+                .build(), "학습하세요.");
+
     }
 
 //    연결된 모든 브라우저에 알림을 전달하는 건 쉽지만 다른건..?
