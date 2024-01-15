@@ -14,12 +14,15 @@ import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
 import com.econovation.rere.exception.CardBookNotFoundException;
+import com.econovation.rere.exception.EntityNotFoundException;
 import com.econovation.rere.exception.SearchNotFoundException;
 import com.econovation.rere.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +40,17 @@ public class CardBookService {
 
 //    생성
     @Transactional(readOnly = false)
-    public CardBookResponseDTO register(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId) throws UserNotFoundException {
+    public CardBookResponseDTO register(CardBookCreateRequestDTO cardBookCreateRequestDTO, Integer userId) throws UserNotFoundException, IOException {
 
         User user = this.userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException());
         LocalDateTime timenow = LocalDateTime.now();
         // 필요한 정보만 따로 추출하는 메소드를 작성해야 할 듯
+
+        byte[] imageData = null;
+        MultipartFile imageFile = cardBookCreateRequestDTO.getImage();
+        if (imageFile != null && !imageFile.isEmpty()) {
+            imageData = imageFile.getBytes();
+        }
 
         CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),timenow);
 
@@ -105,5 +114,12 @@ public class CardBookService {
         List<UserCardBook> usercardBooks = userCardBookRepository.findAllByUser(user);
 
         return UserCardBookResponseDTO.toCardBookResponseDTOS(usercardBooks);
+    }
+
+    // 카드북 이미지 조회
+    public byte[] getCardBookImage(Integer cardbookId) {
+        CardBook cardBook = cardBookRepository.findById(cardbookId)
+                .orElseThrow(() -> new EntityNotFoundException("CardBook not found"));
+        return cardBook.getImage();
     }
 }

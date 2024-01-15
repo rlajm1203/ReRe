@@ -14,9 +14,14 @@ import com.econovation.rere.service.ThemeService;
 import com.econovation.rere.service.UserCardBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,14 +36,24 @@ public class CardBookController {
 
 //    생성
     @PostMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> createCardBook(@CurrentUser User user, @RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO){
+    public ApiResult<CardBookResponseDTO> createCardBook(
+            @CurrentUser User user,
+            @RequestParam("name") String name,
+            @RequestParam("image") MultipartFile image) throws IOException {
+
+        CardBookCreateRequestDTO cardBookCreateRequestDTO = CardBookCreateRequestDTO.builder()
+                .name(name)
+                .image(image)
+                .build();
+
         CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, user.getUserId());
-        return ApiUtils.success(cardBookResponseDTO,"카드북이 생성되었습니다.");
+        return ApiUtils.success(cardBookResponseDTO, "카드북이 생성되었습니다.");
     }
 
 //    수정
     @PutMapping("/cardbook")
     public ApiResult<CardBookResponseDTO> updateCardBook(@CurrentUser User user, @RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
+
         if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(cardBookResponseDTO,"카드북이 수정되었습니다.");
@@ -61,15 +76,34 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = null;
+
+        User user = ((User)request.getSession().getAttribute("USER"));
+
         if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
                 .originCardbooks(defaultCardbook)
                 .myCardbooks(myCardbook)
                 .build();
+
         return ApiUtils.success(mainPageResponseDTO, "메인 페이지 카드북 목록입니다.");
+    }
+
+    // 카드북 이미지 조회
+    @GetMapping("/cardbook/{cardbookId}/image")
+    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardbookId) {
+        byte[] imageData = cardBookService.getCardBookImage(cardbookId);
+
+        if (imageData == null || imageData.length == 0) {
+            return ResponseEntity.notFound().build(); // 이미지가 없는 경우 404 반환
+        }
+
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_PNG) // 적절한 컨텐트 타입 설정
+                .body(imageData);
     }
 
 //    사용자가 카드북 담기

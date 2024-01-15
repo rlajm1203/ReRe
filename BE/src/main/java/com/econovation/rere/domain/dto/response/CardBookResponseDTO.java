@@ -19,13 +19,16 @@ public class CardBookResponseDTO {
     private String name;
     private String writer;
     private LocalDateTime updateDate;
+    private String imageUrl;
 
     public static CardBookResponseDTO toCardBookResponseDTO(CardBook cardBook){
+        String imageUrl = "/cardbook/" + cardBook.getCardbookId() + "/image";
         return CardBookResponseDTO.builder()
                 .writer(cardBook.getWriter())
                 .name(cardBook.getName())
                 .updateDate(cardBook.getUpdateDate())
                 .cardbookId(cardBook.getCardbookId())
+                .imageUrl(imageUrl)
                 .build();
     }
 
