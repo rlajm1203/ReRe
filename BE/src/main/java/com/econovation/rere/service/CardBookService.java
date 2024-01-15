@@ -120,6 +120,48 @@ public class CardBookService {
     public byte[] getCardBookImage(Integer cardbookId) {
         CardBook cardBook = cardBookRepository.findById(cardbookId)
                 .orElseThrow(() -> new EntityNotFoundException("CardBook not found"));
+
+
+        if (cardBook.getImage() == null) {
+            throw new EntityNotFoundException("이미지가 존재하지 않습니다.");
+        }
         return cardBook.getImage();
+    }
+
+    // 이미지 타입
+    public String determineMimeType(byte[] imageData) {
+        String mimeType = "application/octet-stream"; // 기본 MIME 타입
+
+        if (imageData.length < 4) {
+            return mimeType; // 데이터가 너무 짧아 식별 불가
+        }
+
+        // 파일 시그니처를 비교하여 MIME 타입 결정
+        String signature = bytesToHex(imageData, 4);
+
+        // JPEG: 첫 3바이트가 FFD8FF일 때
+        if (signature.startsWith("FFD8FF")) {
+            mimeType = "image/jpeg";
+        }
+        // PNG: 첫 4바이트가 89504E47일 때
+        else if (signature.startsWith("89504E47")) {
+            mimeType = "image/png";
+        }
+        // 추가적인 파일 형식...
+
+        return mimeType;
+    }
+
+    // 바이트 배열을 16진수 문자열로 변환하는 메소드
+    private String bytesToHex(byte[] bytes, int length) {
+        StringBuilder hexString = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            String hex = Integer.toHexString(0xff & bytes[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString().toUpperCase();
     }
 }

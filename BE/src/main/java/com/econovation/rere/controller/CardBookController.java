@@ -5,6 +5,7 @@ import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
+import com.econovation.rere.domain.dto.response.ImageResponseDTO;
 import com.econovation.rere.domain.dto.response.MainPageResponseDTO;
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
 import com.econovation.rere.domain.entity.User;
@@ -93,18 +94,21 @@ public class CardBookController {
 
     // 카드북 이미지 조회
     @GetMapping("/cardbook/{cardbookId}/image")
-    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardbookId) {
+    public ApiResult<ImageResponseDTO> getCardBookImage(@PathVariable Integer cardbookId) {
         byte[] imageData = cardBookService.getCardBookImage(cardbookId);
-
-        if (imageData == null || imageData.length == 0) {
-            return ResponseEntity.notFound().build(); // 이미지가 없는 경우 404 반환
-        }
-
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_PNG) // 적절한 컨텐트 타입 설정
-                .body(imageData);
+        String contentType = cardBookService.determineMimeType(imageData);
+        ImageResponseDTO imageResponseDTO = new ImageResponseDTO(imageData, contentType);
+        return ApiUtils.success(imageResponseDTO, "Image loaded successfully");
     }
+
+//    @GetMapping("/cardbook/{cardBookId}/image")
+//    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardBookId) {
+//        byte[] imageData = cardBookService.getCardBookImage(cardBookId);
+//        return ResponseEntity
+//                .ok()
+//                .contentType(MediaType.IMAGE_JPEG)
+//                .body(imageData);
+//    }
 
 //    사용자가 카드북 담기
     @PostMapping("/cardbook/{cardbookId}")
