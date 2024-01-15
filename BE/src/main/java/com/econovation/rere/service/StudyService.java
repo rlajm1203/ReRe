@@ -4,6 +4,7 @@ import com.econovation.rere.domain.dto.response.StudyCompleteResponseDTO;
 import com.econovation.rere.domain.entity.*;
 import com.econovation.rere.domain.repository.*;
 import com.econovation.rere.event.StudyAlarmEvent;
+import com.econovation.rere.event.StudyTimeCheck;
 import com.econovation.rere.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,47 +43,16 @@ public class StudyService {
 
 //    시간별로 학습을 해야 하는지 체크하는 메소드
     public void studyTimeCheck(Integer cardbookId, Integer userId){
+        StudyTimeCheck studyTimeCheck = new StudyTimeCheck().builder()
+                .cardBookRepository(cardBookRepository)
+                .userCardBookRepository(userCardBookRepository)
+                .userRepository(userRepository)
+                .studyCompleteRepository(studyCompleteRepository)
+                .publisher(publisher)
+                .build();
 
-        User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundException());
-        CardBook cardBook = cardBookRepository.findById(cardbookId).orElseThrow(()->new CardBookNotFoundException());
-        UserCardBook userCardBook = userCardBookRepository.findByCardbookAndUser(cardBook,user).orElseThrow(()->new UserCardBookNotFoundException());
-
-        List<StudyComplete> studyCompletes = studyCompleteRepository.findAllByUserCardBook(userCardBook);
-
-        for(StudyComplete studyComplete : studyCompletes){
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime completeDate = studyComplete.getCompleteDate();
-
-            long differ_mills = (Timestamp.valueOf(now).getTime() - Timestamp.valueOf(completeDate).getTime())/1000;
-
-            if(differ_mills==60*60*24*7)
-                publisher.publishEvent(StudyAlarmEvent.builder()
-                        .message("일주일이 지났습니다. 학습해주세요.")
-                        .themeId(studyComplete.getTheme().getThemeId())
-                        .step(studyComplete.getStep())
-                        .build());
-
-            else if(differ_mills>=60*60*24*3)
-                publisher.publishEvent(StudyAlarmEvent.builder()
-                        .message("3일이 지났습니다. 학습해주세요.")
-                        .themeId(studyComplete.getTheme().getThemeId())
-                        .step(studyComplete.getStep())
-                        .build());
-
-            else if(differ_mills>=60*60*24*1)
-                publisher.publishEvent(StudyAlarmEvent.builder()
-                        .message("1일이 지났습니다. 학습해주세요.")
-                        .themeId(studyComplete.getTheme().getThemeId())
-                        .step(studyComplete.getStep())
-                        .build());
-
-            else if(differ_mills==60*60)
-                publisher.publishEvent(StudyAlarmEvent.builder()
-                        .message("1시간이 지났습니다. 학습해주세요.")
-                        .themeId(studyComplete.getTheme().getThemeId())
-                        .step(studyComplete.getStep())
-                        .build());
-        }
+        studyTimeCheck.inputId(cardbookId, userId);
+        studyTimeCheck.run();
     }
 
 //    사용자가 현재 학습한 목차가 몇 단계인지 체크하는 메소드
