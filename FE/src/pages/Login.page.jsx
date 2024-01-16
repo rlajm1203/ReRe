@@ -17,7 +17,9 @@ function LoginPage({}) {
 
   const handleLogin = (data) => {
     axios
-      .post("http://192.168.0.200:8080/users/login", data)
+      .post("http://192.168.0.200:8080/users/login", data, {
+        credentials: "include",
+      })
       .then((res) => {
         console.log(res);
         alert(res.data.message);

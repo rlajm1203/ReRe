@@ -25,7 +25,9 @@ function SignupPage({}) {
 
     if (!errors.loginId) {
       axios
-        .post("http://192.168.0.200:8080/users/login-id/check", { loginId })
+        .post("http://192.168.0.200:8080/users/login-id/check", {
+          loginId,
+        })
         .then((res) => {
           console.log(res);
           if (!res.data.success) {

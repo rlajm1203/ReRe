@@ -5,6 +5,7 @@ import { mainPageCardbooks } from "../components/main/MainTest.js";
 import Grid from "../components/main/Grid.component.jsx";
 import axios from "axios";
 import NewCard from "../components/main/NewCard.component.jsx";
+import styled from "styled-components";
 
 const MainPage = () => {
   const datas = mainPageCardbooks.response.originCardbooks;
@@ -20,11 +21,14 @@ const MainPage = () => {
         <MainBar text="기본 카드북"></MainBar>
         <Grid data={datas}></Grid>
         <MainBar text="나의 카드북"></MainBar>
-        <Grid data={datas}></Grid>
-        <NewCard></NewCard>
+        <MyCardBookContainer>
+          <Grid data={datas}></Grid>
+        </MyCardBookContainer>
       </MainContainer>
     </div>
   );
 };
 
 export default MainPage;
+
+const MyCardBookContainer = styled.div``;

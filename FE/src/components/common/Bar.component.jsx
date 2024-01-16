@@ -9,7 +9,7 @@ const Bar = ({ text }) => {
     <div>
       <MainContainer>
         <BarArea>
-          <Link to="../">
+          <Link to={-1}>
             <Icon type="back" />
           </Link>
           <Title>{text}</Title>
