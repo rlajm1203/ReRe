@@ -9,10 +9,7 @@ import com.econovation.rere.domain.dto.response.ThemeResponseDTO;
 import com.econovation.rere.domain.entity.Theme;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.exception.NotAthenticationException;
-import com.econovation.rere.service.CardBookService;
-import com.econovation.rere.service.CardService;
-import com.econovation.rere.service.ThemeService;
-import com.econovation.rere.service.UserCardBookService;
+import com.econovation.rere.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +27,7 @@ public class ThemeController {
     private final CardBookService cardBookService;
     private final ThemeService themeService;
     private final UserCardBookService userCardBookService;
+    private final StudyService studyService;
     private final CardService cardService;
 
     //    새로운 목차 생성
@@ -45,6 +43,9 @@ public class ThemeController {
     @GetMapping("/cardbook/{cardbookId}/themes")
     public ApiResult<List<ThemeResponseDTO>> themepageThemes(@PathVariable Integer cardbookId, HttpServletRequest request){
         User user = (User)request.getSession().getAttribute("USER");
+
+//        이 서비스를 실행하는 순간, 학습 시간을 체크하는 스레드가 실행
+        studyService.studyTimeCheck(cardbookId, user.getUserId());
 
         if(user==null) {
             return ApiUtils.success(themeService.getAllNotLogin(cardbookId), "목차 조회에 성공하였습니다.");
