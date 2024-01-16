@@ -18,11 +18,15 @@ import com.econovation.rere.exception.EntityNotFoundException;
 import com.econovation.rere.exception.SearchNotFoundException;
 import com.econovation.rere.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 @Transactional(readOnly = true)
 public class CardBookService {
 
@@ -46,24 +51,48 @@ public class CardBookService {
         LocalDateTime timenow = LocalDateTime.now();
         // 필요한 정보만 따로 추출하는 메소드를 작성해야 할 듯
 
-        byte[] imageData = null;
-        MultipartFile imageFile = cardBookCreateRequestDTO.getImage();
-        if (imageFile != null && !imageFile.isEmpty()) {
-            imageData = imageFile.getBytes();
-        }
+        byte[] imageData = processImageData(cardBookCreateRequestDTO.getImage());
+//        MultipartFile imageFile = cardBookCreateRequestDTO.getImage();
+//        if (imageFile != null && !imageFile.isEmpty()) {
+//            imageData = imageFile.getBytes();
+//        }
 
-        CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),timenow);
+        CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),timenow,imageData);
+        log.info("Image data size before DB save: " + (cardBook.getImage() != null ? cardBook.getImage().length : "null"));
+        cardBookRepository.save(cardBook);
 
         UserCardBook userCardBook = UserCardBook.builder()
                 .user(user)
                 .cardbook(cardBook)
                 .chooseDate(timenow)
                 .build();
-        
-        cardBook = this.cardBookRepository.save(cardBook);
-        userCardBook = this.userCardBookRepository.save(userCardBook);
+        userCardBookRepository.save(userCardBook);
 
         return CardBookResponseDTO.toCardBookResponseDTO(cardBook);
+    }
+
+    private byte[] processImageData(MultipartFile imageFile) throws IOException {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            log.info("imageFile.getBytes() -> " + imageFile.getBytes());
+
+            return imageFile.getBytes();
+        } else {
+            return loadDefaultImageData(); // 기본 이미지 데이터 로드 메소드 호출
+        }
+    }
+
+
+    private byte[] loadDefaultImageData() {
+        try {
+            ClassPathResource resource = new ClassPathResource("static/images/default-image.png");
+            try (InputStream inputStream = resource.getInputStream()) {
+                byte[] imageData = inputStream.readAllBytes();
+                log.info("Loaded default image data, size: " + imageData.length);
+                return imageData;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load default image", e);
+        }
     }
 
 //    수정

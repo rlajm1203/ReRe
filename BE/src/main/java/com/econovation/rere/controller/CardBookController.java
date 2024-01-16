@@ -54,7 +54,6 @@ public class CardBookController {
 //    수정
     @PutMapping("/cardbook")
     public ApiResult<CardBookResponseDTO> updateCardBook(@CurrentUser User user, @RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
-
         if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(cardBookResponseDTO,"카드북이 수정되었습니다.");
@@ -101,6 +100,7 @@ public class CardBookController {
         return ApiUtils.success(imageResponseDTO, "Image loaded successfully");
     }
 
+    // 이미지 바로 보여짐
 //    @GetMapping("/cardbook/{cardBookId}/image")
 //    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardBookId) {
 //        byte[] imageData = cardBookService.getCardBookImage(cardBookId);
