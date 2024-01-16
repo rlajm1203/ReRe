@@ -1,7 +1,12 @@
 * {
-  color: #333333;
   font-family: "Noto Sans KR";
+  letter-spacing: 0.3px;
 }
+a {
+  color: #333;
+  text-decoration: none;
+}
+
 html,
 body,
 div,
