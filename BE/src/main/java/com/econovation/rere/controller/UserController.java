@@ -2,6 +2,7 @@ package com.econovation.rere.controller;
 
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
+import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.UserLoginResponseDTO;
 import com.econovation.rere.domain.entity.User;
@@ -23,13 +24,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/login-id/check")
+    @PostMapping("/login-id/check")
     public ApiResult<Boolean> checkUserLoginId(@RequestBody @Valid UserLoginIdRequestDTO userLoginIdRequestDTO) {
         userService.checkLoginId(userLoginIdRequestDTO);
         return ApiUtils.success(true, "사용 가능한 아이디입니다.");
     }
 
-    @GetMapping("/nickname/check")
+    @PostMapping("/nickname/check")
     public ApiResult<Boolean> checkUserNickname(@RequestBody @Valid UserNicknameRequestDTO userNicknameRequestDTO) {
         userService.checkNickname(userNicknameRequestDTO);
         return ApiUtils.success(true, "사용 가능한 닉네임입니다.");
@@ -66,20 +67,14 @@ public class UserController {
     }
 
     @PutMapping("update/pw")
-    public ApiResult<Boolean> updatePw(@RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
-        User user = (User)request.getSession().getAttribute("USER");
+    public ApiResult<Boolean> updatePw(@CurrentUser User user, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
         userService.updatePw(user.getUserId(), userPwUpdateRequestDTO);
         return ApiUtils.success(true, "비밀번호 변경 성공");
     }
 
     @PutMapping("update/nickname")
-    public ApiResult<Boolean> updateNickname(@RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
-        User user = (User)request.getSession().getAttribute("USER");
+    public ApiResult<Boolean> updateNickname(@CurrentUser User user, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
         userService.updateNickname(user.getUserId(), userNicknameUpdateRequestDTO);
         return ApiUtils.success(true, "닉네임 변경 성공");
     }
-
-
-
-
 }
