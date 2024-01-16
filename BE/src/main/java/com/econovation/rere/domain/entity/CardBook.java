@@ -69,6 +69,8 @@ public class CardBook {
     @OneToMany(mappedBy = "cardbook", cascade = CascadeType.REMOVE)
     private List<UserCardBook> userCardBooks;
 
+    @Lob
+    private byte[] image;
     // 카드북의 이미지를 어떻게 하지?
     protected CardBook(){}
 

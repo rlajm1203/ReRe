@@ -5,6 +5,7 @@ import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
+import com.econovation.rere.domain.dto.response.ImageResponseDTO;
 import com.econovation.rere.domain.dto.response.MainPageResponseDTO;
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
 import com.econovation.rere.domain.entity.User;
@@ -14,9 +15,14 @@ import com.econovation.rere.service.ThemeService;
 import com.econovation.rere.service.UserCardBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,9 +37,18 @@ public class CardBookController {
 
 //    생성
     @PostMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> createCardBook(@CurrentUser User user, @RequestBody @Valid CardBookCreateRequestDTO  cardBookCreateRequestDTO){
+    public ApiResult<CardBookResponseDTO> createCardBook(
+            @CurrentUser User user,
+            @RequestParam("name") String name,
+            @RequestParam("image") MultipartFile image) throws IOException {
+
+        CardBookCreateRequestDTO cardBookCreateRequestDTO = CardBookCreateRequestDTO.builder()
+                .name(name)
+                .image(image)
+                .build();
+
         CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, user.getUserId());
-        return ApiUtils.success(cardBookResponseDTO,"카드북이 생성되었습니다.");
+        return ApiUtils.success(cardBookResponseDTO, "카드북이 생성되었습니다.");
     }
 
 //    수정
@@ -61,16 +76,39 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = null;
+
+        User user = ((User)request.getSession().getAttribute("USER"));
+
         if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
                 .originCardbooks(defaultCardbook)
                 .myCardbooks(myCardbook)
                 .build();
+
         return ApiUtils.success(mainPageResponseDTO, "메인 페이지 카드북 목록입니다.");
     }
+
+    // 카드북 이미지 조회
+    @GetMapping("/cardbook/{cardbookId}/image")
+    public ApiResult<ImageResponseDTO> getCardBookImage(@PathVariable Integer cardbookId) {
+        byte[] imageData = cardBookService.getCardBookImage(cardbookId);
+        String contentType = cardBookService.determineMimeType(imageData);
+        ImageResponseDTO imageResponseDTO = new ImageResponseDTO(imageData, contentType);
+        return ApiUtils.success(imageResponseDTO, "Image loaded successfully");
+    }
+
+    // 이미지 바로 보여짐
+//    @GetMapping("/cardbook/{cardBookId}/image")
+//    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardBookId) {
+//        byte[] imageData = cardBookService.getCardBookImage(cardBookId);
+//        return ResponseEntity
+//                .ok()
+//                .contentType(MediaType.IMAGE_JPEG)
+//                .body(imageData);
+//    }
 
 //    사용자가 카드북 담기
     @PostMapping("/cardbook/{cardbookId}")

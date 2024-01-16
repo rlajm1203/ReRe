@@ -24,13 +24,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/login-id/check")
+    @PostMapping("/login-id/check")
     public ApiResult<Boolean> checkUserLoginId(@RequestBody @Valid UserLoginIdRequestDTO userLoginIdRequestDTO) {
         userService.checkLoginId(userLoginIdRequestDTO);
         return ApiUtils.success(true, "사용 가능한 아이디입니다.");
     }
 
-    @GetMapping("/nickname/check")
+    @PostMapping("/nickname/check")
     public ApiResult<Boolean> checkUserNickname(@RequestBody @Valid UserNicknameRequestDTO userNicknameRequestDTO) {
         userService.checkNickname(userNicknameRequestDTO);
         return ApiUtils.success(true, "사용 가능한 닉네임입니다.");
