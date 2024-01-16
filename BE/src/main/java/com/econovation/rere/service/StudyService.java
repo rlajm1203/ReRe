@@ -9,6 +9,8 @@ import com.econovation.rere.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +22,15 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @Slf4j
-public class StudyService {
+@EnableAsync
+public class StudyService{
 
     private final StudyCompleteRepository studyCompleteRepository;
     private final UserCardBookRepository userCardBookRepository;
     private final UserRepository userRepository;
     private final ThemeRepository themeRepository;
     private final CardBookRepository cardBookRepository;
-    private final ApplicationEventPublisher publisher;
+    private final StudyTimeCheck studyTimeCheck;
 
 //    학습 완료 메소드
     @Transactional(readOnly = false)
@@ -43,16 +46,9 @@ public class StudyService {
 
 //    시간별로 학습을 해야 하는지 체크하는 메소드
     public void studyTimeCheck(Integer cardbookId, Integer userId){
-        StudyTimeCheck studyTimeCheck = new StudyTimeCheck().builder()
-                .cardBookRepository(cardBookRepository)
-                .userCardBookRepository(userCardBookRepository)
-                .userRepository(userRepository)
-                .studyCompleteRepository(studyCompleteRepository)
-                .publisher(publisher)
-                .build();
-
-        studyTimeCheck.inputId(cardbookId, userId);
-        studyTimeCheck.run();
+        studyTimeCheck.setCardbookId(cardbookId);
+        studyTimeCheck.setUserId(userId);
+        studyTimeCheck.setUserSchedule(true);
     }
 
 //    사용자가 현재 학습한 목차가 몇 단계인지 체크하는 메소드
