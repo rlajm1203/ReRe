@@ -51,7 +51,16 @@ public class CardBookController {
 
 //    수정
     @PutMapping("/cardbook")
-    public ApiResult<CardBookResponseDTO> updateCardBook(@CurrentUser User user, @RequestBody @Valid CardBookUpdateRequestDTO cardBookUpdateRequestDTO){
+    public ApiResult<CardBookResponseDTO> updateCardBook(
+            @CurrentUser User user,
+            @RequestParam("name") String name,
+            @RequestParam("cardbookId") Integer cardbookId,
+            @RequestParam("image") MultipartFile image) throws IOException {
+        CardBookUpdateRequestDTO cardBookUpdateRequestDTO = CardBookUpdateRequestDTO.builder()
+                .name(name)
+                .cardbookId(cardbookId)
+                .image(image)
+                .build();
         if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(cardBookResponseDTO,"카드북이 수정되었습니다.");

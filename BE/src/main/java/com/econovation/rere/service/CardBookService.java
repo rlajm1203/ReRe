@@ -83,12 +83,14 @@ public class CardBookService {
 
 //    수정
     @Transactional(readOnly = false)
-    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO) throws CardBookNotFoundException{
+    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO) throws CardBookNotFoundException, IOException {
         CardBook cardBook = this.cardBookRepository.findById(cardBookUpdateRequestDTO.getCardbookId())
                 .orElseThrow(()->new CardBookNotFoundException());
 
         cardBook.setName(cardBookUpdateRequestDTO.getName());
         cardBook.setUpdateDate(LocalDateTime.now());
+        byte[] imageData = processImageData(cardBookUpdateRequestDTO.getImage());
+        cardBook.setImage(imageData);
 
         return CardBookResponseDTO.toCardBookResponseDTO(cardBook);
     }
