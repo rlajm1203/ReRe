@@ -97,8 +97,8 @@ public class CardBookService {
 
 //    삭제
     @Transactional(readOnly = false)
-    public boolean remove(CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
-        if(cardBookRepository.deleteByCardbookId(cardBookRemoveRequestDTO.getCardbookId())==1) return true;
+    public boolean remove(Integer cardbookId){
+        if(cardBookRepository.deleteByCardbookId(cardbookId)==1) return true;
         else return false;
     }
 
