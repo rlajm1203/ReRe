@@ -53,6 +53,12 @@ public class GlobalExceptionHandler {
         return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    // 기본 이미지를 불러올 수 없을 경우 예외 처리
+    @ExceptionHandler(ImageNotLoadException.class)
+    public ApiResult<?> handlerImageNotLoadException(ImageNotLoadException e){
+        return ApiUtils.error(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 //
 
 }
