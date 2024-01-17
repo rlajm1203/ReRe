@@ -61,7 +61,7 @@ public class CardBookController {
                 .cardbookId(cardbookId)
                 .image(image)
                 .build();
-        if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriterId().equals(user.getUserId())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(cardBookResponseDTO,"카드북이 수정되었습니다.");
     }
@@ -69,7 +69,7 @@ public class CardBookController {
 //    삭제
     @DeleteMapping("/cardbook")
     public ApiResult<Boolean> removeCardBook(@CurrentUser User user, @RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
-        if(!cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        if(!cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriterId().equals(user.getUserId())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         Boolean result = cardBookService.remove(cardBookRemoveRequestDTO);
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
     }
