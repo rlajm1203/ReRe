@@ -26,13 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(cudloginInterceptor)
                 .order(1)
-                .addPathPatterns("/cardbook/**")
-                .excludePathPatterns(
-                        "/users/login-id/check",
-                        "/users//nickname/check",
-                        "/users/signup",
-                        "/users/login",
-                        "/users/logout");
+                .addPathPatterns(
+                        "/cardbook/**",
+                        "/users/update/**",
+                        "/users/logout")
+                .excludePathPatterns();
 
         registry.addInterceptor(readLoginInterceptor)
                 .order(2)

@@ -15,12 +15,10 @@ import com.econovation.rere.service.ThemeService;
 import com.econovation.rere.service.UserCardBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +30,6 @@ import java.util.List;
 public class CardBookController {
 
     private final CardBookService cardBookService;
-    private final ThemeService themeService;
     private final UserCardBookService userCardBookService;
 
 //    생성
@@ -83,11 +80,9 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = null;
-
-        User user = ((User)request.getSession().getAttribute("USER"));
 
         if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
