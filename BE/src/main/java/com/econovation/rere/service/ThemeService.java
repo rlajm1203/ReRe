@@ -74,8 +74,8 @@ public class ThemeService {
 
 //    삭제
     @Transactional(readOnly = false)
-    public Boolean remove(ThemeRemoveRequestDTO themeRemoveRequestDTO){
-        if(themeRepository.deleteByThemeId(themeRemoveRequestDTO.getThemeId())==1) return Boolean.TRUE;
+    public Boolean remove(Integer themeId){
+        if(themeRepository.deleteByThemeId(themeId)==1) return Boolean.TRUE;
         else return Boolean.FALSE;
     }
 
