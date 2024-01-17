@@ -41,12 +41,10 @@ public class CardBookController {
             @CurrentUser User user,
             @RequestParam("name") String name,
             @RequestParam("image") MultipartFile image) throws IOException {
-
         CardBookCreateRequestDTO cardBookCreateRequestDTO = CardBookCreateRequestDTO.builder()
                 .name(name)
                 .image(image)
                 .build();
-
         CardBookResponseDTO cardBookResponseDTO = cardBookService.register(cardBookCreateRequestDTO, user.getUserId());
         return ApiUtils.success(cardBookResponseDTO, "카드북이 생성되었습니다.");
     }

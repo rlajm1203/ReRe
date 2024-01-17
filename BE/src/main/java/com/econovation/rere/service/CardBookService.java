@@ -13,10 +13,7 @@ import com.econovation.rere.domain.entity.UserCardBook;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
-import com.econovation.rere.exception.CardBookNotFoundException;
-import com.econovation.rere.exception.EntityNotFoundException;
-import com.econovation.rere.exception.SearchNotFoundException;
-import com.econovation.rere.exception.UserNotFoundException;
+import com.econovation.rere.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -49,16 +46,10 @@ public class CardBookService {
 
         User user = this.userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException());
         LocalDateTime timenow = LocalDateTime.now();
-        // 필요한 정보만 따로 추출하는 메소드를 작성해야 할 듯
 
         byte[] imageData = processImageData(cardBookCreateRequestDTO.getImage());
-//        MultipartFile imageFile = cardBookCreateRequestDTO.getImage();
-//        if (imageFile != null && !imageFile.isEmpty()) {
-//            imageData = imageFile.getBytes();
-//        }
 
         CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),timenow,imageData);
-        log.info("Image data size before DB save: " + (cardBook.getImage() != null ? cardBook.getImage().length : "null"));
         cardBookRepository.save(cardBook);
 
         UserCardBook userCardBook = UserCardBook.builder()
@@ -73,25 +64,20 @@ public class CardBookService {
 
     private byte[] processImageData(MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
-            log.info("imageFile.getBytes() -> " + imageFile.getBytes());
-
             return imageFile.getBytes();
         } else {
-            return loadDefaultImageData(); // 기본 이미지 데이터 로드 메소드 호출
+            return loadDefaultImageData();
         }
     }
-
 
     private byte[] loadDefaultImageData() {
         try {
             ClassPathResource resource = new ClassPathResource("static/images/default-image.png");
             try (InputStream inputStream = resource.getInputStream()) {
-                byte[] imageData = inputStream.readAllBytes();
-                log.info("Loaded default image data, size: " + imageData.length);
-                return imageData;
+                return inputStream.readAllBytes();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load default image", e);
+            throw new ImageNotLoadException();
         }
     }
 
