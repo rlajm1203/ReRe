@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import React from "react";
 
-const CardInputWithGreyBar = ({ greyBarText }) => {
+const CardInputWithGreyBar = ({ greyBarText, value, onChange }) => {
   return (
     <Container>
       <GreyBar text={greyBarText} />
-      <CardInput />
+      <CardInput value={value} onChange={onChange} />
     </Container>
   );
 };
@@ -16,8 +16,8 @@ export const GreyBar = ({ text }) => {
   return <GreyBox>{text}</GreyBox>;
 };
 
-const CardInput = () => {
-  return <InputBox type="text"></InputBox>;
+const CardInput = ({ value, onChange }) => {
+  return <InputBox type="text" value={value} onChange={onChange} />;
 };
 
 const Container = styled.div`
