@@ -4,7 +4,6 @@ import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.ThemeCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.ThemeRemoveRequestDTO;
 import com.econovation.rere.domain.dto.request.ThemeUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.ThemePageResponseDTO;
 import com.econovation.rere.domain.dto.response.ThemeResponseDTO;
@@ -35,7 +34,7 @@ public class ThemeController {
     //    새로운 목차 생성
     @PostMapping("/cardbook/{cardbookId}/theme/new")
     public ApiResult<Boolean> createTheme(@CurrentUser User user, @RequestBody @Valid ThemeCreateRequestDTO themeCreateRequestDTO, @PathVariable("cardbookId") Integer cardbookId){
-    
+
         log.info("사용자 : "+user.getNickname()+", 목차 생성 : "+themeCreateRequestDTO.getName());
         if(!cardBookService.getCardbook(cardbookId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         return ApiUtils.success(themeService.register(themeCreateRequestDTO, cardbookId),"목차 생성에 성공하였습니다.");
