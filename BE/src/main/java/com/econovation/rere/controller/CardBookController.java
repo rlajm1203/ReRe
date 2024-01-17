@@ -41,6 +41,7 @@ public class CardBookController {
             @CurrentUser User user,
             @RequestParam("name") String name,
             @RequestParam("image") MultipartFile image) throws IOException {
+        log.info("카드북 생성 요청 (Nickname) : " + user.getNickname());
         CardBookCreateRequestDTO cardBookCreateRequestDTO = CardBookCreateRequestDTO.builder()
                 .name(name)
                 .image(image)
@@ -56,6 +57,7 @@ public class CardBookController {
             @RequestParam("name") String name,
             @RequestParam("cardbookId") Integer cardbookId,
             @RequestParam("image") MultipartFile image) throws IOException {
+        log.info("카드북 수정 요청 (Nickname) : " + user.getNickname());
         CardBookUpdateRequestDTO cardBookUpdateRequestDTO = CardBookUpdateRequestDTO.builder()
                 .name(name)
                 .cardbookId(cardbookId)
@@ -69,6 +71,7 @@ public class CardBookController {
 //    삭제
     @DeleteMapping("/cardbook")
     public ApiResult<Boolean> removeCardBook(@CurrentUser User user, @RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
+        log.info("카드북 삭제 요청 (Nickname) : " + user.getNickname());
         if(!cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         Boolean result = cardBookService.remove(cardBookRemoveRequestDTO);
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
@@ -77,6 +80,7 @@ public class CardBookController {
 //    검색
     @GetMapping("/cardbooks/search")
     public ApiResult<List<CardBookResponseDTO>> searchCardBook(@RequestParam String keyword) {
+        log.info("카드북 검색 요청 (keyword) : " + keyword);
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.search(keyword);
         return ApiUtils.success(cardBookResponseDTOS, "검색에 성공하였습니다.");
     }
@@ -84,6 +88,7 @@ public class CardBookController {
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
     public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
+        log.info("메인 페이지 조회 요청");
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = null;
 
@@ -101,6 +106,7 @@ public class CardBookController {
     // 카드북 이미지 조회
     @GetMapping("/cardbook/{cardbookId}/image")
     public ApiResult<ImageResponseDTO> getCardBookImage(@PathVariable Integer cardbookId) {
+        log.info("카드북 이미지 조회 요청 (CardbookID) : "+cardbookId);
         byte[] imageData = cardBookService.getCardBookImage(cardbookId);
         String contentType = cardBookService.determineMimeType(imageData);
         ImageResponseDTO imageResponseDTO = new ImageResponseDTO(imageData, contentType);
