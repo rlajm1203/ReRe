@@ -20,5 +20,6 @@ export default Grid;
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 4.8rem;
   flex-wrap: wrap;
 `;
