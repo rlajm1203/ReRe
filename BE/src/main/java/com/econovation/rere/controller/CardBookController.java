@@ -69,11 +69,11 @@ public class CardBookController {
     }
 
 //    삭제
-    @DeleteMapping("/cardbook")
-    public ApiResult<Boolean> removeCardBook(@CurrentUser User user, @RequestBody @Valid CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
+    @DeleteMapping("/cardbook/{cardbookId}")
+    public ApiResult<Boolean> removeCardBook(@CurrentUser User user, @PathVariable("cardbookId") Integer cardbookId){
         log.info("카드북 삭제 요청 (Nickname) : " + user.getNickname());
-        if(!cardBookService.getCardbook(cardBookRemoveRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
-        Boolean result = cardBookService.remove(cardBookRemoveRequestDTO);
+        if(!cardBookService.getCardbook(cardbookId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        Boolean result = cardBookService.remove(cardbookId);
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
     }
 
@@ -124,7 +124,7 @@ public class CardBookController {
 //    }
 
 //    사용자가 카드북 담기
-    @PostMapping("/cardbook/{cardbookId}")
+    @PostMapping("/usercardbook/{cardbookId}")
     public ApiResult<UserCardBookResponseDTO> chooseCardBook(@CurrentUser User user, @PathVariable("cardbookId") Integer cardbookId){
         log.info("사용자 : "+user.getNickname()+", 카드북 담기 (cardbookId) : "+cardbookId);
         UserCardBookResponseDTO userCardBookResponseDTO = userCardBookService.choose(user.getUserId(), cardbookId);
@@ -132,7 +132,7 @@ public class CardBookController {
     }
 
 //    사용자가 카드북을 담기 취소
-    @DeleteMapping("/cardbook/{cardbookId}")
+    @DeleteMapping("/usercardbook/{cardbookId}")
     public ApiResult<UserCardBookResponseDTO> unchooseCardBook(@CurrentUser User user, @PathVariable("cardbookId") Integer cardbookId){
         log.info("사용자 : "+user.getNickname()+", 카드북 담기 취소 (cardbookId) : "+cardbookId);
         return ApiUtils.success(userCardBookService.unchoose(user.getUserId(), cardbookId), "카드북을 제외하였습니다.");
