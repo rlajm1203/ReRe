@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -49,6 +51,10 @@ public class UserService {
         user.updatePw(passwordEncoder.encode(user.getPw()));
         userRepository.save(user);
         return userCreateRequestDTO.getLoginId();
+    }
+
+    public void logout(HttpSession session) {
+        if (session != null) session.invalidate();
     }
 
     public User login(UserLoginRequestDTO loginRequest) throws InvalidLoginException, UserNotFoundException{

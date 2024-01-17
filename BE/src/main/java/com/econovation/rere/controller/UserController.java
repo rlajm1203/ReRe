@@ -57,12 +57,8 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ApiResult<Boolean> logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            throw new InvalidLogoutException("로그인 되어 있지 않습니다.");
-        }
-        session.invalidate();
+    public ApiResult<Boolean> logout(HttpSession session) {
+        userService.logout(session);
         return ApiUtils.success(true, "로그아웃 성공");
     }
 
