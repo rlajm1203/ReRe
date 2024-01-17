@@ -122,8 +122,12 @@ public class CardBookService {
         List<CardBook> cardBooks = cardBookRepository.findByWriter("admin");
         cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
-        return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
+        Integer length = cardBooks.size();
 
+        if(length>=3) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
+        else if(length==2) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,2));
+        else if(length==1) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,1));
+        else return null;
     }
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId) throws UserNotFoundException{
