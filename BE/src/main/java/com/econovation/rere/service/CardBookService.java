@@ -2,7 +2,6 @@ package com.econovation.rere.service;
 
 
 import com.econovation.rere.domain.dto.request.CardBookCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.CardBookRemoveRequestDTO;
 import com.econovation.rere.domain.dto.request.CardBookUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
