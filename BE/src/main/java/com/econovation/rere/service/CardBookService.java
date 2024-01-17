@@ -127,7 +127,7 @@ public class CardBookService {
         if(length>=3) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
         else if(length==2) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,2));
         else if(length==1) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,1));
-        else return null;
+        else return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,1));
     }
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId) throws UserNotFoundException{
