@@ -6,13 +6,11 @@ import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.UserLoginResponseDTO;
 import com.econovation.rere.domain.entity.User;
-import com.econovation.rere.exception.InvalidLogoutException;
 import com.econovation.rere.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -55,13 +53,13 @@ public class UserController {
     }
 
     @PutMapping("update/pw")
-    public ApiResult<Boolean> updatePw(@CurrentUser User user, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
+    public ApiResult<Boolean> updatePw(@CurrentUser User user, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO){
         userService.updatePw(user.getUserId(), userPwUpdateRequestDTO);
         return ApiUtils.success(true, "비밀번호 변경 성공");
     }
 
     @PutMapping("update/nickname")
-    public ApiResult<Boolean> updateNickname(@CurrentUser User user, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
+    public ApiResult<Boolean> updateNickname(@CurrentUser User user, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO){
         userService.updateNickname(user.getUserId(), userNicknameUpdateRequestDTO);
         return ApiUtils.success(true, "닉네임 변경 성공");
     }
