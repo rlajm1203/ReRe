@@ -43,17 +43,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResult<UserLoginResponseDTO> login(@RequestBody @Valid UserLoginRequestDTO loginRequest, HttpServletRequest request) {
-        User user = userService.login(loginRequest);
-        HttpSession session = request.getSession();
-        session.setAttribute("USER", user);
-        session.setMaxInactiveInterval(1800);
-
-        UserLoginResponseDTO userLoginResponseDTO = UserLoginResponseDTO.builder()
-                .nickname(user.getNickname())
-                .build();
-
-        return ApiUtils.success(userLoginResponseDTO,"로그인 성공");
+    public ApiResult<UserLoginResponseDTO> login(@RequestBody @Valid UserLoginRequestDTO loginRequest, HttpSession session) {
+        UserLoginResponseDTO userLoginResponseDTO = userService.login(loginRequest, session);
+        return ApiUtils.success(userLoginResponseDTO, "로그인 성공");
     }
 
     @PostMapping("/logout")

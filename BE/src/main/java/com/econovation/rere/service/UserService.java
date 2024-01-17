@@ -1,6 +1,7 @@
 package com.econovation.rere.service;
 
 import com.econovation.rere.domain.dto.request.*;
+import com.econovation.rere.domain.dto.response.UserLoginResponseDTO;
 import com.econovation.rere.domain.entity.User;
 import com.econovation.rere.domain.repository.UserRepository;
 import com.econovation.rere.exception.DuplicateLoginIdException;
@@ -53,17 +54,25 @@ public class UserService {
         return userCreateRequestDTO.getLoginId();
     }
 
-    public void logout(HttpSession session) {
-        if (session != null) session.invalidate();
-    }
 
-    public User login(UserLoginRequestDTO loginRequest) throws InvalidLoginException, UserNotFoundException{
+    public UserLoginResponseDTO login(UserLoginRequestDTO loginRequest, HttpSession session) throws InvalidLoginException, UserNotFoundException{
         User user = userRepository.findByLoginId(loginRequest.getLoginId())
                 .orElseThrow(() -> new UserNotFoundException("해당 사용자가 존재하지 않습니다."));
+        
         if (!passwordEncoder.matches(loginRequest.getPw(), user.getPw())) {
             throw new InvalidLoginException("아이디와 비밀번호가 일치하지 않습니다.");
         }
-        return user;
+
+        session.setAttribute("USER", user);
+        session.setMaxInactiveInterval(1800);
+
+        return UserLoginResponseDTO.builder()
+                .nickname(user.getNickname())
+                .build();
+    }
+
+    public void logout(HttpSession session) {
+        if (session != null) session.invalidate();
     }
 
     public void updatePw(Integer userId, UserPwUpdateRequestDTO userPwUpdateRequestDTO) {
