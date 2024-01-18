@@ -23,13 +23,13 @@ const ButtonField = styled.button`
   margin-top: 80px;
 `;
 
-const CardBook = ({ data }) => {
+const CardBook = ({ data, cardbookId }) => {
   return (
     <CardBookContainer>
-      <Link to={`/index`}>
+      <Link to={`/cardbook/${cardbookId}/themes`}>
         <ImageField src="bookImage.png" alt="book cover" />
       </Link>
-      <Link to={`/index`}>
+      <Link to={`/cardbook/${cardbookId}/themes`}>
         <ButtonField>
           <div style={{ color: "#007af3", fontSize: 17 }}>{data.name}</div>
           <div style={{ marginTop: 10, fontSize: 17 }}>{data.writer}</div>

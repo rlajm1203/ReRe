@@ -11,7 +11,7 @@ const Header = () => {
           <Link to="/">
             <Logo
               style={{ zIndex: 9999, position: "relative" }}
-              src="logo.png"
+              src="/logo.png"
               alt="logo"
             />
           </Link>

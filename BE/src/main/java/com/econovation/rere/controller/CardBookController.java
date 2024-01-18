@@ -15,6 +15,7 @@ import com.econovation.rere.service.ThemeService;
 import com.econovation.rere.service.UserCardBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,24 +106,24 @@ public class CardBookController {
     }
 
     // 카드북 이미지 조회
-    @GetMapping("/cardbook/{cardbookId}/image")
-    public ApiResult<ImageResponseDTO> getCardBookImage(@PathVariable Integer cardbookId) {
-        log.info("카드북 이미지 조회 요청 (CardbookID) : "+cardbookId);
-        byte[] imageData = cardBookService.getCardBookImage(cardbookId);
-        String contentType = cardBookService.determineMimeType(imageData);
-        ImageResponseDTO imageResponseDTO = new ImageResponseDTO(imageData, contentType);
-        return ApiUtils.success(imageResponseDTO, "Image loaded successfully");
-    }
+//    @GetMapping("/cardbook/{cardbookId}/image")
+//    public ApiResult<ImageResponseDTO> getCardBookImage(@PathVariable Integer cardbookId) {
+//        log.info("카드북 이미지 조회 요청 (CardbookID) : "+cardbookId);
+//        byte[] imageData = cardBookService.getCardBookImage(cardbookId);
+//        String contentType = cardBookService.determineMimeType(imageData);
+//        ImageResponseDTO imageResponseDTO = new ImageResponseDTO(imageData, contentType);
+//        return ApiUtils.success(imageResponseDTO, "Image loaded successfully");
+//    }
 
     // 이미지 바로 보여짐
-//    @GetMapping("/cardbook/{cardBookId}/image")
-//    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardBookId) {
-//        byte[] imageData = cardBookService.getCardBookImage(cardBookId);
-//        return ResponseEntity
-//                .ok()
-//                .contentType(MediaType.IMAGE_JPEG)
-//                .body(imageData);
-//    }
+    @GetMapping("/cardbook/{cardBookId}/image")
+    public ResponseEntity<byte[]> getCardBookImage(@PathVariable Integer cardBookId) {
+        byte[] imageData = cardBookService.getCardBookImage(cardBookId);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(imageData);
+    }
 
 //    사용자가 카드북 담기
     @PostMapping("/usercardbook/{cardbookId}")
