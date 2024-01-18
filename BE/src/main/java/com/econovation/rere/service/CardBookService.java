@@ -2,7 +2,6 @@ package com.econovation.rere.service;
 
 
 import com.econovation.rere.domain.dto.request.CardBookCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.CardBookRemoveRequestDTO;
 import com.econovation.rere.domain.dto.request.CardBookUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
@@ -13,10 +12,7 @@ import com.econovation.rere.domain.entity.UserCardBook;
 import com.econovation.rere.domain.repository.CardBookRepository;
 import com.econovation.rere.domain.repository.UserCardBookRepository;
 import com.econovation.rere.domain.repository.UserRepository;
-import com.econovation.rere.exception.CardBookNotFoundException;
-import com.econovation.rere.exception.EntityNotFoundException;
-import com.econovation.rere.exception.SearchNotFoundException;
-import com.econovation.rere.exception.UserNotFoundException;
+import com.econovation.rere.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -49,16 +45,10 @@ public class CardBookService {
 
         User user = this.userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException());
         LocalDateTime timenow = LocalDateTime.now();
-        // 필요한 정보만 따로 추출하는 메소드를 작성해야 할 듯
 
         byte[] imageData = processImageData(cardBookCreateRequestDTO.getImage());
-//        MultipartFile imageFile = cardBookCreateRequestDTO.getImage();
-//        if (imageFile != null && !imageFile.isEmpty()) {
-//            imageData = imageFile.getBytes();
-//        }
 
-        CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),timenow,imageData);
-        log.info("Image data size before DB save: " + (cardBook.getImage() != null ? cardBook.getImage().length : "null"));
+        CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),user.getUserId(),timenow,imageData);
         cardBookRepository.save(cardBook);
 
         UserCardBook userCardBook = UserCardBook.builder()
@@ -73,44 +63,41 @@ public class CardBookService {
 
     private byte[] processImageData(MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
-            log.info("imageFile.getBytes() -> " + imageFile.getBytes());
-
             return imageFile.getBytes();
         } else {
-            return loadDefaultImageData(); // 기본 이미지 데이터 로드 메소드 호출
+            return loadDefaultImageData();
         }
     }
-
 
     private byte[] loadDefaultImageData() {
         try {
             ClassPathResource resource = new ClassPathResource("static/images/default-image.png");
             try (InputStream inputStream = resource.getInputStream()) {
-                byte[] imageData = inputStream.readAllBytes();
-                log.info("Loaded default image data, size: " + imageData.length);
-                return imageData;
+                return inputStream.readAllBytes();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load default image", e);
+            throw new ImageNotLoadException();
         }
     }
 
 //    수정
     @Transactional(readOnly = false)
-    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO) throws CardBookNotFoundException{
+    public CardBookResponseDTO update(CardBookUpdateRequestDTO cardBookUpdateRequestDTO) throws CardBookNotFoundException, IOException {
         CardBook cardBook = this.cardBookRepository.findById(cardBookUpdateRequestDTO.getCardbookId())
                 .orElseThrow(()->new CardBookNotFoundException());
 
         cardBook.setName(cardBookUpdateRequestDTO.getName());
         cardBook.setUpdateDate(LocalDateTime.now());
+        byte[] imageData = processImageData(cardBookUpdateRequestDTO.getImage());
+        cardBook.setImage(imageData);
 
         return CardBookResponseDTO.toCardBookResponseDTO(cardBook);
     }
 
 //    삭제
     @Transactional(readOnly = false)
-    public boolean remove(CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
-        if(cardBookRepository.deleteByCardbookId(cardBookRemoveRequestDTO.getCardbookId())==1) return true;
+    public boolean remove(Integer cardbookId){
+        if(cardBookRepository.deleteByCardbookId(cardbookId)==1) return true;
         else return false;
     }
 
@@ -134,8 +121,12 @@ public class CardBookService {
         List<CardBook> cardBooks = cardBookRepository.findByWriter("admin");
         cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
-        return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
+        Integer length = cardBooks.size();
 
+        if(length>=3) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
+        else if(length==2) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,2));
+        else if(length==1) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,1));
+        else return CardBookResponseDTO.toCardBookResponseDTOS(new ArrayList<CardBook>());
     }
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId) throws UserNotFoundException{
