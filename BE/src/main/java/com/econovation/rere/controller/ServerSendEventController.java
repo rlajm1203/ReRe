@@ -27,6 +27,7 @@ public class ServerSendEventController {
 
     @GetMapping(value = "/connect", produces = "text/event-stream")
     public SseEmitter connect(HttpServletRequest request) {
+        log.info("SSE 연결 요청");
         Integer userId = ((User)request.getSession().getAttribute("USER")).getUserId();
 //        emitter 생성, 추가
         SseEmitter emitter = alarmService.connect(userId);

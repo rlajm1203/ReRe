@@ -29,7 +29,7 @@ public class CardBookCreateRequestDTO {
     // 이미지
     private MultipartFile image;
 
-    public CardBook toEntity(String writer, LocalDateTime timenow, byte[] defaultImageData){
+    public CardBook toEntity(String writer, Integer writerId, LocalDateTime timenow, byte[] defaultImageData){
         byte[] imageData = null;
         try {
             if (image != null && !image.isEmpty()) {
@@ -41,12 +41,11 @@ public class CardBookCreateRequestDTO {
             throw new RuntimeException("이미지 파일 처리 중 오류가 발생했습니다.", e);
         }
 
-        log.info("Image data size to be stored: " + (imageData != null ? imageData.length : "null"));
-
         return CardBook.builder()
                 .name(name)
                 .image(imageData)
                 .writer(writer)
+                .writerId(writerId)
                 .createDate(timenow)
                 .updateDate(timenow)
                 .scrapCnt(1)

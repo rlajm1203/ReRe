@@ -24,10 +24,6 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        User user = (User)request.getSession().getAttribute("USER");
-        if (user == null) {
-            throw new NotAthenticationException("로그인이 필요한 서비스 입니다.");
-        }
-        return user;
+        return request.getSession().getAttribute("USER");
     }
 }
