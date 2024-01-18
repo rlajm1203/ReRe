@@ -38,6 +38,7 @@ const MainPage = () => {
           <MyCardBookContainer>
             <Grid
               // cardBookId={data.data.response.myCardbooks.cardbookId}
+
               data={data.data.response.myCardbooks}
               barText="나의 카드북"
             ></Grid>
