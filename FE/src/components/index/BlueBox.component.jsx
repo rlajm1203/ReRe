@@ -1,15 +1,34 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const BlueBox = ({ data, onDelete }) => {
-  console.log(data);
+  const { cardBookId } = useParams();
+
+  const handleDelete = () => {
+    // DELETE 요청 보내는 코드 작성
+    fetch(
+      `https://be.econo-rere.store/cardbook/${cardBookId}/theme/${data.themeId}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("삭제 요청이 완료되었습니다.", data);
+        // 삭제 요청이 완료되면 추가적인 작업 수행
+      })
+      .catch((error) => {
+        console.error("삭제 요청 중 오류가 발생했습니다.", error);
+        // 오류 처리
+      });
+  };
   return (
     <div>
       <EditBox>
         <button style={{ fontSize: 16 }}>수정 </button>
         <div style={{ marginTop: 2, marginRight: 10, marginLeft: 10 }}>|</div>
-        <button onClick={onDelete} style={{ fontSize: 16 }}>
+        <button onClick={handleDelete} style={{ fontSize: 16 }}>
           삭제
         </button>
       </EditBox>

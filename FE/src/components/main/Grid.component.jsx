@@ -3,12 +3,13 @@ import CardBook from "../common/CardBook.component";
 import styled from "styled-components";
 import NewCard from "./NewCard.component";
 
-const Grid = ({ data, barText, cardBookId }) => {
+const Grid = ({ data, barText, cardbookId }) => {
   console.log(data);
+  console.log(cardbookId);
   return (
     <GridContainer>
       {data.map((data) => {
-        return <CardBook cardbookId={cardBookId} data={data}></CardBook>;
+        return <CardBook cardbookId={cardbookId} data={data}></CardBook>;
       })}
       {barText === "나의 카드북" && <NewCard></NewCard>}
     </GridContainer>
