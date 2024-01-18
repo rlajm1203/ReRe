@@ -1,4 +1,4 @@
-package com.econovation.rere.Thread;
+package com.econovation.rere.thread;
 
 import com.econovation.rere.domain.entity.CardBook;
 import com.econovation.rere.domain.entity.StudyComplete;
@@ -12,10 +12,7 @@ import com.econovation.rere.event.StudyAlarmEvent;
 import com.econovation.rere.exception.CardBookNotFoundException;
 import com.econovation.rere.exception.UserCardBookNotFoundException;
 import com.econovation.rere.exception.UserNotFoundException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 

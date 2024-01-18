@@ -2,7 +2,6 @@ package com.econovation.rere.service;
 
 
 import com.econovation.rere.domain.dto.request.CardBookCreateRequestDTO;
-import com.econovation.rere.domain.dto.request.CardBookRemoveRequestDTO;
 import com.econovation.rere.domain.dto.request.CardBookUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.CardBookResponseDTO;
 import com.econovation.rere.domain.dto.response.UserCardBookResponseDTO;
@@ -97,8 +96,8 @@ public class CardBookService {
 
 //    삭제
     @Transactional(readOnly = false)
-    public boolean remove(CardBookRemoveRequestDTO cardBookRemoveRequestDTO){
-        if(cardBookRepository.deleteByCardbookId(cardBookRemoveRequestDTO.getCardbookId())==1) return true;
+    public boolean remove(Integer cardbookId){
+        if(cardBookRepository.deleteByCardbookId(cardbookId)==1) return true;
         else return false;
     }
 
@@ -122,8 +121,12 @@ public class CardBookService {
         List<CardBook> cardBooks = cardBookRepository.findByWriter("admin");
         cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
-        return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
+        Integer length = cardBooks.size();
 
+        if(length>=3) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,3));
+        else if(length==2) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,2));
+        else if(length==1) return CardBookResponseDTO.toCardBookResponseDTOS(cardBooks.subList(0,1));
+        else return CardBookResponseDTO.toCardBookResponseDTOS(new ArrayList<CardBook>());
     }
 
     public List<CardBookResponseDTO> getMyCardbook(Integer userId) throws UserNotFoundException{
