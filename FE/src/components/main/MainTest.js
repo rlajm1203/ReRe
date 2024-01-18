@@ -14,6 +14,12 @@ export const mainPageCardbooks = {
         writer: "관리자",
         createDate: "2023-11-11",
       },
+      {
+        cardbookId: 2,
+        cardbookName: "컴퓨터 활용 능력 1급",
+        writer: "관리자",
+        createDate: "2023-11-11",
+      },
     ],
     myCardbooks: null,
   },

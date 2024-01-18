@@ -5,23 +5,25 @@ import Bar from "../components/common/Bar.component.jsx";
 import styled from "styled-components";
 import BlueBox from "../components/index/BlueBox.component.jsx";
 import NewBlueBox from "../components/index/NewBlueBox.component.jsx";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { indexPageIndexs } from "../components/index/IndexTest.js";
 import IndexGrid from "../components/index/IndexGrid.component.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { mainContents } from "../service/main.js";
+import { indexContents } from "../service/main.js";
 
 const IndexPage = () => {
   const datas = indexPageIndexs.response;
+  const { cardBookId } = useParams();
+  console.log(cardBookId);
   const { data, isLoading, error } = useQuery({
     queryKey: ["Indexs"],
-    queryFn: () => mainContents(),
+    queryFn: () => indexContents(cardbookId),
   });
   const sse = new EventSource("https://be.econo-rere.store/connect");
 
   sse.addEventListener("connect", (e) => {
     const { data: receivedConnectData } = e;
-    console.log("connect event data: ", receivedConnectData); // "connected!"
+    console.log("connect event data: ", receivedConnectData);
   });
   return (
     <div>
