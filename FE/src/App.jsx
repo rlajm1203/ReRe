@@ -16,7 +16,10 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cardbook/:cardBookId/themes" element={<IndexPage />} />
       <Route path="/search" element={<SearchPage />} />
-      <Route path="/card" element={<CardPage />} />
+      <Route
+        path="/cardbook/:cardbookId}/theme/:themeId}/cards"
+        element={<CardPage />}
+      />
       <Route path="/cardcreate" element={<CardCreatePage />} />
     </Routes>
   );

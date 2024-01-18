@@ -30,12 +30,15 @@ const MainPage = () => {
         <MainContainer>
           <MainBar text="기본 카드북"></MainBar>
           <Grid
+            // cardBookId={data.data.response.originCardbooks.cardbookId}
             data={data.data.response.originCardbooks}
             barText="기본 카드북"
           ></Grid>
           <MainBar text="나의 카드북"></MainBar>
           <MyCardBookContainer>
             <Grid
+              // cardBookId={data.data.response.myCardbooks.cardbookId}
+
               data={data.data.response.myCardbooks}
               barText="나의 카드북"
             ></Grid>

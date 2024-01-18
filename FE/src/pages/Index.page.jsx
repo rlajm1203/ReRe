@@ -17,7 +17,7 @@ const IndexPage = () => {
   console.log(cardBookId);
   const { data, isLoading, error } = useQuery({
     queryKey: ["Indexs"],
-    queryFn: () => indexContents(cardbookId),
+    queryFn: () => indexContents(cardBookId),
   });
   const sse = new EventSource("https://be.econo-rere.store/connect");
 
