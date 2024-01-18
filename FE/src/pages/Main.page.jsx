@@ -36,7 +36,7 @@ const MainPage = () => {
           <MainBar text="나의 카드북"></MainBar>
           <MyCardBookContainer>
             <Grid
-              data={data.data.response.originCardbooks}
+              data={data.data.response.myCardbooks}
               barText="나의 카드북"
             ></Grid>
           </MyCardBookContainer>
