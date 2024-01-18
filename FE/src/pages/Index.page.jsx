@@ -11,12 +11,12 @@ import IndexGrid from "../components/index/IndexGrid.component.jsx";
 
 const IndexPage = () => {
   const datas = indexPageIndexs.response;
-  const sse = new EventSource("http://localhost:8080/connect");
+  // const sse = new EventSource("http://localhost:8080/connect");
 
-  sse.addEventListener("connect", (e) => {
-    const { data: receivedConnectData } = e;
-    console.log("connect event data: ", receivedConnectData); // "connected!"
-  });
+  // sse.addEventListener("connect", (e) => {
+  //   const { data: receivedConnectData } = e;
+  //   console.log("connect event data: ", receivedConnectData); // "connected!"
+  // });
   return (
     <div>
       <Header />

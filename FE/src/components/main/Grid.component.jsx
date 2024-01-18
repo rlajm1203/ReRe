@@ -3,14 +3,14 @@ import CardBook from "../common/CardBook.component";
 import styled from "styled-components";
 import NewCard from "./NewCard.component";
 
-const Grid = (datas) => {
-  console.log(datas.data);
+const Grid = ({ data, barText }) => {
+  console.log(data);
   return (
     <GridContainer>
-      {datas.data.map((data) => {
+      {data.map((data) => {
         return <CardBook data={data}></CardBook>;
       })}
-      <NewCard></NewCard>
+      {barText === "나의 카드북" && <NewCard></NewCard>}
     </GridContainer>
   );
 };

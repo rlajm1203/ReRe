@@ -14,7 +14,7 @@ const CardCreatePage = () => {
   const [isEditable, setIsEditable] = useState(true);
   const [cardCount, setCardCount] = useState(0);
   const [checkedCardCount, setCheckedCardCount] = useState(0);
-
+  console.log(checkedCardCount);
   const handleInputChange = (e) => {
     setTitle(e.target.value);
   };
@@ -57,19 +57,16 @@ const CardCreatePage = () => {
             onChange={handleInputChange}
             disabled={!isEditable}
           />
-          <SaveButton onClick={handleButtonClick}>
-            {isEditable ? "저장" : "수정"}
-          </SaveButton>
         </div>
         <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "1.5625rem" }}>
+          <div style={{ marginRight: "2rem" }}>
             <CardInputWithGreyBar
               greyBarText="문제 입력"
               value={problem}
               onChange={(e) => setProblem(e.target.value)}
             />
           </div>
-          <div style={{ marginLeft: "1.5625rem" }}>
+          <div style={{ marginLeft: "1.1rem" }}>
             <CardInputWithGreyBar
               greyBarText="정답 입력"
               value={answer}
@@ -80,6 +77,9 @@ const CardCreatePage = () => {
         <ButtonContainer>
           <Button onClick={handleAddCard}>문제 추가</Button>
         </ButtonContainer>
+
+        <SaveButton onClick={handleAddCard}>전체 저장</SaveButton>
+
         <SelectedNum cardCount={cardCount} checkedCardCount={checkedCardCount}>
           <IconSpace>
             <Icon type="trash" />
@@ -101,6 +101,7 @@ const CardCreatePage = () => {
                 handleEditCard(index, newProblem, newAnswer)
               }
               onDelete={() => handleDeleteCard(index)}
+              setCheckedCardCount={setCheckedCardCount}
             />
           ))}
         </div>
@@ -113,11 +114,11 @@ export default CardCreatePage;
 
 const ButtonContainer = styled.div`
   display: flex;
-  width: 11.25rem;
+  width: 10.6rem;
   justify-content: center;
   position: relative;
   margin-top: 2.5rem;
-  margin-left: 66.75rem;
+  margin-left: 67.9rem;
 `;
 
 const IconSpace = styled(StyledIcon)`
@@ -125,7 +126,7 @@ const IconSpace = styled(StyledIcon)`
 `;
 
 const Input = styled.input`
-  width: 71.5625rem;
+  width: 77.4rem;
   height: 2.1875rem;
   border: 0.0625rem solid #ccc;
   border-radius: 0.3125rem;
@@ -138,10 +139,15 @@ const Input = styled.input`
 `;
 
 const SaveButton = styled(Button)`
-  width: 5rem;
-  height: 2.4375rem;
-  font-weight: 400;
+  width: 10.6rem;
+  height: 3.2375rem;
+  font-weight: 600;
   border-radius: 0.3125rem;
   background-color: grey;
   align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: -3.3rem;
+  margin-left: 56.2rem;
 `;

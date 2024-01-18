@@ -29,7 +29,7 @@ const InputBox = styled.input`
   display: flex;
   position: relative;
   top: 60px;
-  width: 580px;
+  width: 585px;
   height: 130px;
   border: 1px solid #bbb;
   padding-left: 15px;
@@ -45,7 +45,7 @@ const GreyBox = styled.label`
   display: flex;
   position: relative;
   top: 60px;
-  width: 582px;
+  width: 587px;
   height: 30px;
   padding-left: 15px;
   padding-top: 15px;

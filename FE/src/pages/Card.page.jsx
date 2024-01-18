@@ -6,12 +6,13 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import "../styles/CardStyle.css";
 import { cardTest } from "../components/card/CardTest.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CardPage = () => {
   const [flipped, setFlipped] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
   const [datas, setDatas] = useState(cardTest.data.cards);
+  const navigate = useNavigate();
 
   const handleFlip = () => {
     setFlipped(!flipped);
@@ -31,7 +32,7 @@ const CardPage = () => {
       }
     } else {
       alert("모든 학습이 끝났습니다.");
-      window.location.href = "/";
+      navigate(-1);
     }
     setFlipped(false);
   };
@@ -52,7 +53,7 @@ const CardPage = () => {
         ></Card>
         <Card onClick={handleFlip} flipped={flipped}>
           <CardFace className={flipped ? "card-back" : "card-front"}>
-            {flipped ? datas[cardIndex].answer : datas[cardIndex].content}
+            {flipped ? datas[cardIndex]?.answer : datas[cardIndex]?.content}
           </CardFace>
         </Card>
       </CardContainer>

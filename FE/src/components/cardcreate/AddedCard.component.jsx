@@ -3,7 +3,13 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Icon, StyledIcon } from "../common/Icon.component";
 
-const AddedCard = ({ problem, answer, onEdit, onDelete }) => {
+const AddedCard = ({
+  problem,
+  answer,
+  onEdit,
+  onDelete,
+  setCheckedCardCount,
+}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newProblem, setNewProblem] = useState(problem);
@@ -23,7 +29,12 @@ const AddedCard = ({ problem, answer, onEdit, onDelete }) => {
       <Container>
         <SelectBox>
           <IconSpace
-            onClick={() => setIsChecked(!isChecked)}
+            onClick={() => {
+              setIsChecked(!isChecked);
+              setCheckedCardCount((prev) => {
+                return isChecked ? prev - 1 : prev + 1;
+              });
+            }}
             color={isChecked ? "#007af3" : "grey"}
           >
             <Icon type="checkbox" size={30} />
@@ -141,7 +152,7 @@ const AnswerBox = styled.textarea`
   }
 `;
 
-const SelectBox = styled.label`
+const SelectBox = styled.div`
   display: flex;
   position: relative;
   top: 20px;
