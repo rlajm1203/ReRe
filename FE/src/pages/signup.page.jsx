@@ -25,7 +25,7 @@ function SignupPage({}) {
 
     if (!errors.loginId) {
       axios
-        .post("http://172.30.1.59:8080/users/login-id/check", {
+        .post("https://be.econo-rere.store/users/login-id/check", {
           loginId,
         })
         .then((res) => {
@@ -45,7 +45,7 @@ function SignupPage({}) {
     const nickname = getValues("nickname");
     if (!errors.nickname) {
       axios
-        .post("http://172.30.1.59:8080/users/nickname/check", {
+        .post("https://be.econo-rere.store/users/nickname/check", {
           nickname,
         })
         .then((res) => {
@@ -77,7 +77,7 @@ function SignupPage({}) {
 
     if (doubleName && doubleId) {
       axios
-        .post("http://172.30.1.59:8080/users/signup", data)
+        .post("https://be.econo-rere.store/users/signup", data)
         .then((res) => {
           console.log(res);
           if (res.data.success) {

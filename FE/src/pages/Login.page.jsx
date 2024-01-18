@@ -17,7 +17,7 @@ function LoginPage({}) {
 
   const handleLogin = (data) => {
     axios
-      .post("http://172.30.1.59:8080/users/login", data, {
+      .post("https://be.econo-rere.store/users/login", data, {
         withCredentials: "true",
       })
       .then((res) => {

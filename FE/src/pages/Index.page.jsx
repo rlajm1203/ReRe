@@ -8,15 +8,21 @@ import NewBlueBox from "../components/index/NewBlueBox.component.jsx";
 import { Link } from "react-router-dom";
 import { indexPageIndexs } from "../components/index/IndexTest.js";
 import IndexGrid from "../components/index/IndexGrid.component.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { mainContents } from "../service/main.js";
 
 const IndexPage = () => {
   const datas = indexPageIndexs.response;
-  // const sse = new EventSource("http://localhost:8080/connect");
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["Indexs"],
+    queryFn: () => mainContents(),
+  });
+  const sse = new EventSource("https://be.econo-rere.store/connect");
 
-  // sse.addEventListener("connect", (e) => {
-  //   const { data: receivedConnectData } = e;
-  //   console.log("connect event data: ", receivedConnectData); // "connected!"
-  // });
+  sse.addEventListener("connect", (e) => {
+    const { data: receivedConnectData } = e;
+    console.log("connect event data: ", receivedConnectData); // "connected!"
+  });
   return (
     <div>
       <Header />
