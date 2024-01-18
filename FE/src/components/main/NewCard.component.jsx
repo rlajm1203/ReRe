@@ -68,16 +68,12 @@ const ImageAdd = styled.div`
   height: 192.5px;
   border: 2px dashed #007af3;
   border-right: none;
-
-  margin-top: 80px;
 `;
 
 const TitleAdd = styled.div`
   width: 226px;
   height: 192.5px;
   border: 2px dashed #007af3;
-
-  margin-top: 80px;
 `;
 
 const NewCardContainer = styled.div`

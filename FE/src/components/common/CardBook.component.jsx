@@ -31,11 +31,9 @@ const CardBook = ({ data }) => {
       </Link>
       <Link to={`/index`}>
         <ButtonField>
-          <div style={{ color: "#007af3", fontSize: 17 }}>
-            {data.cardbookName}
-          </div>
+          <div style={{ color: "#007af3", fontSize: 17 }}>{data.name}</div>
           <div style={{ marginTop: 10, fontSize: 17 }}>{data.writer}</div>
-          <div style={{ marginTop: 30, fontSize: 17 }}>{data.createDate}</div>
+          <div style={{ marginTop: 30, fontSize: 17 }}>{data.updateDate}</div>
         </ButtonField>
       </Link>
     </CardBookContainer>

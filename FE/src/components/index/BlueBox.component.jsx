@@ -2,14 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const BlueBox = ({ data }) => {
+const BlueBox = ({ data, onDelete }) => {
   console.log(data);
   return (
     <div>
       <EditBox>
         <button style={{ fontSize: 16 }}>수정 </button>
         <div style={{ marginTop: 2, marginRight: 10, marginLeft: 10 }}>|</div>
-        <button style={{ fontSize: 16 }}>삭제</button>
+        <button onClick={onDelete} style={{ fontSize: 16 }}>
+          삭제
+        </button>
       </EditBox>
       <BlueSquare style={{}}>
         <div>

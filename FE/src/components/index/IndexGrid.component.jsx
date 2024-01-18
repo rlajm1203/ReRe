@@ -2,13 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import BlueBox from "./BlueBox.component";
 
-const IndexGrid = (datas) => {
-  console.log(datas.data.themes);
+const IndexGrid = ({ data }) => {
+  const [themes, setThemes] = React.useState(data.themes);
+
+  const handleDeleteTheme = (themeId) => {
+    setThemes(themes.filter((theme) => theme.themeId !== themeId));
+  };
+
   return (
     <GridContainer>
-      {datas.data.themes.map((data) => {
-        return <BlueBox data={data} key={data.themeId}></BlueBox>;
-      })}
+      {themes.map((theme) => (
+        <BlueBox
+          data={theme}
+          key={theme.themeId}
+          onDelete={() => handleDeleteTheme(theme.themeId)}
+        />
+      ))}
     </GridContainer>
   );
 };
