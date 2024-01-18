@@ -18,7 +18,7 @@ public class CardBookResponseDTO {
     private Integer cardbookId;
     private String name;
     private String writer;
-    private LocalDateTime updateDate;
+    private String updateDate;
     private String imageUrl;
 
     public static CardBookResponseDTO toCardBookResponseDTO(CardBook cardBook){
@@ -26,7 +26,9 @@ public class CardBookResponseDTO {
         return CardBookResponseDTO.builder()
                 .writer(cardBook.getWriter())
                 .name(cardBook.getName())
-                .updateDate(cardBook.getUpdateDate())
+                .updateDate(cardBook.getUpdateDate().getYear()+"-"
+                        +cardBook.getUpdateDate().getMonthValue()+"-"
+                        +cardBook.getUpdateDate().getDayOfMonth())
                 .cardbookId(cardBook.getCardbookId())
                 .imageUrl(imageUrl)
                 .build();
