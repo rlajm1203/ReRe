@@ -11,6 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 import { mainContents } from "../service/main.js";
 
 const MainPage = () => {
+  // const datas = mainPageCardbooks.response.originCardbooks;
+
+  // axios.get("http://192.168.0.200:8080/cardbooks").then((res) => {
+  //   console.log(res);
+  // });
   const { data, isLoading, error } = useQuery({
     queryKey: ["cardbooks"],
     queryFn: () => mainContents(),

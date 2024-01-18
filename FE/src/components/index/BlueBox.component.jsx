@@ -18,7 +18,7 @@ const BlueBox = ({ data, onDelete }) => {
           <Link to="/card">
             <Img
               style={{ marginRight: 147 }}
-              src="macos-original-icon.png"
+              src="/macos-original-icon.png"
             ></Img>
           </Link>
 
@@ -38,7 +38,7 @@ const BlueBox = ({ data, onDelete }) => {
           <div>
             <Img
               style={{ width: 75, transform: "translate(0px, 7px)" }}
-              src="1.png"
+              src="/1.png"
             ></Img>
             <p
               style={{
@@ -50,7 +50,7 @@ const BlueBox = ({ data, onDelete }) => {
             </p>
           </div>
           <div>
-            <Img style={{ width: 75 }} src="2.png"></Img>
+            <Img style={{ width: 75 }} src="/2.png"></Img>
             <p
               style={{
                 width: "100%",
@@ -61,7 +61,7 @@ const BlueBox = ({ data, onDelete }) => {
             </p>
           </div>
           <div>
-            <Img style={{ width: 100 }} src="3.png"></Img>
+            <Img style={{ width: 100 }} src="/3.png"></Img>
             <p
               style={{
                 width: "100%",
@@ -72,7 +72,7 @@ const BlueBox = ({ data, onDelete }) => {
             </p>
           </div>
           <div>
-            <Img style={{ width: 100 }} src="4.png"></Img>
+            <Img style={{ width: 100 }} src="/4.png"></Img>
             <p
               style={{
                 width: "100%",
