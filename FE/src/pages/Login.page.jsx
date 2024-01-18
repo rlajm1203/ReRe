@@ -17,8 +17,8 @@ function LoginPage({}) {
 
   const handleLogin = (data) => {
     axios
-      .post("http://192.168.0.200:8080/users/login", data, {
-        credentials: "include",
+      .post("https://be.econo-rere.store/users/login", data, {
+        withCredentials: "true",
       })
       .then((res) => {
         console.log(res);

@@ -6,42 +6,35 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import "../styles/CardStyle.css";
 import { cardTest } from "../components/card/CardTest.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CardPage = () => {
-  const [flipped, setFlipped] = useState(false); // 카드의 상태를 저장하는 변수
-  const [cardIndex, setCardIndex] = useState(0); // 현재 보여주고 있는 카드의 인덱스를 저장하는 변수
-  const [datas, setDatas] = useState(cardTest.data.cards); // datas를 상태 변수로 변경
+  const [flipped, setFlipped] = useState(false);
+  const [cardIndex, setCardIndex] = useState(0);
+  const [datas, setDatas] = useState(cardTest.data.cards);
+  const navigate = useNavigate();
 
-  // 카드를 클릭할 때마다 flipped 상태를 토글하는 함수
   const handleFlip = () => {
     setFlipped(!flipped);
   };
 
-  // 오른쪽 영역 클릭 이벤트 핸들러
   const handleRightAreaClick = () => {
-    // if (cardIndex < datas.length - 1) {
-    setCardIndex((prevIndex) => (prevIndex + 1) % datas.length); // 카드 인덱스를 1 증가
-    setFlipped(false); // 카드를 뒤집어 content를 보여줌
-    // } else {
-    //   alert("모든 학습이 끝났습니다."); // 경고 메시지 표시
-    //   <Link to="/main"></Link>;
-    // }
+    setCardIndex((prevIndex) => (prevIndex + 1) % datas.length);
+    setFlipped(false);
   };
 
-  // 왼쪽 영역 클릭 이벤트 핸들러
   const handleLeftAreaClick = () => {
-    const newDatas = datas.filter((_, index) => index !== cardIndex); // 현재 카드를 제외한 데이터만 남김
-    setDatas(newDatas); // datas를 업데이트
+    const newDatas = datas.filter((_, index) => index !== cardIndex);
+    setDatas(newDatas);
     if (newDatas.length > 0) {
       if (cardIndex >= newDatas.length) {
-        setCardIndex(0); // cardIndex가 datas.length보다 크거나 같은 경우 cardIndex를 0으로 설정
+        setCardIndex(0);
       }
     } else {
-      alert("모든 학습이 끝났습니다."); // 모든 카드를 삭제했다면 경고 메시지 표시
-      window.location.href = "/";
+      alert("모든 학습이 끝났습니다.");
+      navigate(-1);
     }
-    setFlipped(false); // 카드를 뒤집어 content를 보여줌
+    setFlipped(false);
   };
 
   return (
@@ -60,7 +53,7 @@ const CardPage = () => {
         ></Card>
         <Card onClick={handleFlip} flipped={flipped}>
           <CardFace className={flipped ? "card-back" : "card-front"}>
-            {flipped ? datas[cardIndex].answer : datas[cardIndex].content}
+            {flipped ? datas[cardIndex]?.answer : datas[cardIndex]?.content}
           </CardFace>
         </Card>
       </CardContainer>
@@ -83,7 +76,7 @@ const RightArea = styled.div`
   position: fixed;
   top: 20%;
   right: 0;
-  width: 38%; // 화면의 절반
+  width: 38%;
   height: 100%;
   z-index: 1;
 `;
@@ -92,7 +85,7 @@ const LeftArea = styled.div`
   position: fixed;
   top: 20%;
   left: 0;
-  width: 38%; // 화면의 절반
+  width: 38%;
   height: 100%;
   z-index: 1;
 `;
@@ -122,6 +115,7 @@ const Card = styled.div`
 const CardFace = styled.div`
   box-sizing: border-box;
   display: flex;
+  padding: 1.3rem;
   justify-content: center;
   align-items: center;
   position: absolute;
