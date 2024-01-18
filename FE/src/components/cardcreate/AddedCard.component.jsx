@@ -3,33 +3,65 @@ import styled from "styled-components";
 import { useState } from "react";
 import { Icon, StyledIcon } from "../common/Icon.component";
 
-const AddedCard = () => {
-  const [value, setValue] = useState();
-  const textLimit = () => {
-    if (value.length > 100) {
-      alert("100자 이내로 입력해주세요.");
+const AddedCard = ({
+  problem,
+  answer,
+  onEdit,
+  onDelete,
+  setCheckedCardCount,
+}) => {
+  const [isChecked, setIsChecked] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [newProblem, setNewProblem] = useState(problem);
+  const [newAnswer, setNewAnswer] = useState(answer);
+
+  const handleEditClick = () => {
+    if (isEditing) {
+      onEdit(newProblem, newAnswer);
     }
+    setIsEditing(!isEditing);
+    setNewProblem(problem);
+    setNewAnswer(answer);
   };
 
   return (
     <div>
       <Container>
         <SelectBox>
-          <IconSpace>
+          <IconSpace
+            onClick={() => {
+              setIsChecked(!isChecked);
+              setCheckedCardCount((prev) => {
+                return isChecked ? prev - 1 : prev + 1;
+              });
+            }}
+            color={isChecked ? "#007af3" : "grey"}
+          >
             <Icon type="checkbox" size={30} />
           </IconSpace>
-          <button>수정 </button>
+          <button onClick={handleEditClick}>
+            {isEditing ? "완료" : "수정"}
+          </button>
           <div style={{ marginTop: 2, marginRight: 10, marginLeft: 10 }}>|</div>
-          <button>삭제</button>
+          <button onClick={onDelete}>삭제</button>
         </SelectBox>
-        <ProblemBox
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-            textLimit();
-          }}
-        />
-        <AnswerBox />
+        {isEditing ? (
+          <>
+            <ProblemBox
+              value={newProblem}
+              onChange={(e) => setNewProblem(e.target.value)}
+            />
+            <AnswerBox
+              value={newAnswer}
+              onChange={(e) => setNewAnswer(e.target.value)}
+            />
+          </>
+        ) : (
+          <>
+            <ProblemBox value={problem} disabled={true} />
+            <AnswerBox value={answer} disabled={true} />
+          </>
+        )}
       </Container>
     </div>
   );
@@ -37,13 +69,13 @@ const AddedCard = () => {
 
 export default AddedCard;
 
-export const SelectedNum = ({ children }) => {
+export const SelectedNum = ({ children, cardCount, checkedCardCount }) => {
   return (
     <div>
       <SelectedBar>
         <div>
-          <div className="selectedCard">2개 카드 선택 </div>
-          <div>총 6개</div>
+          <div className="selectedCard">{checkedCardCount}개 카드 선택 </div>
+          <div>총 {cardCount}개</div>
         </div>
         <div>{children}</div>
       </SelectedBar>
@@ -69,6 +101,8 @@ const SelectedBar = styled.div`
   }
   & .selectedCard::after {
     content: "/";
+    margin-right: 5px;
+    margin-left: 5px;
   }
 `;
 
@@ -81,7 +115,7 @@ const ProblemBox = styled.textarea`
   display: flex;
   position: relative;
   top: 20px;
-  width: 580px;
+  width: 584px;
   height: 130px;
   border: 1px solid #bbb;
 
@@ -100,7 +134,7 @@ const ProblemBox = styled.textarea`
 const AnswerBox = styled.textarea`
   display: flex;
   position: relative;
-  width: 580px;
+  width: 584px;
   height: 130px;
 
   resize: none;
@@ -118,11 +152,11 @@ const AnswerBox = styled.textarea`
   }
 `;
 
-const SelectBox = styled.label`
+const SelectBox = styled.div`
   display: flex;
   position: relative;
   top: 20px;
-  width: 567px;
+  width: 571px;
   height: 40px;
   justify-content: flex-end;
   align-items: center;
@@ -140,5 +174,5 @@ const IconSpace = styled(StyledIcon)`
   left: 10px;
   font-size: 30px;
   height: 30px;
-  color: #007af3;
+  color: ${({ color }) => color || "#007af3"};
 `;
