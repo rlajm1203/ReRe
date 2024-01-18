@@ -87,6 +87,11 @@ public class CardBookController {
     @GetMapping("/cardbooks")
     public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
         log.info("메인 페이지 조회 요청");
+        if(user!=null)
+            log.info("USER : " + user.getNickname());
+        else
+            log.info("USER : "+null);
+
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = null;
 
