@@ -48,7 +48,7 @@ public class CardBookService {
 
         byte[] imageData = processImageData(cardBookCreateRequestDTO.getImage());
 
-        CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),timenow,imageData);
+        CardBook cardBook = cardBookCreateRequestDTO.toEntity(user.getNickname(),user.getUserId(),timenow,imageData);
         cardBookRepository.save(cardBook);
 
         UserCardBook userCardBook = UserCardBook.builder()

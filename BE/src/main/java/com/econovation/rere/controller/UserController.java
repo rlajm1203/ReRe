@@ -6,13 +6,11 @@ import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.UserLoginResponseDTO;
 import com.econovation.rere.domain.entity.User;
-import com.econovation.rere.exception.InvalidLogoutException;
 import com.econovation.rere.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -47,40 +45,29 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResult<UserLoginResponseDTO> login(@RequestBody @Valid UserLoginRequestDTO loginRequest, HttpServletRequest request) {
+    public ApiResult<UserLoginResponseDTO> login(@RequestBody @Valid UserLoginRequestDTO loginRequest, HttpSession session) {
         log.info("로그인 요청 (ID) : "+loginRequest.getLoginId());
-        User user = userService.login(loginRequest);
-        HttpSession session = request.getSession();
-        session.setAttribute("USER", user);
-        session.setMaxInactiveInterval(1800);
-
-        UserLoginResponseDTO userLoginResponseDTO = UserLoginResponseDTO.builder()
-                .nickname(user.getNickname())
-                .build();
-
-        return ApiUtils.success(userLoginResponseDTO,"로그인 성공");
+        UserLoginResponseDTO userLoginResponseDTO = userService.login(loginRequest, session);
+        return ApiUtils.success(userLoginResponseDTO, "로그인 성공");
     }
 
     @PostMapping("/logout")
-    public ApiResult<Boolean> logout(HttpServletRequest request) {
-        log.info("로그아웃 요청 (ID): "+((User)request.getSession().getAttribute("USER")).getLoginId());
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            throw new InvalidLogoutException("로그인 되어 있지 않습니다.");
-        }
-        session.invalidate();
+    public ApiResult<Boolean> logout(HttpSession session) {
+        log.info("로그아웃 요청 (ID): "+((User)session.getAttribute("USER")).getLoginId());
+        userService.logout(session);
+
         return ApiUtils.success(true, "로그아웃 성공");
     }
 
     @PutMapping("update/pw")
-    public ApiResult<Boolean> updatePw(@CurrentUser User user, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO, HttpServletRequest request){
+    public ApiResult<Boolean> updatePw(@CurrentUser User user, @RequestBody @Valid UserPwUpdateRequestDTO userPwUpdateRequestDTO){
         log.info("비밀번호 변경 요청 (ID) : "+user.getUserId());
         userService.updatePw(user.getUserId(), userPwUpdateRequestDTO);
         return ApiUtils.success(true, "비밀번호 변경 성공");
     }
 
     @PutMapping("update/nickname")
-    public ApiResult<Boolean> updateNickname(@CurrentUser User user, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO, HttpServletRequest request){
+    public ApiResult<Boolean> updateNickname(@CurrentUser User user, @RequestBody @Valid UserNicknameUpdateRequestDTO userNicknameUpdateRequestDTO){
         log.info("닉네임 변경 요청 (ID) : " + user.getNickname());
         userService.updateNickname(user.getUserId(), userNicknameUpdateRequestDTO);
         return ApiUtils.success(true, "닉네임 변경 성공");

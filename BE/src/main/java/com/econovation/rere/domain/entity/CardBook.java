@@ -43,6 +43,9 @@ public class CardBook {
     @Column(length = 30, nullable = false)
     private String writer; // writer는 User.nickname과 동일
 
+    @Column(nullable = false)
+    private Integer writerId; // 작성자의 회원 고유 아이디
+
 //    @Column(columnDefinition = "TEXT") // columnDefinition은 컬럼의 속성을 정의할 때 사용
     @Column(nullable = false)
     private LocalDateTime createDate;

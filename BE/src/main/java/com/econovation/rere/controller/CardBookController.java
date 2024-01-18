@@ -15,12 +15,10 @@ import com.econovation.rere.service.ThemeService;
 import com.econovation.rere.service.UserCardBookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +30,6 @@ import java.util.List;
 public class CardBookController {
 
     private final CardBookService cardBookService;
-    private final ThemeService themeService;
     private final UserCardBookService userCardBookService;
 
 //    생성
@@ -63,7 +60,7 @@ public class CardBookController {
                 .cardbookId(cardbookId)
                 .image(image)
                 .build();
-        if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        if(!cardBookService.getCardbook(cardBookUpdateRequestDTO.getCardbookId()).getWriterId().equals(user.getUserId())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         CardBookResponseDTO cardBookResponseDTO = cardBookService.update(cardBookUpdateRequestDTO);
         return ApiUtils.success(cardBookResponseDTO,"카드북이 수정되었습니다.");
     }
@@ -74,6 +71,7 @@ public class CardBookController {
         log.info("카드북 삭제 요청 (Nickname) : " + user.getNickname());
         if(!cardBookService.getCardbook(cardbookId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         Boolean result = cardBookService.remove(cardbookId);
+
         return ApiUtils.success(result, "카드북 삭제가 완료되었습니다.");
     }
 
@@ -87,12 +85,10 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(HttpServletRequest request){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
         log.info("메인 페이지 조회 요청");
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
         List<CardBookResponseDTO> myCardbook = null;
-
-        User user = ((User)request.getSession().getAttribute("USER"));
 
         if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
