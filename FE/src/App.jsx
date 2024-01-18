@@ -14,7 +14,7 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/index" element={<IndexPage />} />
+      <Route path="/cardbook/:cardBookId/themes" element={<IndexPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/card" element={<CardPage />} />
       <Route path="/cardcreate" element={<CardCreatePage />} />
