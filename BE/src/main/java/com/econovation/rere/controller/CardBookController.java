@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -94,7 +95,7 @@ public class CardBookController {
             log.info("USER : "+null);
 
         List<CardBookResponseDTO> defaultCardbook = cardBookService.getDefaultCardbook();
-        List<CardBookResponseDTO> myCardbook = null;
+        List<CardBookResponseDTO> myCardbook = new ArrayList<>();
 
         if(user!=null) myCardbook = cardBookService.getMyCardbook(user.getUserId());
         MainPageResponseDTO mainPageResponseDTO = MainPageResponseDTO.builder()
