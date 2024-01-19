@@ -118,7 +118,7 @@ public class CardBookService {
 
 //    메인 페이지에 띄울 기본 카드북 가져오기 (스크랩 수 내림차순을 기준으로 정렬)
     public List<CardBookResponseDTO> getDefaultCardbook(){
-        List<CardBook> cardBooks = cardBookRepository.findByWriter("admin");
+        List<CardBook> cardBooks = cardBookRepository.findByWriter("관리자");
         cardBooks.sort((cb1, cb2)->( cb2.getScrapCnt()-cb1.getScrapCnt()));
 
         Integer length = cardBooks.size();
