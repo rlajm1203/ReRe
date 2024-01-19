@@ -3,6 +3,7 @@ package com.econovation.rere.controller;
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.config.CurrentUser;
+import com.econovation.rere.domain.dto.request.CardbookThemesResponseDTO;
 import com.econovation.rere.domain.dto.request.ThemeCreateRequestDTO;
 import com.econovation.rere.domain.dto.request.ThemeUpdateRequestDTO;
 import com.econovation.rere.domain.dto.response.ThemePageResponseDTO;
@@ -42,19 +43,27 @@ public class ThemeController {
 
     //    해당 카드북의 모든 목차 가져오기
     @GetMapping("/cardbook/{cardbookId}/themes")
-    public ApiResult<List<ThemeResponseDTO>> themepageThemes(@CurrentUser User user, @PathVariable Integer cardbookId){
-        log.info("사용자 : "+user.getNickname()+", 목차 조회 (CardbookID) : "+cardbookId);
+    public ApiResult<CardbookThemesResponseDTO> themepageThemes(@CurrentUser User user, @PathVariable Integer cardbookId){
+//        log.info("사용자 : "+user.getNickname()+", 목차 조회 (CardbookID) : "+cardbookId);
 //        이 서비스를 실행하는 순간, 학습 시간을 체크하는 스레드가 실행
-        studyService.studyTimeCheck(cardbookId, user.getUserId());
-        if(user==null) {
-            return ApiUtils.success(themeService.getAllNotLogin(cardbookId), "목차 조회에 성공하였습니다.");
-        }
+//        studyService.studyTimeCheck(cardbookId, user.getUserId());
+
+        CardbookThemesResponseDTO responseDTO = new CardbookThemesResponseDTO();
+        String cardbookName = cardBookService.getCardbook(cardbookId).getName();
+        log.info("cardbookName : " + cardbookName);
+        responseDTO.setCardbookName(cardbookName);
+
+        // themes 설정
+        List<ThemeResponseDTO> themes;
+        if (user == null) { themes = themeService.getAllNotLogin(cardbookId); }
         else {
             if (userCardBookService.checkExistsInUserCardBook(user.getUserId(), cardbookId))
-                return ApiUtils.success(themeService.getAll(cardbookId, user.getUserId()), "목차 조회에 성공하였습니다.");
+                themes = themeService.getAll(cardbookId, user.getUserId());
             else
                 throw new NotAthenticationException("카드북을 담지 않았습니다.");
         }
+        responseDTO.setThemes(themes);
+        return ApiUtils.success(responseDTO, "목차 조회에 성공하였습니다.");
     }
 
     //    목차,카드 수정하기
