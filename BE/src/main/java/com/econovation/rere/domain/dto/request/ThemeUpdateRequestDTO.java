@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ThemeUpdateRequestDTO {
 
-    @NotEmpty(message = "please write themeName")
+    @NotBlank(message = "please write themeName")
     private String name;
 
 //    @NotEmpty(message = "please write cardbookId")
@@ -32,7 +32,7 @@ public class ThemeUpdateRequestDTO {
 //    private LocalDateTime timenow;
 
     //    theme 하나에 여러 카드가 존재하므로
-    @NotEmpty(message = "please write cards")
+    @NotBlank(message = "please write cards")
     private List<CardUpdateRequestDTO> cards;
 
 }
