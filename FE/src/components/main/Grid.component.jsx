@@ -3,13 +3,22 @@ import CardBook from "../common/CardBook.component";
 import styled from "styled-components";
 import NewCard from "./NewCard.component";
 
-const Grid = ({ data, barText, cardbookId }) => {
+const Grid = ({ data, barText, cardbookId, onCardbookClick }) => {
+  const handleCardbookClick = (cardbookId) => {
+    onCardbookClick(cardbookId);
+  };
   console.log(data);
   console.log(cardbookId);
   return (
     <GridContainer>
       {data.map((data) => {
-        return <CardBook cardbookId={cardbookId} data={data}></CardBook>;
+        return (
+          <CardBook
+            cardbookId={data.cardbookId}
+            data={data}
+            onClick={() => handleCardbookClick(data.cardbookId)}
+          ></CardBook>
+        );
       })}
       {barText === "나의 카드북" && <NewCard></NewCard>}
     </GridContainer>

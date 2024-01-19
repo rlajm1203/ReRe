@@ -12,29 +12,34 @@ import { useQuery } from "@tanstack/react-query";
 import { indexContents } from "../service/main.js";
 
 const IndexPage = () => {
-  const datas = indexPageIndexs.response;
+  //const datas = indexPageIndexs.response;
   const { cardBookId } = useParams();
-  console.log(cardBookId);
   const { data, isLoading, error } = useQuery({
-    queryKey: ["Indexs"],
+    queryKey: ["Indexs", cardBookId],
     queryFn: () => indexContents(cardBookId),
   });
-  const sse = new EventSource("https://be.econo-rere.store/connect");
+  // const sse = new EventSource(`${import.meta.env.VITE_API_KEY}/connect`);
 
-  sse.addEventListener("connect", (e) => {
-    const { data: receivedConnectData } = e;
-    console.log("connect event data: ", receivedConnectData);
-  });
+  // sse.addEventListener("connect", (e) => {
+  //   const { data: receivedConnectData } = e;
+  //   console.log("connect event data: ", receivedConnectData);
+  // });
+
+  const responseData = data?.data.response;
   return (
     <div>
       <Header />
-      <MainContainer>
-        <Bar text={datas.cardbookName}></Bar>
-        <IndexGrid data={datas}></IndexGrid>
-        <Link to="/cardcreate">
-          <NewBlueBox></NewBlueBox>
-        </Link>
-      </MainContainer>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <MainContainer>
+          <Bar text={data?.data.response.cardbookName}></Bar>
+          <IndexGrid data={responseData}></IndexGrid>
+          <Link to="/cardcreate">
+            <NewBlueBox></NewBlueBox>
+          </Link>
+        </MainContainer>
+      )}
     </div>
   );
 };

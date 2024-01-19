@@ -6,20 +6,28 @@ import Grid from "../components/main/Grid.component.jsx";
 import axios from "axios";
 import NewCard from "../components/main/NewCard.component.jsx";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+
+import { useState } from "react";
 import { mainContents } from "../service/main.js";
+import { useQuery } from "@tanstack/react-query";
 
 const MainPage = () => {
-  // const datas = mainPageCardbooks.response.originCardbooks;
-
+  //const datas = mainPageCardbooks.response;
   // axios.get("http://192.168.0.200:8080/cardbooks").then((res) => {
   //   console.log(res);
   // });
+  const [selectedCardbookId, setSelectedCardbookId] = useState(null);
+
+  const handleCardbookClick = (cardbookId) => {
+    setSelectedCardbookId(cardbookId);
+  };
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["cardbooks"],
     queryFn: () => mainContents(),
   });
+  console.log(data);
+
 
   return (
     <div>
@@ -30,17 +38,22 @@ const MainPage = () => {
         <MainContainer>
           <MainBar text="기본 카드북"></MainBar>
           <Grid
-            // cardBookId={data.data.response.originCardbooks.cardbookId}
-            data={data.data.response.originCardbooks}
+
+            cardbookId={selectedCardbookId}
+            data={data?.data?.response.originCardbooks}
             barText="기본 카드북"
+            onCardbookClick={handleCardbookClick}
+
           ></Grid>
           <MainBar text="나의 카드북"></MainBar>
           <MyCardBookContainer>
             <Grid
-              // cardBookId={data.data.response.myCardbooks.cardbookId}
 
-              data={data.data.response.myCardbooks}
+              cardbookId={selectedCardbookId}
+              data={data?.data?.response.myCardbooks}
               barText="나의 카드북"
+              onCardbookClick={handleCardbookClick}
+
             ></Grid>
           </MyCardBookContainer>
         </MainContainer>

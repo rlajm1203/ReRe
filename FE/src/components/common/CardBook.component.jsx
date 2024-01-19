@@ -8,8 +8,11 @@ const CardBookContainer = styled.div`
 
 const ImageField = styled.img`
   width: 132px;
-  height: 192.5px;
+  height: 191.5px;
   margin-top: 80px;
+  border-bottom: #007af3 1px solid;
+  border-top: #007af3 1px solid;
+  border-left: #007af3 1px solid;
 `;
 
 const ButtonField = styled.button`
@@ -24,10 +27,22 @@ const ButtonField = styled.button`
 `;
 
 const CardBook = ({ data, cardbookId }) => {
+  let bookImage;
+
+  if (cardbookId === 1) {
+    bookImage = "quizBook.png";
+  } else if (cardbookId === 2) {
+    bookImage = "econoBook.png";
+  } else if (cardbookId === 3) {
+    bookImage = "englishBook.png";
+  } else {
+    bookImage = "bookImage.png";
+  }
+
   return (
     <CardBookContainer>
       <Link to={`/cardbook/${cardbookId}/themes`}>
-        <ImageField src="bookImage.png" alt="book cover" />
+        <ImageField src={bookImage} alt="book cover" />
       </Link>
       <Link to={`/cardbook/${cardbookId}/themes`}>
         <ButtonField>

@@ -6,9 +6,10 @@ const BlueBox = ({ data, onDelete }) => {
   const { cardBookId } = useParams();
 
   const handleDelete = () => {
-    // DELETE 요청 보내는 코드 작성
     fetch(
-      `https://be.econo-rere.store/cardbook/${cardBookId}/theme/${data.themeId}`,
+      `${import.meta.env.VITE_API_KEY}/cardbook/${cardBookId}/theme/${
+        data.themeId
+      }`,
       {
         method: "DELETE",
       }
@@ -16,11 +17,9 @@ const BlueBox = ({ data, onDelete }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("삭제 요청이 완료되었습니다.", data);
-        // 삭제 요청이 완료되면 추가적인 작업 수행
       })
       .catch((error) => {
         console.error("삭제 요청 중 오류가 발생했습니다.", error);
-        // 오류 처리
       });
   };
   return (
@@ -34,7 +33,7 @@ const BlueBox = ({ data, onDelete }) => {
       </EditBox>
       <BlueSquare style={{}}>
         <div>
-          <Link to="/card">
+          <Link to={`/cardbook/${cardBookId}/theme/${data.themeId}/cards`}>
             <Img
               style={{ marginRight: 147 }}
               src="/macos-original-icon.png"
@@ -50,7 +49,7 @@ const BlueBox = ({ data, onDelete }) => {
               marginLeft: -5,
             }}
           >
-            {data.themeName}
+            {data.name}
           </p>
         </div>
         <PlantBox>
