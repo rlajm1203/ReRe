@@ -33,7 +33,7 @@ public class ThemeController {
     private final CardService cardService;
 
     //    새로운 목차 생성
-    @PostMapping("/cardbook/{cardbookId}/theme/new")
+    @PostMapping("/cardbook/{cardbookId}/theme")
     public ApiResult<Boolean> createTheme(@CurrentUser User user, @RequestBody @Valid ThemeCreateRequestDTO themeCreateRequestDTO, @PathVariable("cardbookId") Integer cardbookId){
 
         log.info("사용자 : "+user.getNickname()+", 목차 생성 : "+themeCreateRequestDTO.getName());
@@ -50,7 +50,7 @@ public class ThemeController {
 
         CardbookThemesResponseDTO responseDTO = new CardbookThemesResponseDTO();
         String cardbookName = cardBookService.getCardbook(cardbookId).getName();
-        log.info("cardbookName : " + cardbookName);
+        log.info("목차 조회 (cardbookName) : " + cardbookName);
         responseDTO.setCardbookName(cardbookName);
 
         // themes 설정

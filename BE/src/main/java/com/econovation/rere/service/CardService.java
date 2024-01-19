@@ -48,7 +48,7 @@ public class CardService {
     //    카드는 수정하게 되면, 원래 카드를 삭제하고 수정된 내용의 카드를 생성하는 방식이므로 수정할 때마다 Id가 바뀐다.
     @Transactional(readOnly = false)
     public void update(CardUpdateRequestDTO cardUpdateRequestDTO, Theme theme, LocalDateTime timenow) throws CardNotFoundException{
-        Card old_card = cardRepository.findById(cardUpdateRequestDTO.getCardId())
+        Card old_card = cardRepository.findByCardId(cardUpdateRequestDTO.getCardId())
                 .orElseThrow(()->new CardNotFoundException());
 
         Card card = Card.builder()
@@ -58,6 +58,8 @@ public class CardService {
                 .createDate(old_card.getCreateDate())
 //                .theme(theme)
                 .build();
+
+        cardRepository.save(card);
     }
 
 //    삭제

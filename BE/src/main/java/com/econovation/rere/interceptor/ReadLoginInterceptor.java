@@ -34,7 +34,7 @@ public class ReadLoginInterceptor implements HandlerInterceptor {
 
 
 //        기본 제공 카드북이 아닐 경우, 로그인한 사용자인지 확인
-        if(!cardBookService.getCardbook(cardbookId).getWriter().equals("admin")){
+        if(!cardBookService.getCardbook(cardbookId).getWriter().equals("관리자")){
             HttpSession session = request.getSession(false);
             if(session==null || session.getAttribute("USER")==null) throw new NotAthenticationException("로그인이 필요합니다.");
 //            로그인한 사용자에 대해서는 계속 수행
