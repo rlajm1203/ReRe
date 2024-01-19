@@ -1,9 +1,19 @@
 import axios from "axios";
 
 export const mainContents = () => {
-  return axios.get("https://be.econo-rere.store/cardbooks");
+  return axios.get(`${import.meta.env.VITE_API_KEY}/cardbooks`);
 };
 
-export const indexContents = (cardbookId) => {
-  return axios.get(`https://be.econo-rere.store/cardbook/${cardbookId}/themes`);
+export const indexContents = (cardBookId) => {
+  return axios.get(
+    `${import.meta.env.VITE_API_KEY}/cardbook/${cardBookId}/themes`
+  );
+};
+
+export const cardContents = (cardBookId, themeId) => {
+  return axios.get(
+    `${
+      import.meta.env.VITE_API_KEY
+    }/cardbook/${cardBookId}/theme/${themeId}/cards`
+  );
 };

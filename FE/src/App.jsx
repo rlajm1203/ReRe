@@ -17,7 +17,7 @@ function App() {
       <Route path="/cardbook/:cardBookId/themes" element={<IndexPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route
-        path="/cardbook/:cardbookId}/theme/:themeId}/cards"
+        path="/cardbook/:cardBookId/theme/:themeId/cards"
         element={<CardPage />}
       />
       <Route path="/cardcreate" element={<CardCreatePage />} />

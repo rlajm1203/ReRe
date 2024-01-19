@@ -17,7 +17,7 @@ function LoginPage({}) {
 
   const handleLogin = (data) => {
     axios
-      .post("https://be.econo-rere.store/users/login", data, {
+      .post(`${import.meta.env.VITE_API_KEY}/users/login`, data, {
         withCredentials: "true",
       })
       .then((res) => {
