@@ -43,23 +43,23 @@ public class CardService {
     }
 
 //    수정
-    //    기존에 목차에 속한 카드를 전부 삭제하고 새로운 카드를 다시 넣을 것이냐. <- 이걸로 선택
-    //    기존에 목차에 속한 카드를 가져와서 set메소드로 변경 후 다시 저장할 것이냐.
+    //    기존에 목차에 속한 카드를 전부 삭제하고 새로운 카드를 다시 넣을 것이냐.
+    //    기존에 목차에 속한 카드를 가져와서 set메소드로 변경 후 다시 저장할 것이냐. <- 이걸로 선택
     //    카드는 수정하게 되면, 원래 카드를 삭제하고 수정된 내용의 카드를 생성하는 방식이므로 수정할 때마다 Id가 바뀐다.
     @Transactional(readOnly = false)
     public void update(CardUpdateRequestDTO cardUpdateRequestDTO, Theme theme, LocalDateTime timenow) throws CardNotFoundException{
-        Card old_card = cardRepository.findByCardId(cardUpdateRequestDTO.getCardId())
-                .orElseThrow(()->new CardNotFoundException());
+        Card old_card = cardRepository.findByCardId(cardUpdateRequestDTO.getCardId()).orElseThrow(()->new CardNotFoundException());
 
         Card card = Card.builder()
                 .content(cardUpdateRequestDTO.getContent())
                 .answer(cardUpdateRequestDTO.getAnswer())
                 .updateDate(timenow)
                 .createDate(old_card.getCreateDate())
-//                .theme(theme)
+                .theme(theme)
                 .build();
 
         cardRepository.save(card);
+        cardRepository.deleteByCardId(cardUpdateRequestDTO.getCardId());
     }
 
 //    삭제
@@ -80,6 +80,9 @@ public class CardService {
     public Integer removeAllByTheme(Theme theme){
         return cardRepository.deleteAllByTheme(theme);
     }
+
+//    목차 수정시 해당 목차에 속한 카드가 몇 개인지 세는 함수
+    public Integer countAllByTheme(Theme theme) { return cardRepository.countAllByTheme(theme); }
 
 
     List<Card> CreateDTOStoCardEntities(List<CardCreateRequestDTO> cardCreateRequestDTOS, LocalDateTime timenow){

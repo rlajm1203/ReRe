@@ -76,9 +76,9 @@ public class ThemeController {
 
 //    목차 삭제하기
     @DeleteMapping("/cardbook/{cardbookId}/theme/{themeId}")
-    public ApiResult<Boolean> deleteThemeAndCards(@CurrentUser User user, @PathVariable("cardbookId") Integer cardbookdId, @PathVariable("themeId") Integer themeId){
+    public ApiResult<Boolean> deleteThemeAndCards(@CurrentUser User user, @PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
         log.info("사용자 : "+user.getNickname()+", 목차 삭제 (themeID : "+themeId);
-        if(!cardBookService.getCardbook(cardbookdId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        if(!cardBookService.getCardbook(cardbookId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
         return ApiUtils.success(themeService.remove(themeId), "목차가 삭제되었습니다.");
     }
 }

@@ -77,7 +77,7 @@ public class CardBookController {
     }
 
 //    검색
-    @GetMapping("/cardbooks/search")
+    @GetMapping("/cardbook/search")
     public ApiResult<List<CardBookResponseDTO>> searchCardBook(@RequestParam String keyword) {
         log.info("카드북 검색 요청 (keyword) : " + keyword);
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.search(keyword);

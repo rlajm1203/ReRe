@@ -32,7 +32,7 @@ public class ThemeUpdateRequestDTO {
 //    private LocalDateTime timenow;
 
     //    theme 하나에 여러 카드가 존재하므로
-    @NotBlank(message = "please write cards")
+    @NotEmpty(message = "please write cards")
     private List<CardUpdateRequestDTO> cards;
 
 }

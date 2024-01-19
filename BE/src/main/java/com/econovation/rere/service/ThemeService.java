@@ -62,7 +62,7 @@ public class ThemeService {
 
         theme.setName(themeUpdateRequestDTO.getName());
 
-        if(cardService.removeAllByTheme(theme)>0) {
+        if(cardService.countAllByTheme(theme)>0) {
 ////        기존에 존재하던 카드 전부 삭제
 ////        카드 수정이 목차 수정과 동시에 이루어진다.
             for (CardUpdateRequestDTO dto : themeUpdateRequestDTO.getCards()){

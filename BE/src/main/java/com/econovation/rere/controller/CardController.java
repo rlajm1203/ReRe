@@ -7,10 +7,13 @@ import com.econovation.rere.domain.dto.response.CardResponseDTO;
 import com.econovation.rere.domain.dto.response.StudyCompleteResponseDTO;
 import com.econovation.rere.domain.entity.Card;
 import com.econovation.rere.domain.entity.User;
+import com.econovation.rere.exception.NotAthenticationException;
+import com.econovation.rere.service.CardBookService;
 import com.econovation.rere.service.CardService;
 import com.econovation.rere.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class CardController {
 
     private final CardService cardService;
     private final StudyService studyService;
+    private final CardBookService cardBookService;
 
 //  목차에 속한 카드들을 조회하기
     @GetMapping("/cardbook/{cardbookId}/theme/{themeId}/cards")
@@ -40,6 +44,16 @@ public class CardController {
         String message = "학습이 완료되었습니다." + " 다음은 Step "+studyCompleteResponseDTO.getStep() % 5 + " 을 학습할 단계입니다.";
         return ApiUtils.success(studyCompleteResponseDTO, message);
     }
+
+//    카드 삭제하기
+    @DeleteMapping("/cardbook/{cardbookId}/theme/{themeId}/card/{cardId}")
+    public ApiResult<Boolean> deleteCard(@CurrentUser User user, @PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId, @PathVariable("cardId") Integer cardId){
+        log.info("카드 삭제 요청 (CardbookID) : "+cardbookId+", (ThemeID) : "+themeId +", (CardID) : "+cardId+", (UserID) : " + user.getUserId());
+        if(!cardBookService.getCardbook(cardbookId).getWriter().equals(user.getNickname())) throw new NotAthenticationException("카드북 작성자가 아닙니다.");
+        return ApiUtils.success(cardService.remove(cardId), "카드 삭제가 완료되었습니다.");
+    }
+
+//
 
 
 }

@@ -18,6 +18,8 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
 //    따라서 0보다 큰지만 확인하면 될 듯
     public Integer deleteAllByTheme(Theme theme);
 
+    public Integer countAllByTheme(Theme theme);
+
 //    카드 ID로 카드 가져오기
     public Optional<Card> findByCardId(Integer cardId);
 }
