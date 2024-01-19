@@ -33,11 +33,11 @@ public class CardController {
 
 //  목차에 속한 카드들을 조회하기
     @GetMapping("/cardbook/{cardbookId}/theme/{themeId}/cards")
-    public ApiResult<CardPageResponseDTO> cardpageCards(@PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
+    public ApiResult<List<CardResponseDTO>> cardpageCards(@PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
         log.info("카드 조회 요청 (CardbookID) : "+cardbookId + ", (ThemeID) : "+themeId);
         List<Card> cards = cardService.getAll(themeId);
         String name = themeService.getThemeById(themeId).getName();
-        return ApiUtils.success(CardPageResponseDTO.toCardPageResponseDTO(name,CardResponseDTO.toCardResponseDTOS(cards)),name+"목차의 카드 목록입니다.");
+        return ApiUtils.success(CardResponseDTO.toCardResponseDTOS(cards),name+" 목차의 카드 목록입니다.");
     }
 
 //    학습을 완료하기
