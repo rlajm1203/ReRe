@@ -37,7 +37,7 @@ public class CardController {
         log.info("카드 조회 요청 (CardbookID) : "+cardbookId + ", (ThemeID) : "+themeId);
         List<Card> cards = cardService.getAll(themeId);
         String name = themeService.getThemeById(themeId).getName();
-        return ApiUtils.success(CardPageResponseDTO.toCardPageResponseDTO(name,CardResponseDTO.toCardResponseDTOS(cards)),themeId+"목차의 카드 목록입니다.");
+        return ApiUtils.success(CardPageResponseDTO.toCardPageResponseDTO(name,CardResponseDTO.toCardResponseDTOS(cards)),name+"목차의 카드 목록입니다.");
     }
 
 //    학습을 완료하기
