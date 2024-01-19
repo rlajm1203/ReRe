@@ -3,6 +3,7 @@ package com.econovation.rere.controller;
 import com.econovation.rere.apiresponse.ApiResult;
 import com.econovation.rere.apiresponse.ApiUtils;
 import com.econovation.rere.config.CurrentUser;
+import com.econovation.rere.domain.dto.response.CardPageResponseDTO;
 import com.econovation.rere.domain.dto.response.CardResponseDTO;
 import com.econovation.rere.domain.dto.response.StudyCompleteResponseDTO;
 import com.econovation.rere.domain.entity.Card;
@@ -11,6 +12,7 @@ import com.econovation.rere.exception.NotAthenticationException;
 import com.econovation.rere.service.CardBookService;
 import com.econovation.rere.service.CardService;
 import com.econovation.rere.service.StudyService;
+import com.econovation.rere.service.ThemeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
@@ -26,14 +28,16 @@ public class CardController {
 
     private final CardService cardService;
     private final StudyService studyService;
+    private final ThemeService themeService;
     private final CardBookService cardBookService;
 
 //  목차에 속한 카드들을 조회하기
     @GetMapping("/cardbook/{cardbookId}/theme/{themeId}/cards")
-    public ApiResult<List<CardResponseDTO>> cardpageCards(@PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
+    public ApiResult<CardPageResponseDTO> cardpageCards(@PathVariable("cardbookId") Integer cardbookId, @PathVariable("themeId") Integer themeId){
         log.info("카드 조회 요청 (CardbookID) : "+cardbookId + ", (ThemeID) : "+themeId);
         List<Card> cards = cardService.getAll(themeId);
-        return ApiUtils.success(CardResponseDTO.toCardResponseDTOS(cards),themeId+"목차의 카드 목록입니다.");
+        String name = themeService.getThemeById(themeId).getName();
+        return ApiUtils.success(CardPageResponseDTO.toCardPageResponseDTO(name,CardResponseDTO.toCardResponseDTOS(cards)),themeId+"목차의 카드 목록입니다.");
     }
 
 //    학습을 완료하기

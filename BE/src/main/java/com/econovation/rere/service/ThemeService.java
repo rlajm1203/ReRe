@@ -91,6 +91,11 @@ public class ThemeService {
 
         return toThemeResponseDTOS(themeRepository.findAllByCardbook(cardBook), cardbookId, null);
     }
+
+//  목차 하나 조회만을 위한 메소드
+    public Theme getThemeById(Integer themeId){
+        return themeRepository.findById(themeId).orElseThrow(()->new ThemeNotFoundException());
+    }
 //    내부 메소드
     private ThemeResponseDTO toThemeResponseDTO(Theme theme, Integer cardbookId, Integer userId){
 
