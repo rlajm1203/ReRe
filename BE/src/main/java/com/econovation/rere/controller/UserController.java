@@ -6,11 +6,13 @@ import com.econovation.rere.config.CurrentUser;
 import com.econovation.rere.domain.dto.request.*;
 import com.econovation.rere.domain.dto.response.UserLoginResponseDTO;
 import com.econovation.rere.domain.entity.User;
+import com.econovation.rere.exception.NotAthenticationException;
 import com.econovation.rere.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -45,8 +47,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResult<UserLoginResponseDTO> login(@RequestBody @Valid UserLoginRequestDTO loginRequest, HttpSession session) {
+    public ApiResult<UserLoginResponseDTO> login(@CurrentUser User user, @RequestBody @Valid UserLoginRequestDTO loginRequest, HttpServletRequest request) {
         log.info("로그인 요청 (ID) : "+loginRequest.getLoginId());
+        if(user!=null) throw new NotAthenticationException("이미 로그인 한 상태입니다."+" (현재 로그인 닉네임 : "+user.getNickname()+")");
+        HttpSession session = request.getSession(true);
         UserLoginResponseDTO userLoginResponseDTO = userService.login(loginRequest, session);
         return ApiUtils.success(userLoginResponseDTO, "로그인 성공");
     }
@@ -71,5 +75,12 @@ public class UserController {
         log.info("닉네임 변경 요청 (ID) : " + user.getNickname());
         userService.updateNickname(user.getUserId(), userNicknameUpdateRequestDTO);
         return ApiUtils.success(true, "닉네임 변경 성공");
+    }
+
+    @GetMapping("/login/state")
+    public ApiResult<String> loginCheck(@CurrentUser User user){
+        log.info("로그인 상태 체크");
+        log.info("사용자 (nickname) : "+user.getNickname());
+        return ApiUtils.success(user.getNickname(), "로그인 상태 체크");
     }
 }
