@@ -21,6 +21,7 @@ public class ReadLoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("실행되나?");
         String httpMethod = request.getMethod();
         String uri = request.getRequestURI();
 

@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -87,7 +89,7 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user, HttpServletRequest request){
         log.info("메인 페이지 조회 요청");
         if(user!=null)
             log.info("USER : " + user.getNickname());
