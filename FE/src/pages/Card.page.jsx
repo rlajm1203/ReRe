@@ -21,7 +21,7 @@ const CardPage = () => {
   });
 
   const [datas, setDatas] = useState(data && data);
-  console.log(datas?.cards);
+  console.log(datas?.length);
   useEffect(() => {
     setDatas(data);
   }, [data]);
@@ -84,6 +84,9 @@ const CardPage = () => {
               {flipped
                 ? datas && datas[cardIndex]?.answer
                 : datas && datas[cardIndex]?.content}
+              <CardNum>
+                {cardIndex + 1}/{datas?.length}
+              </CardNum>
             </CardFace>
           </Card>
         </CardContainer>
@@ -148,4 +151,11 @@ const CardFace = styled.div`
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+`;
+
+const CardNum = styled.div`
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 `;

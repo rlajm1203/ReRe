@@ -19,11 +19,15 @@ const InputField = styled.input`
   margin: 0 auto;
 `;
 
-const Input = ({ label, register, id, rules }) => {
+const Input = ({ label, register, id, rules, type, placeholder }) => {
   return (
     <InputContainer>
       <InputLabel>{label}</InputLabel>
-      <InputField {...register(id, rules)} />
+      <InputField
+        placeholder={placeholder}
+        type={type}
+        {...register(id, rules)}
+      />
     </InputContainer>
   );
 };

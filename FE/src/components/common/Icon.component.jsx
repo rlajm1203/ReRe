@@ -12,7 +12,7 @@ export const StyledIcon = styled.span`
   position: relative;
 `;
 
-export const Icon = ({ type, size }) => {
+export const Icon = ({ type, size, onClick }) => {
   const IconType = {
     search: <IoIosSearch />,
     back: <MdArrowBackIosNew />,
@@ -23,5 +23,9 @@ export const Icon = ({ type, size }) => {
     camera: <VscDeviceCamera />,
   };
 
-  return <StyledIcon size={size}>{IconType[type]}</StyledIcon>;
+  return (
+    <StyledIcon size={size} onClick={onClick}>
+      {IconType[type]}
+    </StyledIcon>
+  );
 };

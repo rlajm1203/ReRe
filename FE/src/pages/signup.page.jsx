@@ -123,7 +123,7 @@ function SignupPage({}) {
             <Input
               label="비밀번호"
               type="password"
-              placeholder="******"
+              placeholder="* * * * * *"
               id="pw"
               register={register}
               rules={{
@@ -138,7 +138,7 @@ function SignupPage({}) {
             <Input
               label="비밀번호 확인"
               type="password"
-              placeholder="******"
+              placeholder="* * * * * *"
               id="passwordConfirm"
               register={register}
               rules={passwordCheck(getValues("pw"))}
