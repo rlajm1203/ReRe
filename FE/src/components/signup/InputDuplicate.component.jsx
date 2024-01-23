@@ -26,6 +26,7 @@ const InputDuplicate = ({
   id,
   rules,
   duplicateCheck,
+  placeholder,
 }) => {
   const handleClick = () => {
     setState(true);
@@ -38,7 +39,7 @@ const InputDuplicate = ({
     <InputContainer>
       <InputLabel>{label}</InputLabel>
       <div>
-        <InputField {...register(id, rules)} />
+        <InputField placeholder={placeholder} {...register(id, rules)} />
         <Button type="button" onClick={handleClickWithDuplicateCheck}>
           중복 확인
         </Button>

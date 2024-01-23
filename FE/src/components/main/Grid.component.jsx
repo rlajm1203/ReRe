@@ -7,8 +7,7 @@ const Grid = ({ data, barText, cardbookId, onCardbookClick }) => {
   const handleCardbookClick = (cardbookId) => {
     onCardbookClick(cardbookId);
   };
-  console.log(data);
-  console.log(cardbookId);
+
   return (
     <GridContainer>
       {data.map((data) => {

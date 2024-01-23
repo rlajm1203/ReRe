@@ -17,3 +17,9 @@ export const cardContents = (cardBookId, themeId) => {
     }/cardbook/${cardBookId}/theme/${themeId}/cards`
   );
 };
+
+export const searchContents = (searchKeyword) => {
+  return axios.get(
+    `${import.meta.env.VITE_API_KEY}/cardbook/search?keyword=${searchKeyword}`
+  );
+};

@@ -2,8 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { StyledIcon, Icon } from "../Icon.component";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Header = () => {
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const handleSearch = () => {
+    console.log("검색 키워드:", searchKeyword);
+  };
+
   return (
     <div>
       <HeaderArea>
@@ -19,19 +26,35 @@ const Header = () => {
           <Submenu>
             <Menu>
               <li>
-                <A href="#">망각 곡선이란?</A>
+                <A
+                  href="https://sudden-dianella-789.notion.site/ReRe-092a3ba00af6497dbf19db27e1911480?pvs=4 "
+                  target="_blank"
+                >
+                  망각 곡선이란?
+                </A>
               </li>
               <li>
-                <A href="#">뤼뤼 사용법</A>
+                <A
+                  href="https://sudden-dianella-789.notion.site/ReRe-092a3ba00af6497dbf19db27e1911480?pvs=4"
+                  target="_blank"
+                >
+                  뤼뤼 사용법
+                </A>
               </li>
               <li>
                 <A href="#">내 정보</A>
               </li>
             </Menu>
             <Search>
-              <Input type="text" />
+              <Input
+                type="text"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
               <IconSpace>
-                <Icon type="search" />
+                <Link to={`/search/${searchKeyword}`}>
+                  <Icon type="search" onClick={handleSearch} />
+                </Link>
               </IconSpace>
             </Search>
             <Button>
@@ -134,4 +157,5 @@ const IconSpace = styled(StyledIcon)`
   position: absolute;
   right: 9px;
   top: 7px;
+  cursor: pointer;
 `;

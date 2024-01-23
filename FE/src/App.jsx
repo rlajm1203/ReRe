@@ -15,7 +15,7 @@ function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cardbook/:cardBookId/themes" element={<IndexPage />} />
-      <Route path="/search" element={<SearchPage />} />
+      <Route path="/search/:searchKeyword" element={<SearchPage />} />
       <Route
         path="/cardbook/:cardBookId/theme/:themeId/cards"
         element={<CardPage />}

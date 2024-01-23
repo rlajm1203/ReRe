@@ -25,9 +25,7 @@ function SignupPage({}) {
 
     if (!errors.loginId) {
       axios
-
         .post(`${import.meta.env.VITE_API_KEY}/users/login-id/check`, {
-
           loginId,
         })
         .then((res) => {
@@ -47,9 +45,7 @@ function SignupPage({}) {
     const nickname = getValues("nickname");
     if (!errors.nickname) {
       axios
-
         .post(`${import.meta.env.VITE_API_KEY}users/nickname/check`, {
-
           nickname,
         })
         .then((res) => {
@@ -81,9 +77,7 @@ function SignupPage({}) {
 
     if (doubleName && doubleId) {
       axios
-
         .post(`${import.meta.env.VITE_API_KEY}/users/signup`, data)
-
         .then((res) => {
           console.log(res);
           if (res.data.success) {
@@ -129,7 +123,7 @@ function SignupPage({}) {
             <Input
               label="비밀번호"
               type="password"
-              placeholder="******"
+              placeholder="* * * * * *"
               id="pw"
               register={register}
               rules={{
@@ -144,7 +138,7 @@ function SignupPage({}) {
             <Input
               label="비밀번호 확인"
               type="password"
-              placeholder="******"
+              placeholder="* * * * * *"
               id="passwordConfirm"
               register={register}
               rules={passwordCheck(getValues("pw"))}
