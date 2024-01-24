@@ -80,7 +80,7 @@ public class CardBookController {
     }
 
 //    검색
-    @GetMapping("/cardbooks/search")
+    @GetMapping("/cardbook/search")
     public ApiResult<List<CardBookResponseDTO>> searchCardBook(@RequestParam String keyword) {
         log.info("카드북 검색 요청 (keyword) : " + keyword);
         List<CardBookResponseDTO> cardBookResponseDTOS = cardBookService.search(keyword);
@@ -89,7 +89,7 @@ public class CardBookController {
 
 //    메인 페이지 카드북 조회
     @GetMapping("/cardbooks")
-    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user, HttpServletRequest request){
+    public ApiResult<MainPageResponseDTO> mainpageCardBook(@CurrentUser User user){
         log.info("메인 페이지 조회 요청");
         if(user!=null)
             log.info("USER : " + user.getNickname());
