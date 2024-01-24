@@ -20,7 +20,7 @@ function App() {
         path="/cardbook/:cardBookId/theme/:themeId/cards"
         element={<CardPage />}
       />
-      <Route path="/cardcreate" element={<CardCreatePage />} />
+      <Route path="/cardcreate/:cardBookId" element={<CardCreatePage />} />
     </Routes>
   );
 }

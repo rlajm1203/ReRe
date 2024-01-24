@@ -17,6 +17,8 @@ const BlueBox = ({ data, onDelete }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log("삭제 요청이 완료되었습니다.", data);
+        alert("삭제가 완료되었습니다.");
+        window.location.reload(); // 페이지 새로고침
       })
       .catch((error) => {
         console.error("삭제 요청 중 오류가 발생했습니다.", error);

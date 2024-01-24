@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Icon } from "../common/Icon.component";
 
-const NewBlueBox = () => {
+const NewBlueBox = (cardBookId) => {
   return (
     <div>
       <NewBlueSquare>

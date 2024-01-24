@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Header from "../components/common/layout/Header.component.jsx";
 import { MainContainer } from "../styles/Container.jsx";
 import Button from "../components/common/Button.component.jsx";
@@ -8,13 +8,20 @@ import styled from "styled-components";
 import { SelectedNum } from "../components/cardcreate/AddedCard.component.jsx";
 import AddedCard from "../components/cardcreate/AddedCard.component.jsx";
 import { Icon, StyledIcon } from "../components/common/Icon.component.jsx";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CardCreatePage = () => {
   const [title, setTitle] = useState("");
   const [isEditable, setIsEditable] = useState(true);
   const [cardCount, setCardCount] = useState(0);
   const [checkedCardCount, setCheckedCardCount] = useState(0);
-  console.log(checkedCardCount);
+  const [problem, setProblem] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [cards, setCards] = useState([]);
+  const { cardBookId } = useParams();
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     setTitle(e.target.value);
   };
@@ -36,13 +43,46 @@ const CardCreatePage = () => {
     setCardCount(cardCount - 1);
   };
 
-  const [problem, setProblem] = useState("");
-  const [answer, setAnswer] = useState("");
-  const [cards, setCards] = useState([]);
-
   const handleAddCard = () => {
     setCards([...cards, { problem, answer }]);
     setCardCount(cardCount + 1);
+  };
+
+  const handleSave = () => {
+    if (title === "") {
+      alert("목차명을 입력해주세요.");
+      return;
+    }
+
+    if (cardCount === 0) {
+      alert("카드를 최소 하나 이상 추가해주세요.");
+      return;
+    }
+
+    const data = {
+      name: title,
+      cards: cards.map((card) => ({
+        content: card.problem,
+        answer: card.answer,
+      })),
+    };
+
+    axios
+      .post(
+        `${import.meta.env.VITE_API_KEY}/cardbook/${cardBookId}/theme`,
+        data
+      )
+      .then((response) => {
+        alert("목차가 생성되었습니다.");
+        const link = `/cardbook/${cardBookId}/themes`;
+        navigate(link);
+        setTimeout(() => {
+          window.location.reload(); // 일정 시간 후에 페이지 새로고침
+        }, 10);
+      })
+      .catch((error) => {
+        console.error(error); // 저장 중에 발생한 오류 처리
+      });
   };
 
   return (
@@ -78,7 +118,7 @@ const CardCreatePage = () => {
           <Button onClick={handleAddCard}>문제 추가</Button>
         </ButtonContainer>
 
-        <SaveButton onClick={handleAddCard}>전체 저장</SaveButton>
+        <SaveButton onClick={handleSave}>전체 저장</SaveButton>
 
         <SelectedNum cardCount={cardCount} checkedCardCount={checkedCardCount}>
           <IconSpace>

@@ -45,7 +45,7 @@ function SignupPage({}) {
     const nickname = getValues("nickname");
     if (!errors.nickname) {
       axios
-        .post(`${import.meta.env.VITE_API_KEY}users/nickname/check`, {
+        .post(`${import.meta.env.VITE_API_KEY}/users/nickname/check`, {
           nickname,
         })
         .then((res) => {
@@ -156,8 +156,9 @@ function SignupPage({}) {
               rules={{
                 required: "닉네임을 입력하세요.",
                 pattern: {
-                  value: /^[가-힣a-z0-9]{6,15}$/i,
-                  message: "6~15자의 영문 대소문자, 숫자만 사용 가능합니다.",
+                  value: /^[가-힣a-z0-9]{3,9}$/i,
+                  message:
+                    "3~9자의 한글, 영문 대소문자, 숫자만 사용 가능합니다.",
                 },
               }}
               setState={setDoubleName}

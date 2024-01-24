@@ -1,46 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Icon } from "../common/Icon.component";
-import { useState } from "react";
-import { mainPageCardbooks } from "./MainTest.js";
+import axios from "axios";
 
 const NewCard = () => {
-  const [cardbookName, setCardbookName] = useState("");
+  const [name, setCardbookName] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleChange = (e) => {
     setCardbookName(e.target.value);
   };
 
+  const handleImageClick = () => {
+    // 이미지 선택을 위한 파일 선택 창 열기
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = handleImageUpload;
+    input.click();
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+    alert("이미지가 업로드되었습니다."); // 이미지 업로드 완료 알림
+  };
+
   const handleClick = () => {
-    const newCardbook = {
-      cardbookId: Date.now(), // 고유한 ID를 생성하기 위해 현재 시간을 사용합니다.
-      cardbookName: cardbookName,
-      writer: "관리자",
-      createDate: new Date().toISOString().split("T")[0], // 현재 날짜를 ISO 8601 형식으로 포맷합니다.
-    };
+    const formData = new FormData();
+    formData.append("name", name);
 
-    const updatedCardbooks = [
-      ...mainPageCardbooks.response.originCardbooks,
-      newCardbook,
-    ];
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
 
-    const updatedResponse = {
-      ...mainPageCardbooks.response,
-      originCardbooks: updatedCardbooks,
-    };
-
-    const updatedMainPageCardbooks = {
-      ...mainPageCardbooks,
-      response: updatedResponse,
-    };
-
-    console.log(updatedMainPageCardbooks);
-    // 여기서는 콘솔에 출력하였지만, 실제로는 서버로 데이터를 전송하거나 상태를 업데이트하는 등의 작업을 수행해야 합니다.
+    axios
+      .post(`${import.meta.env.VITE_API_KEY}/cardbook`, formData)
+      .then((response) => {
+        console.log("카드북 등록 성공!");
+        window.location.reload(); // 페이지 새로고침
+      })
+      .catch((error) => {
+        console.error("카드북 등록 실패:", error);
+      });
   };
 
   return (
     <NewCardContainer>
-      <ImageAdd>
+      <ImageAdd onClick={handleImageClick}>
         <IconSpace>
           <Icon type="camera" size={30}></Icon>
           <Circle></Circle>
@@ -53,7 +60,7 @@ const NewCard = () => {
         <div style={{ marginLeft: 20, marginTop: 30, color: "#007af3" }}>
           카드북 이름
         </div>
-        <InputTitle value={cardbookName} onChange={handleChange} />
+        <InputTitle value={name} onChange={handleChange} />
 
         <AddButton onClick={handleClick}>신규 카드북 등록</AddButton>
       </TitleAdd>
