@@ -28,12 +28,12 @@ const MainPage = () => {
   });
   console.log(data);
 
-
   return (
     <div>
       <Header />
       {isLoading ? (
-        <div>Loading...</div>
+        <div></div>
+
       ) : (
         <MainContainer>
           <MainBar text="기본 카드북"></MainBar>

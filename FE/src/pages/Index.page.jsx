@@ -30,13 +30,13 @@ const IndexPage = () => {
     <div>
       <Header />
       {isLoading ? (
-        <div>Loading...</div>
+        <div></div>
       ) : (
         <MainContainer>
           <Bar text={data?.data.response.cardbookName}></Bar>
           <IndexGrid data={responseData}></IndexGrid>
-          <Link to="/cardcreate">
-            <NewBlueBox></NewBlueBox>
+          <Link to={`/cardcreate/${cardBookId}`}>
+            <NewBlueBox cardBookId={cardBookId}></NewBlueBox>
           </Link>
         </MainContainer>
       )}

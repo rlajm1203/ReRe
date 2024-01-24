@@ -26,18 +26,10 @@ const ButtonField = styled.button`
   margin-top: 80px;
 `;
 
-const CardBook = ({ data, cardbookId }) => {
+const CardBook = ({ data, cardbookId, imageUrl }) => {
   let bookImage;
 
-  if (cardbookId === 1) {
-    bookImage = "quizBook.png";
-  } else if (cardbookId === 2) {
-    bookImage = "econoBook.png";
-  } else if (cardbookId === 3) {
-    bookImage = "englishBook.png";
-  } else {
-    bookImage = "bookImage.png";
-  }
+  bookImage = import.meta.env.VITE_API_KEY + imageUrl;
 
   return (
     <CardBookContainer>
